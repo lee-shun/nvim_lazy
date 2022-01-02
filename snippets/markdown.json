@@ -1,0 +1,13 @@
+{
+    "Mkd Equation":{
+        "prefix": "$$",
+        "body": ["$$", "\t$0", "$$"],
+        "description": "Mkd Equation"
+
+    },
+    "Matrix": {
+        "prefix": "matrix",
+        "body": ["\\left[", "\\begin{matrix}", "\t$0", "\\end{matrix}", "\\right]"],
+        "description": "Matrix"
+    },
+}
