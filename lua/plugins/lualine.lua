@@ -1,7 +1,8 @@
 return {
     "nvim-lualine/lualine.nvim",
+    event = "BufReadPre",
     dependencies= {
-        { "kyazdani42/nvim-web-devicons"},
+        {"kyazdani42/nvim-web-devicons"},
         {"SmiteshP/nvim-navic"},
     },
     config = function()
