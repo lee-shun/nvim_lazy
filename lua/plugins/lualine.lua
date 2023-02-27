@@ -1,10 +1,6 @@
 return {
 	"nvim-lualine/lualine.nvim",
 	event = "BufReadPre",
-	dependencies = {
-		{ "kyazdani42/nvim-web-devicons" },
-		{ "SmiteshP/nvim-navic" },
-	},
 	config = function()
 		-- Eviline config for lualine
 		-- Author: shadmansaleh
@@ -131,7 +127,7 @@ return {
 					no = colors.red,
 					s = colors.orange,
 					S = colors.orange,
-					[""] = colors.orange,
+					-- [""] = colors.orange,
 					ic = colors.yellow,
 					R = colors.violet,
 					Rv = colors.violet,
@@ -180,7 +176,7 @@ return {
 		status_ins_left({
 			"diagnostics",
 			sources = { "nvim_diagnostic" },
-			symbols = { error = " ", warn = " ", info = " ", hint = " " },
+			symbols = { error = " ", warn = " ", info = " ", hint = " " },
 			diagnostics_color = {
 				color_error = { fg = colors.red },
 				color_warn = { fg = colors.yellow },
