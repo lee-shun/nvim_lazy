@@ -1,0 +1,31 @@
+/*******************************************************************************
+ *   Copyright (C) 2022 Concordia NAVlab. All rights reserved.
+ *
+ *   @Filename: {{FILEE}}
+ *
+ *   @Author: {{NAME}}
+ *
+ *   @Email: {{EMAIL}}
+ *
+ *   @Date: {{TODAY}}
+ *
+ *   @Description:
+ *
+ *******************************************************************************/
+
+#include <iostream>
+#include <unordered_set>
+#include <set>
+#include <unordered_map>
+#include <map>
+#include <queue>
+#include <stack>
+#include <vector>
+#include <climits>
+
+using namespace std;
+
+class Solution {
+ public:
+ {{CURSOR}}
+};
