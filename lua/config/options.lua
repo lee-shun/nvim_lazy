@@ -1,4 +1,4 @@
-local global = require("core.global")
+local global = require("config.global")
 
 -- Create cache dir and subs dir
 local createdir = function()
