@@ -1,6 +1,5 @@
 return {
 	"folke/which-key.nvim",
-    lazy = true,
 	opt = {
 		plugins = {
 			marks = true, -- shows a list of your marks on ' and `
