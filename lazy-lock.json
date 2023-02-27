@@ -58,6 +58,7 @@
   "vim-fugitive": { "branch": "master", "commit": "62f42f013d866139fa23068ac2651b3f7e05a56f" },
   "vim-illuminate": { "branch": "master", "commit": "49062ab1dd8fec91833a69f0a1344223dd59d643" },
   "vim-ros": { "branch": "master", "commit": "b914ec1d9a2f7e024ef6500dd0a9d44bb41c4cda" },
+  "vim-smoothie": { "branch": "master", "commit": "df1e324e9f3395c630c1c523d0555a01d2eb1b7e" },
   "vim-templates": { "branch": "master", "commit": "0394471d6a3ace7618c443800ee8c1777ed8988b" },
   "vim-translator": { "branch": "master", "commit": "681c6b2f650b699572e6bb55162a3d6e62ee5d43" },
   "vim-visual-multi": { "branch": "master", "commit": "724bd53adfbaf32e129b001658b45d4c5c29ca1a" },
