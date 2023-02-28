@@ -78,6 +78,14 @@ return {
 				lualine_y = {},
 				lualine_z = {},
 			},
+			inactive_winbar = {
+				lualine_a = {},
+				lualine_b = {},
+				lualine_c = {},
+				lualine_x = {},
+				lualine_y = {},
+				lualine_z = {},
+			},
 		}
 
 		--------statues line---------
@@ -260,9 +268,16 @@ return {
 		local function winbar_ins_left(component)
 			table.insert(config.winbar.lualine_c, component)
 		end
+		local function winbar_ins_inactive_left(component)
+			table.insert(config.inactive_winbar.lualine_c, component)
+		end
+
 		-- Inserts a component in lualine_x ot right section
 		local function winbar_ins_right(component)
 			table.insert(config.winbar.lualine_x, component)
+		end
+		local function winbar_ins_inactive_right(component)
+			table.insert(config.inactive_winbar.lualine_x, component)
 		end
 
 		winbar_ins_left({
@@ -271,11 +286,22 @@ return {
 			cond = conditions.buffer_not_empty,
 			color = { fg = colors.magenta, gui = "bold" },
 		})
+		winbar_ins_inactive_left({
+			"filename",
+			path = 3,
+			cond = conditions.buffer_not_empty,
+			color = { fg = colors.fg },
+		})
 
 		winbar_ins_right({
 			navic.get_location,
 			cond = navic.is_available,
 			color = { fg = "#FFC300" },
+		})
+		winbar_ins_inactive_right({
+			navic.get_location,
+			cond = navic.is_available,
+			color = { fg = colors.fg },
 		})
 
 		-- Now don't forget to initialize lualine
