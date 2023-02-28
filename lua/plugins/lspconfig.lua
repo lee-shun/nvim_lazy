@@ -32,13 +32,13 @@ return {
 
 			-- mappings
 			local keymap_g = {
-				d = { "<cmd>lua vim.lsp.buf.definition()<CR>", "Definition" },
-				D = { "<cmd>lua vim.lsp.buf.declaration()<CR>", "Declaration" },
-				H = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature help" },
-				h = { "<cmd>LspUI hover<CR>", "LspUI Hover" },
-				i = { "<cmd>Telescope lsp_implementations<CR>", "Goto implementation" },
-				t = { "<cmd>lua vim.lsp.buf.type_definition()<CR>", "Goto type definition" },
-				r = { "<cmd>lua vim.lsp.buf.references()<CR>", "Goto reference" },
+				d = { "<cmd>lua vim.lsp.buf.definition()<cr>", "Definition" },
+				D = { "<cmd>lua vim.lsp.buf.declaration()<cr>", "Declaration" },
+				H = { "<cmd>lua vim.lsp.buf.signature_help()<cr>", "Signature help" },
+				h = { "<cmd>LspUI hover<cr>", "LspUI Hover" },
+				i = { "<cmd>Telescope lsp_implementations<cr>", "Goto implementation" },
+				t = { "<cmd>lua vim.lsp.buf.type_definition()<cr>", "Goto type definition" },
+				r = { "<cmd>lua vim.lsp.buf.references()<cr>", "Goto reference" },
 			}
 			wk.register(keymap_g, {
 				mode = "n",
@@ -53,8 +53,8 @@ return {
 			local keymap_l = {
 				l = {
 					name = "LSP",
-					a = { "<cmd>LspUI code_action<CR>", "LspUI code action" },
-					d = { "<cmd>lua vim.diagnostic.open_float()<CR>", "Diagnostic float" },
+					a = { "<cmd>LspUI code_action<cr>", "LspUI code action" },
+					d = { "<cmd>lua vim.diagnostic.open_float()<cr>", "Diagnostic float" },
 					i = {
 						function()
 							return ":IncRename " .. vim.fn.expand("<cword>")
@@ -62,7 +62,7 @@ return {
 						"IncRename",
 						expr = true,
 					},
-					r = { "<cmd>LspUI rename<CR>", "LspUI rename" },
+					r = { "<cmd>LspUI rename<cr>", "LspUI rename" },
 				},
 			}
 			wk.register(keymap_l, {
@@ -75,8 +75,8 @@ return {
 			})
 
 			wk.register({
-				["[d"] = { "<cmd>LspUI diagnostic prev<CR>", "LspUI prev diagnostic" },
-				["]d"] = { "<cmd>LspUI diagnostic next<CR>", "LspUI next diagnostic" },
+				["[d"] = { "<cmd>LspUI diagnostic prev<cr>", "LspUI prev diagnostic" },
+				["]d"] = { "<cmd>LspUI diagnostic next<cr>", "LspUI next diagnostic" },
 			}, {
 				mode = "n",
 				prefix = "",
@@ -106,7 +106,7 @@ return {
 			local keymap_l = {
 				l = {
 					name = "LSP",
-					j = { "<cmd> ClangdSwitchSourceHeader<CR>", "Clangd switch header" },
+					j = { "<cmd>ClangdSwitchSourceHeader<cr>", "Clangd switch header" },
 				},
 			}
 			wk.register(keymap_l, {

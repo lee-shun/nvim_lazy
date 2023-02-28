@@ -29,8 +29,8 @@ return {
 			dashboard.button("SPC f m", "  Hist File", "<cmd>Telescope oldfiles<cr>"),
 			dashboard.button("SPC f f", "  Find File", "<cmd>Telescope find_files<cr>"),
 			dashboard.button("SPC f w", "  Find Word", "<cmd>Telescope live_grep<cr>"),
-			dashboard.button("e", "  New  File", "<cmd>ene <BAR> startinsert <CR>"),
-			dashboard.button("q", "  Quit Nvim", "<cmd>qa<CR>"),
+			dashboard.button("e", "  New  File", "<cmd>ene <BAR> startinsert <cr>"),
+			dashboard.button("q", "  Quit Nvim", "<cmd>qa<cr>"),
 		}
 
 		local function footer()

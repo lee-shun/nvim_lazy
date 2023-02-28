@@ -5,14 +5,14 @@ local wk = require("which-key")
 --
 
 -- comp
-vim.keymap.set("i", "<CR>", '(pumvisible())?("\\<C-y>"):("\\<cr>")', { expr = true, noremap = true })
+vim.keymap.set("i", "<cr>", '(pumvisible())?("\\<C-y>"):("\\<cr>")', { expr = true, noremap = true })
 vim.keymap.set("i", "<Tab>", 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', { expr = true, noremap = true })
 vim.keymap.set("i", "<S-Tab>", 'pumvisible() ? "\\<C-p>" : "\\<Tab>"', { expr = true, noremap = true })
 
 -- quick
 local qucik_map = {
-	["<leader>"] = { "<Esc>/<++><CR>:nohlsearch<CR>i<Del><Del><Del><Del>", "Search <++> and change" },
-	c = { "<cmd> e ~/.config/nvim/init.lua<CR>", "Edit personal VIMRC" },
+	["<leader>"] = { "<Esc>/<++><cr>:nohlsearch<cr>i<Del><Del><Del><Del>", "Search <++> and change" },
+	c = { "<cmd>e ~/.config/nvim/init.lua<cr>", "Edit personal VIMRC" },
 }
 local quick_map_opt = {
 	mode = "n",
@@ -24,13 +24,13 @@ local quick_map_opt = {
 }
 wk.register(qucik_map, quick_map_opt)
 
-vim.keymap.set("n", "<C-h>", ":set hlsearch!<CR>", { noremap = true })
+vim.keymap.set("n", "<C-h>", ":set hlsearch!<cr>", { noremap = true })
 
 -- window
-vim.keymap.set("n", "<up>", ":resize +3<CR>", { noremap = true })
-vim.keymap.set("n", "<down>", ":resize -3<CR>", { noremap = true })
-vim.keymap.set("n", "<left>", ":vertical resize-5<CR>", { noremap = true })
-vim.keymap.set("n", "<right>", ":vertical resize+5<CR>", { noremap = true })
+vim.keymap.set("n", "<up>", ":resize +3<cr>", { noremap = true })
+vim.keymap.set("n", "<down>", ":resize -3<cr>", { noremap = true })
+vim.keymap.set("n", "<left>", ":vertical resize-5<cr>", { noremap = true })
+vim.keymap.set("n", "<right>", ":vertical resize+5<cr>", { noremap = true })
 
 -- change indent and select in v-mode
 vim.keymap.set("v", "<", "<gv", { noremap = true })
@@ -58,8 +58,8 @@ vim.keymap.set("n", "Y", "y$", { noremap = true })
 vim.keymap.set("v", "<leader>p", '"_dP', { noremap = true })
 
 -- move the chosen zone
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { noremap = true })
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { noremap = true })
+vim.keymap.set("v", "J", ":m '>+1<cr>gv=gv", { noremap = true })
+vim.keymap.set("v", "K", ":m '<-2<cr>gv=gv", { noremap = true })
 
 -- place the cursor in the middle
 vim.keymap.set("n", "n", "nzzzv", { noremap = true })
@@ -75,7 +75,7 @@ vim.keymap.set("t", "<C-N>", "<C-\\><C-N>", { noremap = true })
 
 -- translate
 wk.register({
-	["s"] = { ":TranslateW<CR>", "Translate" },
+	["s"] = { "<cmd>TranslateW<cr>", "Translate" },
 }, {
 	mode = "n",
 	prefix = "<leader>",
@@ -87,7 +87,7 @@ wk.register({
 
 -- nvim tree
 wk.register({
-	["t"] = { ":NvimTreeToggle<CR>", "NvimTreeToggle" },
+	["t"] = { "<cmd>NvimTreeToggle<cr>", "NvimTreeToggle" },
 }, {
 	mode = "n",
 	prefix = "<leader>",
@@ -129,17 +129,17 @@ wk.register({
 local dap_map = {
 	d = {
 		name = "Nvim Dap",
-		b = { "<Cmd>lua require'dap'.toggle_breakpoint()<CR>", "Toggle breakpoint" },
+		b = { "<cmd>lua require'dap'.toggle_breakpoint()<cr>", "Toggle breakpoint" },
 		B = {
-			"<Cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",
+			"<cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<cr>",
 			"Set cond breakpoint",
 		},
-		c = { "<Cmd>lua require'dap'.continue()<CR>", "Continue" },
-		s = { "<Cmd>lua require'dap'.close()<CR>", "Close" },
-		i = { "<Cmd>lua require'dap'.step_into()<CR>", "Step into" },
-		v = { "<Cmd>lua require'dap'.step_over()<CR>", "Step over" },
-		o = { "<Cmd>lua require'dap'.step_out()<CR>", "Step out" },
-		u = { "<cmd>lua require('dapui').toggle()<CR>", "DapUI toggle" },
+		c = { "<cmd>lua require'dap'.continue()<cr>", "Continue" },
+		s = { "<cmd>lua require'dap'.close()<cr>", "Close" },
+		i = { "<cmd>lua require'dap'.step_into()<cr>", "Step into" },
+		v = { "<cmd>lua require'dap'.step_over()<cr>", "Step over" },
+		o = { "<cmd>lua require'dap'.step_out()<cr>", "Step out" },
+		u = { "<cmd>lua require('dapui').toggle()<cr>", "DapUI toggle" },
 	},
 }
 local dap_map_opt = {
@@ -156,16 +156,16 @@ wk.register(dap_map, dap_map_opt)
 local tel_map = {
 	f = {
 		name = "Find",
-		f = { "<Cmd> Telescope find_files<CR>", "Find file" },
-		b = { "<Cmd> Telescope buffers<CR>", "Find buffers" },
-		m = { "<Cmd> Telescope oldfiles<CR>", "Find most recent files" },
-		w = { "<Cmd> Telescope live_grep<CR>", "Find word" },
-		l = { "<Cmd> Telescope current_buffer_fuzzy_find<CR>", "Find line in current buffer" },
-		r = { "<Cmd> Telescope registers<CR>", "Find registers" },
-		d = { "<Cmd> Telescope diagnostics<CR>", "Find diagnostics" },
-		j = { "<Cmd> Telescope jumplist<CR>", "Find jumplist" },
-		y = { "<Cmd> Telescope yank_history<CR>", "Find yank history" },
-		t = { "<Cmd> Telescope find_template<CR>", "Find file templates" },
+		f = { "<cmd>Telescope find_files<cr>", "Find file" },
+		b = { "<cmd>Telescope buffers<cr>", "Find buffers" },
+		m = { "<cmd>Telescope oldfiles<cr>", "Find most recent files" },
+		w = { "<cmd>Telescope live_grep<cr>", "Find word" },
+		l = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", "Find line in current buffer" },
+		r = { "<cmd>Telescope registers<cr>", "Find registers" },
+		d = { "<cmd>Telescope diagnostics<cr>", "Find diagnostics" },
+		j = { "<cmd>Telescope jumplist<cr>", "Find jumplist" },
+		y = { "<cmd>Telescope yank_history<cr>", "Find yank history" },
+		t = { "<cmd>Telescope find_template<cr>", "Find file templates" },
 	},
 }
 local tel_map_opt = {
@@ -180,7 +180,7 @@ wk.register(tel_map, tel_map_opt)
 
 -- term
 wk.register({
-	["<F12>"] = { "<cmd>ToggleTerm<CR>", "Toggle term" },
+	["<F12>"] = { "<cmd>ToggleTerm<cr>", "Toggle term" },
 }, {
 	mode = "n",
 	prefix = "",
@@ -201,8 +201,8 @@ local yabs_map_opt = {
 }
 local yabs_map = {
 	name = "Task runner",
-	b = { "<cmd> lua require('yabs'):run_task('build')<CR>", "Build task" },
-	r = { "<cmd> lua require('yabs'):run_task('run')<CR>", "Run task" },
+	b = { "<cmd>lua require('yabs'):run_task('build')<cr>", "Build task" },
+	r = { "<cmd>lua require('yabs'):run_task('run')<cr>", "Run task" },
 }
 wk.register(yabs_map, yabs_map_opt)
 
@@ -218,16 +218,16 @@ local kopts = { noremap = true, silent = true }
 vim.api.nvim_set_keymap(
 	"n",
 	"n",
-	[[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
+	[[<cmd>execute('normal! ' . v:count1 . 'n')<cr><cmd>lua require('hlslens').start()<cr>]],
 	kopts
 )
 vim.api.nvim_set_keymap(
 	"n",
 	"N",
-	[[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
+	[[<cmd>execute('normal! ' . v:count1 . 'N')<cr><cmd>lua require('hlslens').start()<cr>]],
 	kopts
 )
-vim.api.nvim_set_keymap("n", "*", [[*<Cmd>lua require('hlslens').start()<CR>]], kopts)
-vim.api.nvim_set_keymap("n", "#", [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
-vim.api.nvim_set_keymap("n", "g*", [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
-vim.api.nvim_set_keymap("n", "g#", [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+vim.api.nvim_set_keymap("n", "*", [[*<cmd>lua require('hlslens').start()<cr>]], kopts)
+vim.api.nvim_set_keymap("n", "#", [[#<cmd>lua require('hlslens').start()<cr>]], kopts)
+vim.api.nvim_set_keymap("n", "g*", [[g*<cmd>lua require('hlslens').start()<cr>]], kopts)
+vim.api.nvim_set_keymap("n", "g#", [[g#<cmd>lua require('hlslens').start()<cr>]], kopts)

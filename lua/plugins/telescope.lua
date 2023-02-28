@@ -3,12 +3,11 @@ return {
 	cmd = { "Telescope" },
 	keys = { "<leader>f" },
 	dependencies = {
-		{ "nvim-lua/popup.nvim", opt = true },
-		{ "nvim-lua/plenary.nvim", opt = true },
-		{ "kyazdani42/nvim-web-devicons", opt = true },
+		{ "nvim-lua/popup.nvim"},
+		{ "nvim-lua/plenary.nvim"},
+		{ "kyazdani42/nvim-web-devicons"},
 		{
 			"tibabit/vim-templates",
-			opt = true,
 			cmd = { "TemplateInit", "TemplateExpand" },
 			config = function()
 				local global = require("config.global")
