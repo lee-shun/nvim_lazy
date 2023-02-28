@@ -13,7 +13,18 @@ return {
 			rainbow = {
 				enable = true,
 			},
-			ensure_installed = { "markdown", "cpp", "c", "python", "latex", "lua", "bash" },
+			ensure_installed = {
+				"markdown",
+				"cpp",
+				"c",
+				"python",
+				"latex",
+				"lua",
+				"bash",
+				"vim",
+				"regex",
+				"markdown_inline",
+			},
 		})
 	end,
 }
