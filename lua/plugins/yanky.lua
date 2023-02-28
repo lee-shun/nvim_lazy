@@ -1,5 +1,6 @@
 return {
 	"gbprod/yanky.nvim",
+    event = {"BufReadPre"},
 	cmd = { "Telescope" },
 	keys = { "<leader>f" },
     dependencies = {"telescope.nvim"},
