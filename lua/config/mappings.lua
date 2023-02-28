@@ -11,8 +11,8 @@ vim.keymap.set("i", "<S-Tab>", 'pumvisible() ? "\\<C-p>" : "\\<Tab>"', { expr = 
 
 -- quick
 local qucik_map = {
-	["<leader>"] = { "<Esc>/<++><CR>:nohlsearch<CR>i<Del><Del><Del><Del>", "Search <++> and Change" },
-	c = { "<cmd> e ~/.config/nvim/init.lua<CR>", "Edit Personal VIMRC" },
+	["<leader>"] = { "<Esc>/<++><CR>:nohlsearch<CR>i<Del><Del><Del><Del>", "Search <++> and change" },
+	c = { "<cmd> e ~/.config/nvim/init.lua<CR>", "Edit personal VIMRC" },
 }
 local quick_map_opt = {
 	mode = "n",
@@ -38,10 +38,10 @@ vim.keymap.set("v", ">", ">gv", { noremap = true })
 
 -- add blank line and move line
 wk.register({
-	["[e"] = { ":<c-u>execute 'move -1-'. v:count1<cr>", "Move Line Prev" },
-	["]e"] = { ":<c-u>execute 'move +'. v:count1<cr>", "Move Line Next" },
-	["[<leader>"] = { ":<c-u>put! =repeat(nr2char(10), v:count1)<cr>'[", "Add Empty Line Prev" },
-	["]<leader>"] = { ":<c-u>put =repeat(nr2char(10), v:count1)<cr>", "Add Empty Line Next" },
+	["[e"] = { ":<c-u>execute 'move -1-'. v:count1<cr>", "Move line prev" },
+	["]e"] = { ":<c-u>execute 'move +'. v:count1<cr>", "Move line next" },
+	["[<leader>"] = { ":<c-u>put! =repeat(nr2char(10), v:count1)<cr>'[", "Add empty Line prev" },
+	["]<leader>"] = { ":<c-u>put =repeat(nr2char(10), v:count1)<cr>", "Add empty line next" },
 }, {
 	mode = "n",
 	prefix = "",
@@ -100,7 +100,7 @@ wk.register({
 -- easy align
 wk.register({
 	g = {
-		a = { "<Plug>(EasyAlign)", "Easy Align" },
+		a = { "<Plug>(EasyAlign)", "Easy align" },
 	},
 }, {
 
@@ -113,7 +113,7 @@ wk.register({
 })
 wk.register({
 	g = {
-		a = { "<Plug>(EasyAlign)", "Easy Align" },
+		a = { "<Plug>(EasyAlign)", "Easy align" },
 	},
 }, {
 
@@ -129,17 +129,17 @@ wk.register({
 local dap_map = {
 	d = {
 		name = "Nvim Dap",
-		b = { "<Cmd>lua require'dap'.toggle_breakpoint()<CR>", "Toggle Breakpoint" },
+		b = { "<Cmd>lua require'dap'.toggle_breakpoint()<CR>", "Toggle breakpoint" },
 		B = {
 			"<Cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",
-			"Set Cond Breakpoint",
+			"Set cond breakpoint",
 		},
 		c = { "<Cmd>lua require'dap'.continue()<CR>", "Continue" },
 		s = { "<Cmd>lua require'dap'.close()<CR>", "Close" },
-		i = { "<Cmd>lua require'dap'.step_into()<CR>", "Step Into" },
-		v = { "<Cmd>lua require'dap'.step_over()<CR>", "Step Over" },
-		o = { "<Cmd>lua require'dap'.step_out()<CR>", "Step Out" },
-		u = { "<cmd>lua require('dapui').toggle()<CR>", "DapUI Toggle" },
+		i = { "<Cmd>lua require'dap'.step_into()<CR>", "Step into" },
+		v = { "<Cmd>lua require'dap'.step_over()<CR>", "Step over" },
+		o = { "<Cmd>lua require'dap'.step_out()<CR>", "Step out" },
+		u = { "<cmd>lua require('dapui').toggle()<CR>", "DapUI toggle" },
 	},
 }
 local dap_map_opt = {
@@ -156,16 +156,16 @@ wk.register(dap_map, dap_map_opt)
 local tel_map = {
 	f = {
 		name = "Find",
-		f = { "<Cmd> Telescope find_files<CR>", "Find File" },
-		b = { "<Cmd> Telescope buffers<CR>", "Find Buffers" },
-		m = { "<Cmd> Telescope oldfiles<CR>", "Find Most Recent Files" },
-		w = { "<Cmd> Telescope live_grep<CR>", "Find Word" },
-		l = { "<Cmd> Telescope current_buffer_fuzzy_find<CR>", "Find Line In Current Buffer" },
-		r = { "<Cmd> Telescope registers<CR>", "Find Registers" },
-		d = { "<Cmd> Telescope diagnostics<CR>", "Find Diagnostics" },
-		j = { "<Cmd> Telescope jumplist<CR>", "Find Jumplist" },
-		y = { "<Cmd> Telescope yank_history<CR>", "Find Yank History" },
-		t = { "<Cmd> Telescope find_template<CR>", "Find File Templates" },
+		f = { "<Cmd> Telescope find_files<CR>", "Find file" },
+		b = { "<Cmd> Telescope buffers<CR>", "Find buffers" },
+		m = { "<Cmd> Telescope oldfiles<CR>", "Find most recent files" },
+		w = { "<Cmd> Telescope live_grep<CR>", "Find word" },
+		l = { "<Cmd> Telescope current_buffer_fuzzy_find<CR>", "Find line in current buffer" },
+		r = { "<Cmd> Telescope registers<CR>", "Find registers" },
+		d = { "<Cmd> Telescope diagnostics<CR>", "Find diagnostics" },
+		j = { "<Cmd> Telescope jumplist<CR>", "Find jumplist" },
+		y = { "<Cmd> Telescope yank_history<CR>", "Find yank history" },
+		t = { "<Cmd> Telescope find_template<CR>", "Find file templates" },
 	},
 }
 local tel_map_opt = {
@@ -180,7 +180,7 @@ wk.register(tel_map, tel_map_opt)
 
 -- term
 wk.register({
-	["<F12>"] = { "<cmd>ToggleTerm<CR>", "Toggle Term" },
+	["<F12>"] = { "<cmd>ToggleTerm<CR>", "Toggle term" },
 }, {
 	mode = "n",
 	prefix = "",
@@ -200,9 +200,9 @@ local yabs_map_opt = {
 	nowait = false,
 }
 local yabs_map = {
-	name = "Task Runner",
-	b = { "<cmd> lua require('yabs'):run_task('build')<CR>", "Build Task" },
-	r = { "<cmd> lua require('yabs'):run_task('run')<CR>", "Run Task" },
+	name = "Task runner",
+	b = { "<cmd> lua require('yabs'):run_task('build')<CR>", "Build task" },
+	r = { "<cmd> lua require('yabs'):run_task('run')<CR>", "Run task" },
 }
 wk.register(yabs_map, yabs_map_opt)
 
