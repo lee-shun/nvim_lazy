@@ -1,5 +1,6 @@
 return {
 	"jinzhongjia/LspUI.nvim",
+    enabled = false,
 	event = "BufReadPost",
 	opts = {
 		lightbulb = {
