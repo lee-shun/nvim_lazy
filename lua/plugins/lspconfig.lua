@@ -35,7 +35,8 @@ return {
 				d = { "<cmd>lua vim.lsp.buf.definition()<cr>", "Definition" },
 				D = { "<cmd>lua vim.lsp.buf.declaration()<cr>", "Declaration" },
 				H = { "<cmd>lua vim.lsp.buf.signature_help()<cr>", "Signature help" },
-				h = { "<cmd>LspUI hover<cr>", "LspUI Hover" },
+                -- h = { "<cmd>LspUI hover<cr>", "LspUI Hover" },
+				h = { "<cmd>lua vim.lsp.buf.hover()<cr>", "Lsp Hover" },
 				i = { "<cmd>Telescope lsp_implementations<cr>", "Goto implementation" },
 				t = { "<cmd>lua vim.lsp.buf.type_definition()<cr>", "Goto type definition" },
 				r = { "<cmd>lua vim.lsp.buf.references()<cr>", "Goto reference" },
@@ -53,7 +54,8 @@ return {
 			local keymap_l = {
 				l = {
 					name = "LSP",
-					a = { "<cmd>LspUI code_action<cr>", "LspUI code action" },
+                    -- a = { "<cmd>LspUI code_action<cr>", "LspUI code action" },
+					a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Lsp code action" },
 					d = { "<cmd>lua vim.diagnostic.open_float()<cr>", "Diagnostic float" },
 					i = {
 						function()
@@ -62,7 +64,8 @@ return {
 						"IncRename",
 						expr = true,
 					},
-					r = { "<cmd>LspUI rename<cr>", "LspUI rename" },
+                    -- r = { "<cmd>LspUI rename<cr>", "LspUI rename" },
+					r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Lsp rename" },
 				},
 			}
 			wk.register(keymap_l, {
@@ -75,8 +78,10 @@ return {
 			})
 
 			wk.register({
-				["[d"] = { "<cmd>LspUI diagnostic prev<cr>", "LspUI prev diagnostic" },
-				["]d"] = { "<cmd>LspUI diagnostic next<cr>", "LspUI next diagnostic" },
+				-- ["[d"] = { "<cmd>LspUI diagnostic prev<cr>", "LspUI prev diagnostic" },
+				-- ["]d"] = { "<cmd>LspUI diagnostic next<cr>", "LspUI next diagnostic" },
+				["[d"] = { "<cmd>lua vim.diagnostic.goto_prev()<cr>", "Lsp prev diagnostic" },
+				["]d"] = { "<cmd>lua vim.diagnostic.goto_next()<cr>", "Lsp next diagnostic" },
 			}, {
 				mode = "n",
 				prefix = "",
