@@ -43,5 +43,23 @@ return {
 
 		-- telescope extensions
 		require("telescope").load_extension("yank_history")
+        		-- keymaps
+		local wk = require("which-key")
+		local telescope_map = {
+			f = {
+				name = "Find",
+				y = { "<cmd>Telescope yank_history<cr>", "Find yank history" },
+			},
+		}
+		local telescope_map_opt = {
+			mode = "n",
+			prefix = "<leader>",
+			buffer = nil,
+			silent = true,
+			noremap = true,
+			nowait = false,
+		}
+		wk.register(telescope_map, telescope_map_opt)
+
 	end,
 }

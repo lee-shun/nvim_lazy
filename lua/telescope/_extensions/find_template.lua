@@ -7,9 +7,8 @@ local sorters = require("telescope.sorters")
 local conf = require("telescope.config").values
 
 -- the template dir
-local conf_dir = require("config.global").vim_config_path
-local plugin_dir = require("config.global").plugins_installed_path
-local tmpl_dir = { conf_dir .. "/template", plugin_dir .. "/site/pack/packer/opt/vim-templates/templates" }
+local conf_dir = vim.fn.stdpath("config")
+local tmpl_dir = { conf_dir .. "/template" }
 local tmpl_full_list = {}
 for _, d in pairs(tmpl_dir) do
 	local names = vim.fn.readdir(d)

@@ -1,20 +1,20 @@
-local global = require("config.global")
+local config_path = vim.fn.stdpath("config")
 
 -- Create cache dir and subs dir
 local createdir = function()
-    local data_dir = {
-        global.tmp_dir .. "backup",
-        global.tmp_dir .. "session",
-        global.tmp_dir .. "swap",
-        global.tmp_dir .. "tags",
-        global.tmp_dir .. "undo",
+    local tmp_data_dir = {
+        config_path .. "/tmp/backup",
+        config_path .. "/tmp/session",
+        config_path .. "/tmp/swap",
+        config_path .. "/tmp/tags",
+        config_path .. "/tmp/undo",
     }
     -- There only check once that If cache_dir exists
     -- Then I don't want to check subs dir exists
-    if vim.fn.isdirectory(global.tmp_dir) == 0 then
-        os.execute("mkdir -p " .. global.tmp_dir)
+    if vim.fn.isdirectory(config_path.."/tmp") == 0 then
+        os.execute("mkdir -p " .. config_path.."/tmp")
         print("mkdir nvim tmp dir!")
-        for _, v in pairs(data_dir) do
+        for _, v in pairs(tmp_data_dir) do
             if vim.fn.isdirectory(v) == 0 then
                 os.execute("mkdir -p " .. v)
             end
@@ -69,7 +69,7 @@ vim.o.laststatus = 2
 vim.o.cmdheight = 1
 vim.o.statusline="%#normal#"
 vim.o.spelllang = "en,cjk"
-vim.o.spellfile = global.vim_config_path .. "/spell/en.utf-8.add"
+vim.o.spellfile = config_path .. "/spell/en.utf-8.add"
 vim.o.shiftround = true
 vim.o.virtualedit = "block"
 
@@ -115,10 +115,10 @@ vim.o.splitbelow = true
 
 vim.o.undofile = true
 vim.o.swapfile = true
-vim.o.backup = false
-vim.o.undodir = global.vim_config_path .. "/tmp/undo"
-vim.o.backupdir = global.vim_config_path .. "/tmp/backup"
-vim.o.directory = global.vim_config_path .. "/tmp/backup"
+vim.o.backup = true
+vim.o.undodir = config_path .. "/tmp/undo"
+vim.o.backupdir = config_path .. "/tmp/backup"
+vim.o.directory = config_path .. "/tmp/swap"
 
 vim.opt.wildignore:append("*.o,*.obj,*.bin,*.dll,*.exe")
 vim.opt.wildignore:append("*/.git/*,*/.svn/*,*/__pycache__/*,*/build/**")

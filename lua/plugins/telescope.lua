@@ -6,17 +6,6 @@ return {
 		{ "nvim-lua/popup.nvim" },
 		{ "nvim-lua/plenary.nvim" },
 		{ "kyazdani42/nvim-web-devicons" },
-		{
-			"tibabit/vim-templates",
-			cmd = { "TemplateInit", "TemplateExpand" },
-			config = function()
-				local global = require("config.global")
-				vim.g.tmpl_auto_initialize = 0
-				vim.g.tmpl_search_paths = { global.vim_config_path .. "/template" }
-				vim.g.tmpl_author_name = "ShunLi"
-				vim.g.tmpl_author_email = "2015097272@qq.com"
-			end,
-		},
 	},
 	config = function()
 		local present, telescope = pcall(require, "telescope")
@@ -82,9 +71,6 @@ return {
 			},
 		})
 
-		-- extensions
-		require("telescope").load_extension("find_template")
-		require("telescope").load_extension("notify")
 
 		-- keymaps
 		local wk = require("which-key")
@@ -100,8 +86,6 @@ return {
 				d = { "<cmd>Telescope diagnostics<cr>", "Find diagnostics" },
 				j = { "<cmd>Telescope jumplist<cr>", "Find jumplist" },
 				y = { "<cmd>Telescope yank_history<cr>", "Find yank history" },
-				t = { "<cmd>Telescope find_template<cr>", "Find file templates" },
-				n = { "<cmd>Telescope notify<cr>", "Find notify" },
 			},
 		}
 		local telescope_map_opt = {
