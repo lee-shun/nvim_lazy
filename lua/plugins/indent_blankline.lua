@@ -21,7 +21,7 @@ return {
 				"block",
 			},
 			show_end_of_line = false,
-			filetype_exclude = { "help", "Nvimtree", "coc-explorer", "dashboard", "alpha" },
+			filetype_exclude = { "help", "Nvimtree", "coc-explorer", "dashboard", "alpha", "noice" },
 			buftype_exclude = { "terminal", "prompt" },
 		})
 	end,
