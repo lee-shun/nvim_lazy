@@ -1,6 +1,6 @@
 return {
 	"folke/todo-comments.nvim",
-	event = "BufReadPost",
+	event = "VeryLazy",
 	opts = {
 		highlight = {
 			before = "", -- "fg" or "bg" or empty

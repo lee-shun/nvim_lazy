@@ -1,9 +1,8 @@
 return {
 	"gbprod/yanky.nvim",
-	event = { "BufReadPre" },
-	cmd = { "Telescope" },
+	event = "VeryLazy",
 	keys = {
-		{ "<leader>f" },
+		{ "<leader>fy" },
 		{ "gp", "<Plug>(YankyGPutAfter)" },
 		{ "gP", "<Plug>(YankyGPutBefore)" },
 		{ "p", "<Plug>(YankyPutAfter)" },

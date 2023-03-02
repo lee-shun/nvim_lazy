@@ -1,6 +1,6 @@
 return {
 	"johnfrankmorgan/whitespace.nvim",
-	event = { "BufReadPost" },
+	eevent = "VeryLazy",
 	config = function()
 		require("whitespace-nvim").setup({
 			highlight = "DiffDelete",

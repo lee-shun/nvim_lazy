@@ -1,6 +1,6 @@
 return {
 	"pianocomposer321/yabs.nvim",
-	event = "BufReadPost",
+	event = "VeryLazy",
 	keys = {
 		{ "<leader>rb", "<cmd>lua require('yabs'):run_task('build')<cr>", desc = "Build task" },
 		{ "<leader>rr", "<cmd>lua require('yabs'):run_task('run')<cr>", desc = "Run task" },
