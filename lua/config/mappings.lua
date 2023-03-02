@@ -23,17 +23,17 @@ local quick_map_opt = {
 }
 wk.register(qucik_map, quick_map_opt)
 
-vim.keymap.set("n", "<C-h>", ":set hlsearch!<cr>", { noremap = true })
+vim.keymap.set("n", "<C-h>", ":set hlsearch!<cr>", { noremap = true , silent = true})
 
 -- window
-vim.keymap.set("n", "<up>", ":resize +3<cr>", { noremap = true })
-vim.keymap.set("n", "<down>", ":resize -3<cr>", { noremap = true })
-vim.keymap.set("n", "<left>", ":vertical resize-5<cr>", { noremap = true })
-vim.keymap.set("n", "<right>", ":vertical resize+5<cr>", { noremap = true })
+vim.keymap.set("n", "<up>", ":resize +3<cr>", { noremap = true, silent = true })
+vim.keymap.set("n", "<down>", ":resize -3<cr>", { noremap = true, silent = true })
+vim.keymap.set("n", "<left>", ":vertical resize-5<cr>", { noremap = true, silent = true })
+vim.keymap.set("n", "<right>", ":vertical resize+5<cr>", { noremap = true, silent = true })
 
 -- change indent and select in v-mode
-vim.keymap.set("v", "<", "<gv", { noremap = true })
-vim.keymap.set("v", ">", ">gv", { noremap = true })
+vim.keymap.set("v", "<", "<gv", { noremap = true , silent = true})
+vim.keymap.set("v", ">", ">gv", { noremap = true , silent = true})
 
 -- add blank line and move line
 wk.register({
@@ -61,8 +61,6 @@ vim.keymap.set("v", "J", ":m '>+1<cr>gv=gv", { noremap = true })
 vim.keymap.set("v", "K", ":m '<-2<cr>gv=gv", { noremap = true })
 
 -- place the cursor in the middle
-vim.keymap.set("n", "n", "nzzzv", { noremap = true })
-vim.keymap.set("n", "N", "Nzzzv", { noremap = true })
 vim.keymap.set("n", "J", "mzJ'z", { noremap = true })
 
 -- terminal
