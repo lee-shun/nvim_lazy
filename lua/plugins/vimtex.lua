@@ -12,7 +12,13 @@ return {
 		vim.g.vimtex_format_enabled = 1
 
 		require("which-key").register({
-			["rt"] = { "<cmd>VimtexCompile<cr>", "Recompile" },
+			["rt"] = {
+				function()
+					vim.cmd([[exec "VimtexStop"]])
+					vim.cmd([[exec "VimtexCompile"]])
+				end,
+				"Recompile",
+			},
 		}, {
 			mode = "n",
 			prefix = "<leader>",
