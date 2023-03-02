@@ -25,6 +25,34 @@ return {
 		},
 	},
 	config = function()
+		local wk = require("which-key")
+		-- keymaps
+		local dap_map = {
+			d = {
+				name = "Nvim Dap",
+				b = { "<cmd>lua require'dap'.toggle_breakpoint()<cr>", "Toggle breakpoint" },
+				B = {
+					"<cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<cr>",
+					"Set cond breakpoint",
+				},
+				c = { "<cmd>lua require'dap'.continue()<cr>", "Continue" },
+				s = { "<cmd>lua require'dap'.close()<cr>", "Close" },
+				i = { "<cmd>lua require'dap'.step_into()<cr>", "Step into" },
+				v = { "<cmd>lua require'dap'.step_over()<cr>", "Step over" },
+				o = { "<cmd>lua require'dap'.step_out()<cr>", "Step out" },
+				u = { "<cmd>lua require('dapui').toggle()<cr>", "DapUI toggle" },
+			},
+		}
+		local dap_map_opt = {
+			mode = "n",
+			prefix = "<leader>",
+			buffer = nil,
+			silent = true,
+			noremap = true,
+			nowait = false,
+		}
+		wk.register(dap_map, dap_map_opt)
+
 		-- show the winbar
 		local dapWinbar = vim.api.nvim_create_augroup("DapWinbar", { clear = true })
 		vim.api.nvim_create_autocmd("FileType", {
