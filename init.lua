@@ -1,4 +1,3 @@
--- TODO: VeryLazy?
 -- TODO: filetype plugins... tex + md snippest..
 require("config.options")
 
