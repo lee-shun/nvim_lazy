@@ -119,7 +119,7 @@ vim.o.backup = true
 vim.o.undodir = nvim_config_path .. "/tmp/undo"
 vim.o.backupdir = nvim_config_path .. "/tmp/backup"
 vim.o.directory = nvim_config_path .. "/tmp/swap"
-vim.o.sessionoptions="blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+vim.o.sessionoptions="buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
 vim.opt.wildignore:append("*.o,*.obj,*.bin,*.dll,*.exe")
 vim.opt.wildignore:append("*/.git/*,*/.svn/*,*/__pycache__/*,*/build/**")
