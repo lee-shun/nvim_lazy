@@ -10,5 +10,16 @@ return {
 		vim.g.vimtex_fold_enabled = 1
 		vim.g.tex_conceal = "abdmg"
 		vim.g.vimtex_format_enabled = 1
+
+		require("which-key").register({
+			["rt"] = { "<cmd>VimtexCompile<cr>", "Recompile" },
+		}, {
+			mode = "n",
+			prefix = "<leader>",
+			buffer = 0,
+			silent = true,
+			noremap = true,
+			nowait = false,
+		})
 	end,
 }
