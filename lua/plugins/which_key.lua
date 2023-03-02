@@ -71,4 +71,8 @@ return {
 			filetypes = { "TelescopePrompt" },
 		},
 	},
+	config = function(_, opts)
+		require("which-key").setup(opts)
+		require("config.mappings")
+	end,
 }

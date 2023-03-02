@@ -11,7 +11,7 @@ return {
 		{ "hrsh7th/cmp-nvim-lsp-signature-help" },
 		{ "lukas-reineke/cmp-under-comparator" },
 		{ "rafamadriz/friendly-snippets" },
-	}, 
+	},
 	config = function()
 		local luasnip = require("luasnip")
 		local cmp = require("cmp")
