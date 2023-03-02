@@ -71,7 +71,4 @@ return {
 			filetypes = { "TelescopePrompt" },
 		},
 	},
-    config = function()
-        require("config.mappings")
-    end
 }
