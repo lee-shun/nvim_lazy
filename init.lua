@@ -1,3 +1,5 @@
+-- TODO: the cmd line pos and also the easyalign
+
 require("config.options")
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
