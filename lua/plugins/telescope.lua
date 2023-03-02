@@ -84,5 +84,6 @@ return {
 
 		-- extensions
 		require("telescope").load_extension("find_template")
+        require("telescope").load_extension("notify")
 	end,
 }

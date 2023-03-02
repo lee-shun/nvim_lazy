@@ -166,6 +166,7 @@ local tel_map = {
 		j = { "<cmd>Telescope jumplist<cr>", "Find jumplist" },
 		y = { "<cmd>Telescope yank_history<cr>", "Find yank history" },
 		t = { "<cmd>Telescope find_template<cr>", "Find file templates" },
+		n = { "<cmd>Telescope notify<cr>", "Find notify" },
 	},
 }
 local tel_map_opt = {
