@@ -31,62 +31,52 @@ return {
 	config = function(_, opts)
 		require("mini.ai").setup(opts)
 		-- register all text objects with which-key
-			local i = {
-				[" "] = "Whitespace",
-				['"'] = 'Balanced "',
-				['~'] = 'Balanced ~',
-				['!'] = 'Balanced !',
-				['@'] = 'Balanced @',
-				['$'] = 'Balanced $',
-				['%'] = 'Balanced %',
-				['^'] = 'Balanced ^',
-				['&'] = 'Balanced &',
-				['*'] = 'Balanced *',
-				['-'] = 'Balanced -',
-				['+'] = 'Balanced +',
-				['='] = 'Balanced =',
-				['/'] = 'Balanced /',
-				['\\'] = 'Balanced \\',
-				['|'] = 'Balanced |',
-				[','] = 'Balanced ,',
-				['.'] = 'Balanced .',
-				[';'] = 'Balanced ;',
-				[':'] = 'Balanced :',
-				["'"] = "Balanced '",
-				["`"] = "Balanced `",
-				["("] = "Balanced (",
-				[")"] = "Balanced ) including white-space",
-				[">"] = "Balanced > including white-space",
-				["<lt>"] = "Balanced <",
-				["]"] = "Balanced ] including white-space",
-				["["] = "Balanced [",
-				["}"] = "Balanced } including white-space",
-				["{"] = "Balanced {",
-				["?"] = "User Prompt",
-				_ = "Underscore",
-				a = "Argument",
-				b = "Balanced ), ], }",
-				c = "Class",
-				f = "Function",
-				o = "Block, conditional, loop",
-				q = "Quote `, \", '",
-				t = "Tag",
-			}
-			local a = vim.deepcopy(i)
-			for k, v in pairs(a) do
-				a[k] = v:gsub(" including.*", "")
-			end
+		local i = {
+			-- build-in
+			[" "] = "Whitespace",
+			['"'] = 'Balanced "',
+			[","] = "Balanced ,",
+			["."] = "Balanced .",
+			[";"] = "Balanced ;",
+			[":"] = "Balanced :",
+			["'"] = "Balanced '",
+			["`"] = "Balanced `",
+			["("] = "Balanced (",
+			[")"] = "Balanced ) including white-space",
+			[">"] = "Balanced > including white-space",
+			["<lt>"] = "Balanced <",
+			["]"] = "Balanced ] including white-space",
+			["["] = "Balanced [",
+			["}"] = "Balanced } including white-space",
+			["{"] = "Balanced {",
+			["?"] = "User Prompt",
+			a = "Argument",
+			q = "Quote `, \", '",
+			b = "Balanced ), ], }",
+			t = "Tag",
 
-			local ic = vim.deepcopy(i)
-			local ac = vim.deepcopy(a)
-			for key, name in pairs({ n = "Next", l = "Last" }) do
-				i[key] = vim.tbl_extend("force", { name = "Inside " .. name .. " textobject" }, ic)
-				a[key] = vim.tbl_extend("force", { name = "Around " .. name .. " textobject" }, ac)
-			end
-			require("which-key").register({
-				mode = { "o", "x" },
-				i = i,
-				a = a,
-			})
+            -- treesitter-text-obj
+			c = "Class",
+			f = "Function",
+			o = "Block, conditional, loop",
+		}
+		local a = vim.deepcopy(i)
+		for k, v in pairs(a) do
+			a[k] = v:gsub(" including.*", "")
+		end
+
+		local ic = vim.deepcopy(i)
+		local ac = vim.deepcopy(a)
+		for key, name in pairs({ n = "Next", l = "Last" }) do
+			i[key] = vim.tbl_extend("force", { name = "Inside " .. name .. " textobject" }, ic)
+			a[key] = vim.tbl_extend("force", { name = "Around " .. name .. " textobject" }, ac)
+		end
+		-- NOTE: which-key also names the vim buildin text-obj, update part of
+		-- them
+		require("which-key").register({
+			mode = { "o", "x" },
+			i = i,
+			a = a,
+		})
 	end,
 }
