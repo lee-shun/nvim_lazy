@@ -1,6 +1,10 @@
 return {
 	"pianocomposer321/yabs.nvim",
 	event = "BufReadPost",
+	keys = {
+		{ "<leader>rb", "<cmd>lua require('yabs'):run_task('build')<cr>", desc = "Build task" },
+		{ "<leader>rr", "<cmd>lua require('yabs'):run_task('run')<cr>", desc = "Run task" },
+	},
 	config = function()
 		local cpp_config = {
 			default_task = "build_and_run",
@@ -30,5 +34,23 @@ return {
 				cpp = cpp_config,
 			},
 		})
+
+		local wk = require("which-key")
+		local yabs_map = {
+			r = {
+				name = "Task runner",
+			},
+		}
+		local yabs_map_opt = {
+			mode = "n",
+			prefix = "<leader>",
+			buffer = nil,
+			silent = true,
+			noremap = true,
+			nowait = false,
+		}
+		wk.register(yabs_map, yabs_map_opt)
 	end,
 }
+
+-- yabs.nvim

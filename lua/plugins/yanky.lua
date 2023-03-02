@@ -1,9 +1,15 @@
 return {
 	"gbprod/yanky.nvim",
-    event = {"BufReadPre"},
+	event = { "BufReadPre" },
 	cmd = { "Telescope" },
-	keys = { "<leader>f" },
-    dependencies = {"telescope.nvim"},
+	keys = {
+		{ "<leader>f" },
+		{ "gp", "<Plug>(YankyGPutAfter)" },
+		{ "gP", "<Plug>(YankyGPutBefore)" },
+		{ "p", "<Plug>(YankyPutAfter)" },
+		{ "P", "<Plug>(YankyPutBefore)" },
+	},
+	dependencies = { "telescope.nvim" },
 	config = function()
 		local utils = require("yanky.utils")
 		local mapping = require("yanky.telescope.mapping")

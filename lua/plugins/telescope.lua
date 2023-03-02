@@ -3,9 +3,9 @@ return {
 	cmd = { "Telescope" },
 	keys = { "<leader>f" },
 	dependencies = {
-		{ "nvim-lua/popup.nvim"},
-		{ "nvim-lua/plenary.nvim"},
-		{ "kyazdani42/nvim-web-devicons"},
+		{ "nvim-lua/popup.nvim" },
+		{ "nvim-lua/plenary.nvim" },
+		{ "kyazdani42/nvim-web-devicons" },
 		{
 			"tibabit/vim-templates",
 			cmd = { "TemplateInit", "TemplateExpand" },
@@ -84,6 +84,34 @@ return {
 
 		-- extensions
 		require("telescope").load_extension("find_template")
-        require("telescope").load_extension("notify")
+		require("telescope").load_extension("notify")
+
+		-- keymaps
+		local wk = require("which-key")
+		local telescope_map = {
+			f = {
+				name = "Find",
+				f = { "<cmd>Telescope find_files<cr>", "Find file" },
+				b = { "<cmd>Telescope buffers<cr>", "Find buffers" },
+				m = { "<cmd>Telescope oldfiles<cr>", "Find most recent files" },
+				w = { "<cmd>Telescope live_grep<cr>", "Find word" },
+				l = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", "Find line in current buffer" },
+				r = { "<cmd>Telescope registers<cr>", "Find registers" },
+				d = { "<cmd>Telescope diagnostics<cr>", "Find diagnostics" },
+				j = { "<cmd>Telescope jumplist<cr>", "Find jumplist" },
+				y = { "<cmd>Telescope yank_history<cr>", "Find yank history" },
+				t = { "<cmd>Telescope find_template<cr>", "Find file templates" },
+				n = { "<cmd>Telescope notify<cr>", "Find notify" },
+			},
+		}
+		local telescope_map_opt = {
+			mode = "n",
+			prefix = "<leader>",
+			buffer = nil,
+			silent = true,
+			noremap = true,
+			nowait = false,
+		}
+		wk.register(telescope_map, telescope_map_opt)
 	end,
 }
