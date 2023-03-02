@@ -1,10 +1,6 @@
 return {
 	"echasnovski/mini.ai",
-	-- keys = {
-	--   { "a", mode = { "x", "o" } },
-	--   { "i", mode = { "x", "o" } },
-	-- },
-	event = "BufReadPost",
+	event = "VeryLazy",
 	dependencies = {
 		{
 			"nvim-treesitter/nvim-treesitter-textobjects",
@@ -55,7 +51,7 @@ return {
 			b = "Balanced ), ], }",
 			t = "Tag",
 
-            -- treesitter-text-obj
+			-- treesitter-text-obj
 			c = "Class",
 			f = "Function",
 			o = "Block, conditional, loop",

@@ -1,6 +1,6 @@
 return {
 	"nvim-treesitter/nvim-treesitter",
-	event = "BufReadPost",
+	lazy = true,
 	build = ":TSUpdate",
 	dependencies = {
 		{ "p00f/nvim-ts-rainbow" },

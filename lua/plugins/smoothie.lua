@@ -1,1 +1,1 @@
-return { "psliwka/vim-smoothie", event = "BufReadPost" }
+return { "psliwka/vim-smoothie", event = "VeryLazy" }

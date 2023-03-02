@@ -1,6 +1,6 @@
 return {
 	"mfussenegger/nvim-dap",
-	event = "BufReadPost",
+	event = "VeryLazy",
 	dependencies = {
 		{
 			"theHamsta/nvim-dap-virtual-text",

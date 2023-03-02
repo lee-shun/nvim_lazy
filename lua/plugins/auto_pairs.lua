@@ -1,6 +1,6 @@
 return {
 	"windwp/nvim-autopairs",
-	event = "BufReadPre",
+	event = "VeryLazy",
 	config = function()
 		local npairs = require("nvim-autopairs")
 		npairs.setup({

@@ -1,6 +1,5 @@
 return {
 	"akinsho/toggleterm.nvim",
-	event = "BufReadPre",
 	keys = {
 		{
 			"<F12>",

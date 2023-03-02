@@ -1,5 +1,5 @@
 return {
 	"Pocco81/auto-save.nvim",
-	event = "BufReadPost",
+	event = "VeryLazy",
 	config = true,
 }
