@@ -64,6 +64,7 @@
   "vim-barbaric": { "branch": "master", "commit": "bb4bef87417fc3ad92319f556f02d6658b401288" },
   "vim-easy-align": { "branch": "master", "commit": "12dd6316974f71ce333e360c0260b4e1f81169c3" },
   "vim-illuminate": { "branch": "master", "commit": "49062ab1dd8fec91833a69f0a1344223dd59d643" },
+  "vim-matchup": { "branch": "master", "commit": "3a48818a8113a502f245c29d894201421727577a" },
   "vim-ros": { "branch": "master", "commit": "b914ec1d9a2f7e024ef6500dd0a9d44bb41c4cda" },
   "vim-templates": { "branch": "master", "commit": "0394471d6a3ace7618c443800ee8c1777ed8988b" },
   "vim-translator": { "branch": "master", "commit": "681c6b2f650b699572e6bb55162a3d6e62ee5d43" },
