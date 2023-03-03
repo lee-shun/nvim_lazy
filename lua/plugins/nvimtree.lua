@@ -69,6 +69,24 @@ return {
 			vim.keymap.set("n", "yP", api.fs.copy.absolute_path, opts("Copy Absolute Path"))
 			vim.keymap.set("n", "<2-LeftMouse>", api.node.open.edit, opts("Open"))
 			vim.keymap.set("n", "<2-RightMouse>", api.tree.change_root_to_node, opts("CD"))
+
+			-- local bulk_trash = function()
+			-- 	local nodes = api.marks.list()
+			-- 	if next(nodes) == nil then
+			-- 		table.insert(nodes, api.get_node_under_cursor())
+			-- 	end
+			-- 	vim.ui.input({ prompt = string.format("Trash %s files? [y/n] ", #nodes) }, function(input)
+			-- 		if input == "y" then
+			-- 			vim.cmd("redraw!")
+			-- 			for _, node in ipairs(nodes) do
+			-- 				vim.fn.jobstart("trash-put " .. node.absolute_path)
+			-- 			end
+			-- 		end
+			-- 	end)
+			-- end
+			--
+   --          vim.keymap.set("n", "bmr", bulk_trash, opts("Bulk Trash Files"))
+
 		end,
 	},
 }
