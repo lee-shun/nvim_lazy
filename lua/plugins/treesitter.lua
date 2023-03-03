@@ -4,6 +4,7 @@ return {
 	build = ":TSUpdate",
 	dependencies = {
 		{ "p00f/nvim-ts-rainbow" },
+		{ "andymass/vim-matchup" },
 	},
 	config = function()
 		require("nvim-treesitter.configs").setup({
@@ -13,6 +14,7 @@ return {
 			rainbow = {
 				enable = true,
 			},
+			matchup = { enable = true },
 			ensure_installed = {
 				"markdown",
 				"cpp",
