@@ -10,11 +10,6 @@ return {
 				require("inc_rename").setup()
 			end,
 		},
-		{
-			"j-hui/fidget.nvim",
-			enabled = false,
-			config = true,
-		},
 	},
 	config = function()
 		local wk = require("which-key")
