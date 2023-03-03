@@ -77,16 +77,15 @@ return {
 				end
 				vim.ui.input({ prompt = string.format("Trash %s files? [y/n] ", #nodes) }, function(input)
 					if input == "y" then
-						vim.cmd("redraw!")
 						for _, node in ipairs(nodes) do
 							vim.fn.jobstart("trash-put " .. node.absolute_path)
 						end
+						api.tree.reload()
 					end
 				end)
 			end
 
-            vim.keymap.set("n", "bmr", bulk_trash, opts("Bulk Trash Files"))
-
+			vim.keymap.set("n", "bmr", bulk_trash, opts("Bulk Trash Files"))
 		end,
 	},
 }
