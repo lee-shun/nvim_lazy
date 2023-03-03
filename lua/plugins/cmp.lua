@@ -46,7 +46,7 @@ return {
 			Snip = "",
 		}
 
-		require("cmp").setup({
+		cmp.setup({
 			formatting = {
 				format = function(entry, vim_item)
 					-- Kind icons
@@ -73,6 +73,17 @@ return {
 		end
 
 		cmp.setup({
+			enabled = function()
+				-- disable autocompletion in telescope (wasn't playing good with telescope)
+				local ftype = vim.api.nvim_buf_get_option(0, "filetype")
+				if ftype == "TelescopePrompt" then
+					return false
+				end
+
+				local context = require("cmp.config.context")
+				-- disable autocompletion in comments
+				return not context.in_treesitter_capture("comment") and not context.in_syntax_group("Comment")
+			end,
 			snippet = {
 				expand = function(args)
 					require("luasnip").lsp_expand(args.body)
