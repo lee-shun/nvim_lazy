@@ -79,7 +79,7 @@ return {
 				name = "Find",
 				f = { "<cmd>Telescope find_files<cr>", "Find file" },
 				b = { "<cmd>Telescope buffers<cr>", "Find buffers" },
-				m = { "<cmd>Telescope oldfiles<cr>", "Find most recent files" },
+				o = { "<cmd>Telescope oldfiles<cr>", "Find old files" },
 				w = { "<cmd>Telescope live_grep<cr>", "Find word" },
 				l = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", "Find line in current buffer" },
 				r = { "<cmd>Telescope registers<cr>", "Find registers" },
