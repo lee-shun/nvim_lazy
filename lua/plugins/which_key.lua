@@ -68,7 +68,7 @@ return {
 		-- Disabled by deafult for Telescope
 		disable = {
 			buftypes = {},
-			filetypes = { "TelescopePrompt" },
+			filetypes = { "TelescopePrompt", "NvimTree" },
 		},
 	},
 	config = function(_, opts)
