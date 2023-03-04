@@ -6,10 +6,12 @@ return {
 		vim.g.vimtex_quickfix_mode = 0
 		vim.g.vimtex_mappings_enabled = 0
 		vim.g.vimtex_imaps_enabled = 0
-		vim.g.vimtex_text_obj_enabled = 1
-		vim.g.vimtex_fold_enabled = 1
+		vim.g.vimtex_text_obj_enabled = 0
+		vim.g.vimtex_fold_enabled = 0
 		vim.g.tex_conceal = "abdmg"
-		vim.g.vimtex_format_enabled = 1
+        vim.g.vimtex_syntax_conceal_disable = 1
+		vim.g.vimtex_format_enabled = 0
+		vim.g.vimtex_syntax_enabled = 0
 
 		require("which-key").register({
 			["rt"] = {

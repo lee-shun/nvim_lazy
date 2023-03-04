@@ -109,7 +109,7 @@ return {
 					else
 						fallback()
 					end
-				end, { "i", "s" }),
+				end, { "i", "s", "c" }),
 
 				["<S-Tab>"] = cmp.mapping(function(fallback)
 					if cmp.visible() then
@@ -119,7 +119,7 @@ return {
 					else
 						fallback()
 					end
-				end, { "i", "s" }),
+				end, { "i", "s", "c" }),
 			},
 			sources = {
 				{ name = "nvim_lsp" },
