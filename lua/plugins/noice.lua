@@ -17,6 +17,9 @@ return {
 			inc_rename = true,
 			lsp_doc_border = true,
 		},
+        messages = {
+            view_search = false
+        }
 	},
   -- stylua: ignore
   keys = {
