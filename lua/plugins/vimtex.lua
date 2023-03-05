@@ -9,25 +9,8 @@ return {
 		vim.g.vimtex_text_obj_enabled = 0
 		vim.g.vimtex_fold_enabled = 0
 		vim.g.tex_conceal = "abdmg"
-        vim.g.vimtex_syntax_conceal_disable = 1
+		vim.g.vimtex_syntax_conceal_disable = 1
 		vim.g.vimtex_format_enabled = 0
 		vim.g.vimtex_syntax_enabled = 0
-
-		require("which-key").register({
-			["rt"] = {
-				function()
-					vim.cmd([[exec "VimtexStop"]])
-					vim.cmd([[exec "VimtexCompile"]])
-				end,
-				"Recompile",
-			},
-		}, {
-			mode = "n",
-			prefix = "<leader>",
-			buffer = 0,
-			silent = true,
-			noremap = true,
-			nowait = false,
-		})
 	end,
 }
