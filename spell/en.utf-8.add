@@ -149,3 +149,5 @@ reprojection
 PnP
 densify
 M600
+SVD
+OpenMVS
