@@ -10,6 +10,12 @@ require("which-key").register({
 		end,
 		"Recompile",
 	},
+	["rv"] = {
+		function()
+			vim.cmd([[exec "VimtexView"]])
+		end,
+		"View the pdf",
+	},
 }, {
 	mode = "n",
 	prefix = "<leader>",
