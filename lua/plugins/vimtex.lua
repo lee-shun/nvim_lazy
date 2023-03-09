@@ -12,10 +12,11 @@ return {
 		vim.g.vimtex_syntax_conceal_disable = 1
 		vim.g.vimtex_format_enabled = 0
 		vim.g.vimtex_syntax_enabled = 0
+        vim.g.vimtex_compiler_silent = 1
 		vim.cmd([[
             let g:vimtex_compiler_latexmk = {
         \ 'build_dir' : '',
-        \ 'callback' : 0,
+        \ 'callback' : 1,
         \ 'continuous' : 1,
         \ 'executable' : 'latexmk',
         \ 'hooks' : [],
