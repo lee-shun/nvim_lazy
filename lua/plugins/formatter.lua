@@ -2,9 +2,6 @@ return {
 	"mhartington/formatter.nvim",
 	cmd = "Format",
 	config = function()
-		-- Utilities for creating configurations
-		local util = require("formatter.util")
-
 		-- Provides the Format, FormatWrite, FormatLock, and FormatWriteLock commands
 		require("formatter").setup({
 			-- Enable or disable logging
@@ -24,6 +21,9 @@ return {
 				},
 				markdown = {
 					require("formatter.filetypes.markdown").prettier,
+				},
+				tex = {
+					require("formatter.filetypes.latex").latexindent,
 				},
 				["*"] = {
 					require("formatter.filetypes.any").remove_trailing_whitespace,
