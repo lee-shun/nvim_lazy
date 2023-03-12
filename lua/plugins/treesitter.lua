@@ -5,6 +5,10 @@ return {
 	dependencies = {
 		{ "p00f/nvim-ts-rainbow" },
 		{ "andymass/vim-matchup" },
+		{
+			"nvim-treesitter/playground",
+			cmd = "TSPlaygroundToggle",
+		},
 	},
 	config = function()
 		require("nvim-treesitter.configs").setup({
