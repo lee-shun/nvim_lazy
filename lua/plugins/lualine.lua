@@ -192,6 +192,16 @@ return {
 			},
 		})
 		status_ins_left({
+			function()
+				local b = vim.api.nvim_get_current_buf()
+				if next(vim.treesitter.highlighter.active[b]) then
+					return ""
+				end
+				return ""
+			end,
+			color = { fg = "#DAF7A6" },
+		})
+		status_ins_left({
 			-- Lsp server name .
 			function()
 				local buf_ft = vim.api.nvim_buf_get_option(0, "filetype")
@@ -218,16 +228,6 @@ return {
 			end,
 			icon = " LSP:",
 			color = { fg = "#ffffff", gui = "bold" },
-		})
-		status_ins_left({
-			function()
-				local b = vim.api.nvim_get_current_buf()
-				if next(vim.treesitter.highlighter.active[b]) then
-					return ""
-				end
-				return ""
-			end,
-			color = { fg = "#DAF7A6" },
 		})
 
 		--
