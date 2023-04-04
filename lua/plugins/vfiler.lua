@@ -1,19 +1,20 @@
 return {
 	"obaland/vfiler.vim",
+    enabled = false,
 	keys = {
 		{ "<leader>t", "<cmd>VFiler<cr>", desc = "Open vfiler" },
 	},
-    cmd = {"VFiler"},
-    dependencies = {"obaland/vfiler-column-devicons"},
+	cmd = { "VFiler" },
+	dependencies = { "obaland/vfiler-column-devicons" },
 	config = function(_, opts)
 		local action = require("vfiler/action")
 		-- following options are the default
-        require'vfiler/config'.clear_mappings()
+		require("vfiler/config").clear_mappings()
 		require("vfiler/config").setup({
 			options = {
 				auto_cd = true,
 				auto_resize = true,
-				columns = "indent,devicons,name,git,time,mode,size",
+				columns = "indent,devicons,name,git",
 				find_file = true,
 				header = true,
 				keep = true,
@@ -22,9 +23,9 @@ return {
 				session = "buffer",
 				show_hidden_files = true,
 				sort = "name",
-				layout = "floating",
-				width = 70,
-				height = 15,
+				layout = "left",
+				width = 40,
+				height = 20,
 				new = false,
 				quit = true,
 				row = 0,
