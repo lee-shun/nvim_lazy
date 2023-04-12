@@ -1,6 +1,6 @@
 return {
 	"obaland/vfiler.vim",
-    enabled = false,
+	enabled = true,
 	keys = {
 		{ "<leader>t", "<cmd>VFiler<cr>", desc = "Open vfiler" },
 	},
@@ -12,6 +12,7 @@ return {
 		require("vfiler/config").clear_mappings()
 		require("vfiler/config").setup({
 			options = {
+				toggle = true,
 				auto_cd = true,
 				auto_resize = true,
 				columns = "indent,devicons,name,git",
@@ -24,7 +25,7 @@ return {
 				show_hidden_files = true,
 				sort = "name",
 				layout = "left",
-				width = 40,
+				width = 30,
 				height = 20,
 				new = false,
 				quit = true,
@@ -71,7 +72,14 @@ return {
 				["h"] = action.close_tree_or_cd,
 				["j"] = action.loop_cursor_down,
 				["k"] = action.loop_cursor_up,
-				["l"] = action.open_tree,
+				["l"] = function(vfiler, context, view)
+					local item = view:get_item()
+					if item.type == "directory" then
+						action.open_tree(vfiler, context, view)
+					else
+						action.open(vfiler, context, view)
+					end
+				end,
 				["M"] = action.move_to_filer,
 				["P"] = action.toggle_preview,
 				["q"] = action.quit,

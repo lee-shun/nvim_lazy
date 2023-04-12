@@ -139,6 +139,13 @@ return {
 			capabilities = pyright_cap,
 		})
 
+		--       -- pylyzer
+		-- local pylyzer = cmp_cap
+		--       require("lspconfig")["pylyzer"].setup{
+		-- 	on_attach = on_attach,
+		-- 	capabilities = pylyzer,
+		--       }
+
 		-- taxlab
 		require("lspconfig")["texlab"].setup({
 			on_attach = on_attach,
