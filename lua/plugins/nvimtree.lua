@@ -94,7 +94,7 @@ return {
 			vim.keymap.set("n", "yP", api.fs.copy.absolute_path, opts("Copy Absolute Path"))
 
 			-- special
-			vim.keymap.set("n", "md", api.marks.bulk.move, opts("Move Bookmarked"))
+			vim.keymap.set("n", "mv", api.marks.bulk.move, opts("Move Bookmarked"))
 			vim.keymap.set("n", "mt", bulk_trash, opts("Bulk Trash Files"))
 			vim.keymap.set("n", "[g", api.node.navigate.git.prev, opts("Prev Git"))
 			vim.keymap.set("n", "]g", api.node.navigate.git.next, opts("Next Git"))
