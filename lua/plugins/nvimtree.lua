@@ -5,7 +5,7 @@ return {
 		{ "<leader>t", "<cmd>NvimTreeToggle<cr>", desc = "NvimTreeToggle" },
 	},
 	cmd = { "NvimTreeToggle", "NvimTreeClose" },
-	dependencies = { "kyazdani42/nvim-web-devicons" },
+	dependencies = { "kyazdani42/nvim-web-devicons", "folke/which-key.nvim" },
 	opts = {
 		ui = {
 			confirm = {
@@ -107,8 +107,9 @@ return {
 			vim.keymap.set("n", "df", api.fs.trash, opts("Trash"))
 			vim.keymap.set("n", "L", api.tree.expand_all, opts("Expand All"))
 			vim.keymap.set("n", "H", api.tree.collapse_all, opts("Collapse"))
-			vim.keymap.set("n", "r", api.fs.rename_basename, opts("Rename: Basename"))
-			vim.keymap.set("n", "R", api.fs.rename_sub, opts("Rename: Omit Filename"))
+			vim.keymap.set("n", "rn", api.fs.rename_basename, opts("Rename: Omit extension"))
+			vim.keymap.set("n", "rN", api.fs.rename, opts("Rename: with extension"))
+			vim.keymap.set("n", "rp", api.fs.rename_sub, opts("Rename: ABS Path, Omit Filename"))
 			vim.keymap.set("n", "]d", api.node.navigate.diagnostics.next, opts("Next Diagnostic"))
 			vim.keymap.set("n", "[d", api.node.navigate.diagnostics.prev, opts("Prev Diagnostic"))
 			vim.keymap.set("n", "fs", api.live_filter.start, opts("Filter"))
@@ -125,7 +126,6 @@ return {
 			vim.keymap.set("n", "p", api.fs.paste, opts("Paste"))
 			vim.keymap.set("n", "q", api.tree.close, opts("Close"))
 			vim.keymap.set("n", "<C-r>", api.tree.reload, opts("Refresh"))
-			vim.keymap.set("n", "r", api.fs.rename, opts("Rename"))
 			vim.keymap.set("n", "xs", api.node.run.system, opts("Run System"))
 			vim.keymap.set("n", "xv", api.node.run.cmd, opts("Run Vim Command"))
 			vim.keymap.set("n", "<C-h>", api.tree.toggle_custom_filter, opts("Toggle Hidden"))
