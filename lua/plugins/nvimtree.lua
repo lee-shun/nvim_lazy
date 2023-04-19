@@ -1,4 +1,3 @@
--- TODO: add m J K
 return {
 	"nvim-tree/nvim-tree.lua",
 	enabled = true,
@@ -138,7 +137,6 @@ return {
 			vim.keymap.set("n", "cc", api.fs.clear_clipboard, opts("Clear Clipboard"))
 
 			-- special
-			-- TODO: multi copy
 			vim.keymap.set("n", "mv", api.marks.bulk.move, opts("Move Bookmarked"))
 			vim.keymap.set("n", "[g", api.node.navigate.git.prev, opts("Prev Git"))
 			vim.keymap.set("n", "]g", api.node.navigate.git.next, opts("Next Git"))
