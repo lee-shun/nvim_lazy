@@ -57,7 +57,7 @@ return {
 						action.open(vfiler, context, view)
 					end
 				end,
-                ["M"] = action.toggle_select,
+                ["mt"] = action.toggle_select,
 				["K"] = function(vfiler, context, view)
 					action.toggle_select(vfiler, context, view)
 					action.move_cursor_up(vfiler, context, view)
@@ -67,8 +67,8 @@ return {
 					action.move_cursor_down(vfiler, context, view)
 				end,
                 ["L"] = action.open_tree_recursive,
-				["*"] = action.toggle_select_all,
-				["u"] = action.clear_selected_all,
+				["ma"] = action.toggle_select_all,
+				["mc"] = action.clear_selected_all,
 				["q"] = action.quit,
 				["<CR>"] = action.open,
 				["<BS>"] = action.change_to_parent,
@@ -84,14 +84,14 @@ return {
 				["p"] = action.paste,
 				["a"] = action.new_file,
 				["A"] = action.new_directory,
-				["r"] = action.rename,
+				["rn"] = action.rename,
 				["sr"] = action.toggle_sort, -- reverse sort
 				["sc"] = action.change_sort,
 				["<C-r>"] = action.reload,
 				["<C-h>"] = action.toggle_show_hidden,
-				["x"] = action.execute_file,
-				["gg"] = action.move_cursor_top,
-				["G"] = action.move_cursor_bottom,
+				["xs"] = action.execute_file,
+				["gg"] = action.move_cursor_top_sibling,
+				["G"] = action.move_cursor_bottom_sibling,
 
 				["bl"] = action.list_bookmark,
 				["ba"] = action.add_bookmark,
