@@ -29,7 +29,7 @@ return {
 				return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
 			end
 
-			-- customized mappings
+			-- mark operation
 			local mark_move_j = function()
 				api.marks.toggle()
 				vim.cmd("norm j")
@@ -38,20 +38,47 @@ return {
 				api.marks.toggle()
 				vim.cmd("norm k")
 			end
+
+            -- bulk operation
 			local bulk_trash = function()
-				local nodes = api.marks.list()
-				if next(nodes) == nil then
-					table.insert(nodes, api.get_node_under_cursor())
+				local marks = api.marks.list()
+				if #marks == 0 then
+                    api.fs.trash(api.tree.get_node_under_cursor())
+                    return
 				end
-				vim.ui.input({ prompt = string.format("Trash %s files? [y/n] ", #nodes) }, function(input)
+				vim.ui.input({ prompt = string.format("Trash %s files? [y/n] ", #marks) }, function(input)
 					if input == "y" then
-						for _, node in ipairs(nodes) do
+						for _, node in ipairs(marks) do
 							api.fs.trash(node)
 						end
-                        api.marks.clear()
+						api.marks.clear()
 						api.tree.reload()
 					end
 				end)
+			end
+			local bulk_copy = function()
+				local marks = api.marks.list()
+				if #marks == 0 then
+                    api.fs.copy.node(api.tree.get_node_under_cursor())
+                    return
+				end
+				for _, node in pairs(marks) do
+					api.fs.copy.node(node)
+				end
+				api.marks.clear()
+				api.tree.reload()
+			end
+			local bulk_cut = function()
+				local marks = api.marks.list()
+				if #marks == 0 then
+                    api.fs.cut(api.tree.get_node_under_cursor())
+                    return
+				end
+				for _, node in pairs(marks) do
+					api.fs.cut(node)
+				end
+				api.marks.clear()
+				api.tree.reload()
 			end
 
 			vim.keymap.set("n", "<CR>", api.tree.change_root_to_node, opts("CD"))
@@ -70,6 +97,7 @@ return {
 			vim.keymap.set("n", "L", api.tree.expand_all, opts("Expand All"))
 			vim.keymap.set("n", "H", api.tree.collapse_all, opts("Collapse"))
 			vim.keymap.set("n", "r", api.fs.rename_basename, opts("Rename: Basename"))
+			vim.keymap.set("n", "R", api.fs.rename_sub, opts("Rename: Omit Filename"))
 			vim.keymap.set("n", "]d", api.node.navigate.diagnostics.next, opts("Next Diagnostic"))
 			vim.keymap.set("n", "[d", api.node.navigate.diagnostics.prev, opts("Prev Diagnostic"))
 			vim.keymap.set("n", "<C-f>", api.live_filter.clear, opts("Clean Filter"))
@@ -82,18 +110,20 @@ return {
 			vim.keymap.set("n", "q", api.tree.close, opts("Close"))
 			vim.keymap.set("n", "<C-r>", api.tree.reload, opts("Refresh"))
 			vim.keymap.set("n", "r", api.fs.rename, opts("Rename"))
-			vim.keymap.set("n", "R", api.fs.rename_sub, opts("Rename: Omit Filename"))
 			vim.keymap.set("n", "x", api.node.run.system, opts("Run System"))
 			vim.keymap.set("n", "<C-h>", api.tree.toggle_custom_filter, opts("Toggle Hidden"))
 			vim.keymap.set("n", "<C-d>", api.tree.toggle_hidden_filter, opts("Toggle Dotfiles"))
 			vim.keymap.set("n", "<C-i>", api.tree.toggle_gitignore_filter, opts("Toggle Git Ignore"))
-			vim.keymap.set("n", "dd", api.fs.cut, opts("Cut"))
-			vim.keymap.set("n", "yy", api.fs.copy.node, opts("Copy"))
+			vim.keymap.set("n", "dd", bulk_cut, opts("Cut"))
+			vim.keymap.set("n", "yy", bulk_copy, opts("Copy"))
 			vim.keymap.set("n", "yn", api.fs.copy.filename, opts("Copy Name"))
 			vim.keymap.set("n", "yp", api.fs.copy.relative_path, opts("Copy Relative Path"))
 			vim.keymap.set("n", "yP", api.fs.copy.absolute_path, opts("Copy Absolute Path"))
+			vim.keymap.set("n", "cp", api.fs.print_clipboard, opts("Print Clipboard"))
+			vim.keymap.set("n", "cc", api.fs.clear_clipboard, opts("Clear Clipboard"))
 
 			-- special
+			-- TODO: multi copy
 			vim.keymap.set("n", "mv", api.marks.bulk.move, opts("Move Bookmarked"))
 			vim.keymap.set("n", "mt", bulk_trash, opts("Bulk Trash Files"))
 			vim.keymap.set("n", "[g", api.node.navigate.git.prev, opts("Prev Git"))
