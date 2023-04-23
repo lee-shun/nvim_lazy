@@ -1,5 +1,6 @@
 return {
 	"sainnhe/sonokai",
+    enabled = false,
 	config = function()
 		vim.g.sonokai_better_performance = 1
 		vim.g.sonokai_current_word = "grey background"
