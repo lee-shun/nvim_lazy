@@ -1,14 +1,15 @@
 return {
 	"obaland/vfiler.vim",
-	enabled = false,
+	enabled = true,
 	keys = {
 		{ "<leader>t", "<cmd>VFiler<cr>", desc = "Open vfiler" },
 	},
 	cmd = { "VFiler" },
-	dependencies = { "obaland/vfiler-column-devicons" },
+	dependencies = { "obaland/vfiler-column-devicons", "obaland/vfiler-patch-noice.nvim" },
 	config = function(_, opts)
 		local action = require("vfiler/action")
 		-- following options are the default
+        require'vfiler/patches/noice'.setup()
 		require("vfiler/config").clear_mappings()
 		require("vfiler/config").setup({
 			options = {
@@ -57,7 +58,7 @@ return {
 						action.open(vfiler, context, view)
 					end
 				end,
-                ["mt"] = action.toggle_select,
+				["mt"] = action.toggle_select,
 				["K"] = function(vfiler, context, view)
 					action.toggle_select(vfiler, context, view)
 					action.move_cursor_up(vfiler, context, view)
@@ -66,7 +67,7 @@ return {
 					action.toggle_select(vfiler, context, view)
 					action.move_cursor_down(vfiler, context, view)
 				end,
-                ["L"] = action.open_tree_recursive,
+				["L"] = action.open_tree_recursive,
 				["ma"] = action.toggle_select_all,
 				["mc"] = action.clear_selected_all,
 				["q"] = action.quit,
