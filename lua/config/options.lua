@@ -38,7 +38,7 @@ vim.cmd("filetype plugin indent on")
 vim.cmd("syntax on")
 vim.o.compatible = false
 vim.g.mapleader = " "
-vim.o.autochdir = true
+vim.o.autochdir = false
 vim.o.autoread = true
 vim.o.scrolloff = 5
 vim.o.number = true
