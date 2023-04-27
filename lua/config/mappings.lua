@@ -10,7 +10,6 @@ vim.keymap.set("i", "<S-Tab>", 'pumvisible() ? "\\<C-p>" : "\\<Tab>"', { expr = 
 
 -- quick
 local qucik_map = {
-	["<leader>"] = { "<Esc>/<++><cr>:nohlsearch<cr>i<Del><Del><Del><Del>", "Search <++> and change" },
 	v = { "<cmd>e ~/.config/nvim/init.lua<cr>", "Edit personal VIMRC" },
 }
 local quick_map_opt = {
