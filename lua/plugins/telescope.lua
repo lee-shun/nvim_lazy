@@ -86,6 +86,9 @@ return {
 				d = { "<cmd>Telescope diagnostics<cr>", "Find diagnostics" },
 				j = { "<cmd>Telescope jumplist<cr>", "Find jumplist" },
 				y = { "<cmd>Telescope yank_history<cr>", "Find yank history" },
+				q = { "<cmd>Telescope loclist<cr>", "Find location list" },
+				Q = { "<cmd>Telescope quickfix<cr>", "Find quickfix list" },
+				u = { "<cmd>Telescope resume<cr>", "Resume previous picker" },
 			},
 		}
 		local telescope_map_opt = {
