@@ -274,10 +274,10 @@ return {
 
 		-- Inserts a component in lualine_x ot right section
 		local function winbar_ins_right(component)
-			table.insert(config.winbar.lualine_z, component)
+			table.insert(config.winbar.lualine_x, component)
 		end
 		local function winbar_ins_inactive_right(component)
-			table.insert(config.inactive_winbar.lualine_z, component)
+			table.insert(config.inactive_winbar.lualine_x, component)
 		end
 
 		winbar_ins_left({
