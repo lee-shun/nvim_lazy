@@ -2,7 +2,7 @@ return {
 	"neovim/nvim-lspconfig",
 	event = "VeryLazy",
 	dependencies = {
-		{ "SmiteshP/nvim-navic" },
+		{ "SmiteshP/nvim-navic", config = true },
 		{
 			"smjonas/inc-rename.nvim",
 			cmd = "IncRename",
@@ -22,8 +22,6 @@ return {
 			local navic = require("nvim-navic")
 			if client.server_capabilities.documentSymbolProvider then
 				navic.attach(client, bufnr)
-				-- set navic
-				vim.o.winbar = "%=%{%v:lua.require'nvim-navic'.get_location()%} "
 			end
 
 			-- mappings

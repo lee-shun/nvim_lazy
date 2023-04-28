@@ -1,10 +1,8 @@
 return {
 	"nvim-lualine/lualine.nvim",
 	event = "VeryLazy",
+	dependencies = { "nvim-navic" },
 	config = function()
-		-- Eviline config for lualine
-		-- Author: shadmansaleh
-		-- Credit: glepnir
 		local lualine = require("lualine")
 		local navic = require("nvim-navic")
 
@@ -46,8 +44,8 @@ return {
 				section_separators = "",
 				theme = "auto",
 				disabled_filetypes = { -- Filetypes to disable lualine for.
-					winbar = { 'vista', 'alpha', 'NvimTree', 'vfiler' },
-					statusline = { 'alpha' },
+					winbar = { "vista", "alpha", "NvimTree", "vfiler" },
+					statusline = { "alpha" },
 				},
 				globalstatus = true,
 			},
@@ -294,13 +292,21 @@ return {
 		})
 
 		winbar_ins_right({
-			navic.get_location,
-			cond = navic.is_available,
+			function()
+				return navic.get_location()
+			end,
+			cond = function()
+				return navic.is_available()
+			end,
 			color = { fg = "#FFC300" },
 		})
 		winbar_ins_inactive_right({
-			navic.get_location,
-			cond = navic.is_available,
+			function()
+				return navic.get_location()
+			end,
+			cond = function()
+				return navic.is_available()
+			end,
 			color = { fg = colors.fg },
 		})
 
