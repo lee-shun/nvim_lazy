@@ -1,6 +1,6 @@
 return {
 	"obaland/vfiler.vim",
-	enabled = true,
+	enabled = false,
 	keys = {
 		{ "<leader>t", "<cmd>VFiler<cr>", desc = "Open vfiler" },
 	},
