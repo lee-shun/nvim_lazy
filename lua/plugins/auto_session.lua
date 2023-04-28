@@ -1,5 +1,6 @@
 return {
 	"rmagatti/session-lens",
+    enabled = false,
 	event = "VeryLazy",
 	dependencies = {
 		"rmagatti/auto-session",
