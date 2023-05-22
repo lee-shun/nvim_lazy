@@ -30,6 +30,7 @@ return {
 				"vim",
 				"regex",
 				"markdown_inline",
+                "toml"
 			},
 		})
 	end,
