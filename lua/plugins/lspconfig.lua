@@ -1,6 +1,6 @@
 return {
 	"neovim/nvim-lspconfig",
-	event = "VeryLazy",
+	event = { "BufReadPre", "BufNewFile" },
 	dependencies = {
 		{
 			"SmiteshP/nvim-navic",
