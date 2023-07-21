@@ -143,8 +143,8 @@ return {
 			vim.keymap.set("n", "gp", api.node.navigate.git.prev, opts("Prev Git"))
 			vim.keymap.set("n", "gn", api.node.navigate.git.next, opts("Next Git"))
 			vim.keymap.set("n", "gr", api.git.reload, opts("Reload Git"))
-			vim.keymap.set("n", "gg", api.node.navigate.sibling.last, opts("Last Sibling"))
-			vim.keymap.set("n", "G", api.node.navigate.sibling.first, opts("First Sibling"))
+			vim.keymap.set("n", "G", api.node.navigate.sibling.last, opts("Last Sibling"))
+			vim.keymap.set("n", "gg", api.node.navigate.sibling.first, opts("First Sibling"))
 		end,
 	},
 }
