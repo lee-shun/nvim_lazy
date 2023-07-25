@@ -30,7 +30,6 @@ vim.g.python3_host_prog = "/usr/bin/python3"
 -- encode
 vim.o.encoding = "utf-8"
 vim.o.fileencodings = "ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1"
-vim.o.termencoding = "utf-8"
 vim.o.fileformats = "unix,dos,mac"
 
 -- basic

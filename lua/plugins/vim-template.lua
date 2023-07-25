@@ -7,8 +7,8 @@ return {
 	config = function()
 		vim.g.tmpl_auto_initialize = 0
 		vim.g.tmpl_search_paths = { vim.fn.stdpath("config") .. "/template" }
-		vim.g.tmpl_author_name = "ShunLi"
-		vim.g.tmpl_author_email = "2015097272@qq.com"
+		vim.g.tmpl_author_name = "shun li"
+		vim.g.tmpl_author_email = "shun.li.at.casia@outlook.com"
 
 		require("telescope").load_extension("find_template")
 	end,
