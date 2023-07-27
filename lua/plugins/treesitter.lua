@@ -31,7 +31,6 @@ return {
 				})
 			end,
 		},
-		{ "andymass/vim-matchup" },
 		{
 			"nvim-treesitter/playground",
 			cmd = "TSPlaygroundToggle",
@@ -42,7 +41,6 @@ return {
 			highlight = {
 				enable = true,
 			},
-			matchup = { enable = true },
 			ensure_installed = {
 				"markdown",
 				"cpp",
