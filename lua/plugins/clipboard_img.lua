@@ -1,5 +1,7 @@
 return {
-	"ekickx/clipboard-image.nvim",
+	-- "ekickx/clipboard-image.nvim",
+	"postfen/clipboard-image.nvim",
+	branch = "patch-1",
 	cmd = "PasteImg",
 	config = function()
 		require("clipboard-image").setup({
