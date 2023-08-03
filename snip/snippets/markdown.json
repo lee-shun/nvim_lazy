@@ -1,11 +1,28 @@
 {
-  "fori": {
-    "prefix": "fori",
+  "env": {
+    "prefix": "env",
+    "body": ["\\begin{$1}", "\t$0", "\\end{$1}"],
+    "description": "environment"
+  },
+  "matrix": {
+    "prefix": "matrix",
+    "body": ["\\left[", "\\begin{matrix}", "\t$1", "\\end{matrix}", "\\right]"],
+    "description": "matrix environment"
+  },
+  "aligned": {
+    "prefix": "aligned",
     "body": [
-      "for (${1:int} ${2:i} = ${3:0}; $2 < ${4:length}; ++$2) {",
-      "\t$0",
-      "}"
+      "\\left\\{",
+      "\\begin{aligned}",
+      "\t$1",
+      "\\end{aligned}",
+      "\\right."
     ],
-    "description": "Code snippet for 'fori' loop"
+    "description": "aligned environment"
+  },
+  "frac": {
+    "prefix": "frac",
+    "body": ["\\frac{$1}{$2}$0"],
+    "description": "frac"
   }
 }

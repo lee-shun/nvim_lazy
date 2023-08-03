@@ -10,6 +10,9 @@ return {
 			log_level = vim.log.levels.WARN,
 			-- All formatter configurations are opt-in
 			filetype = {
+				json = {
+					require("formatter.filetypes.json").prettier,
+				},
 				lua = {
 					require("formatter.filetypes.lua").stylua,
 				},
