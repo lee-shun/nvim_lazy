@@ -1,6 +1,6 @@
 return {
 	"ekickx/clipboard-image.nvim",
-	ft = { "markdown" },
+	cmd = "PasteImg",
 	config = function()
 		require("clipboard-image").setup({
 			default = {
