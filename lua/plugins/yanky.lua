@@ -12,6 +12,7 @@ return {
 	config = function()
 		local utils = require("yanky.utils")
 		local mapping = require("yanky.telescope.mapping")
+		local actions = require("telescope.actions")
 
 		require("yanky").setup({
 			picker = {
@@ -19,6 +20,8 @@ return {
 					mappings = {
 						default = mapping.put("p"),
 						i = {
+                            ["<c-j>"] = actions.move_selection_next,
+                            ["<c-k>"] = actions.move_selection_previous,
 							["<c-x>"] = mapping.delete(),
 							["<c-r>"] = mapping.set_register(utils.get_default_register()),
 						},
