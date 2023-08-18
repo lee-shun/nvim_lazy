@@ -19,6 +19,7 @@ return {
 		-- detection_methods
 		patterns = {
 			".vim_root",
+            "build",
 			"clang-format",
 			"compile_commands.json",
 			".git",
