@@ -1,19 +1,19 @@
 return {
-
 	"williamboman/mason.nvim",
 	cmd = "Mason",
 	keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
 	build = ":MasonUpdate",
 	opts = {
 		ensure_installed = {
-            -- lua
+			-- lua
 			"stylua",
-            -- cpp
-            "clangd",
-            "cpplint",
-            "clang-format",
-            -- cmake
-            "cmake-language-server"
+			"lua-language-server",
+			-- cpp
+			"clangd",
+			"cpplint",
+			"clang-format",
+			-- cmake
+			"cmake-language-server",
 			-- "shfmt",
 			-- "flake8",
 		},
