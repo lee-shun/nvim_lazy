@@ -62,7 +62,6 @@ vim.o.wildmenu = true
 vim.o.lazyredraw = false
 vim.o.laststatus = 3
 vim.o.ttyfast = true
-vim.o.t_Co = 256
 vim.o.termguicolors = true
 vim.o.laststatus = 2
 vim.o.cmdheight = 1
