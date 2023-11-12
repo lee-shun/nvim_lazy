@@ -154,33 +154,33 @@ return {
 
 			return on_attach(client, bufnr)
 		end
-		require("lspconfig")["clangd"].setup({
+		require("lspconfig").clangd.setup({
 			on_attach = clangd_on_attach,
 			capabilities = clangd_cap,
 		})
 
 		-- cmake
-		require("lspconfig")["cmake"].setup({
+		require("lspconfig").cmake.setup({
 			on_attach = on_attach,
 			capabilities = cmp_cap,
 		})
 
 		-- pyright
 		local pyright_cap = cmp_cap
-		require("lspconfig")["pyright"].setup({
+		require("lspconfig").pyright.setup({
 			on_attach = on_attach,
 			capabilities = pyright_cap,
 		})
 
-		--       -- pylyzer
+		-- -- pylyzer
 		-- local pylyzer = cmp_cap
-		--       require("lspconfig")["pylyzer"].setup{
+		-- require("lspconfig").pylyzer.setup({
 		-- 	on_attach = on_attach,
 		-- 	capabilities = pylyzer,
-		--       }
+		-- })
 
 		-- taxlab
-		require("lspconfig")["texlab"].setup({
+		require("lspconfig").texlab.setup({
 			on_attach = on_attach,
 			capabilities = cmp_cap,
 		})
@@ -190,7 +190,7 @@ return {
 		table.insert(runtime_path, "lua/?.lua")
 		table.insert(runtime_path, "lua/?/init.lua")
 
-		require("lspconfig")["lua_ls"].setup({
+		require("lspconfig").lua_ls.setup({
 			on_attach = on_attach,
 			capabilities = cmp_cap,
 			settings = {
@@ -214,7 +214,7 @@ return {
 		})
 
 		-- set icons (if not use lspsaga)
-        local symbols = { Error = " ", Warn = " ", Info = " ", Hint = " " }
+		local symbols = { Error = " ", Warn = " ", Info = " ", Hint = " " }
 		for type, icon in pairs(symbols) do
 			local hl = "DiagnosticSign" .. type
 			vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
