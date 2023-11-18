@@ -41,7 +41,7 @@ return {
 				.. vim.version().minor
 				.. "."
 				.. vim.version().patch
-				.. "   "
+				.. "   "
 				.. total_plugins
 				.. " plugins"
 		end
