@@ -7,7 +7,7 @@ return {
 			sources = {
 				-- null_ls.builtins.diagnostics.cpplint,
 				null_ls.builtins.diagnostics.markdownlint,
-				null_ls.builtins.diagnostics.pylint,
+				-- null_ls.builtins.diagnostics.pylint,
 			},
 		})
 	end,
