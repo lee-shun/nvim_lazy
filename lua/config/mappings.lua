@@ -10,19 +10,19 @@ vim.keymap.set("i", "<S-Tab>", 'pumvisible() ? "\\<C-p>" : "\\<Tab>"', { expr = 
 
 -- quick
 local qucik_map = {
-	v = { "<cmd>e ~/.config/nvim/init.lua<cr>", "Edit personal VIMRC" },
+    v = { "<cmd>e ~/.config/nvim/init.lua<cr>", "Edit personal VIMRC" },
 }
 local quick_map_opt = {
-	mode = "n",
-	prefix = "<leader>",
-	buffer = nil,
-	silent = true,
-	noremap = true,
-	nowait = false,
+    mode = "n",
+    prefix = "<leader>",
+    buffer = nil,
+    silent = true,
+    noremap = true,
+    nowait = false,
 }
 wk.register(qucik_map, quick_map_opt)
 
-vim.keymap.set("n", "<C-h>", ":set hlsearch!<cr>", { noremap = true , silent = true})
+vim.keymap.set("n", "<C-h>", ":set hlsearch!<cr>", { noremap = true, silent = true })
 
 -- window
 vim.keymap.set("n", "<up>", ":resize +3<cr>", { noremap = true, silent = true })
@@ -31,22 +31,22 @@ vim.keymap.set("n", "<left>", ":vertical resize-5<cr>", { noremap = true, silent
 vim.keymap.set("n", "<right>", ":vertical resize+5<cr>", { noremap = true, silent = true })
 
 -- change indent and select in v-mode
-vim.keymap.set("v", "<", "<gv", { noremap = true , silent = true})
-vim.keymap.set("v", ">", ">gv", { noremap = true , silent = true})
+vim.keymap.set("v", "<", "<gv", { noremap = true, silent = true })
+vim.keymap.set("v", ">", ">gv", { noremap = true, silent = true })
 
 -- add blank line and move line
 wk.register({
-	["[e"] = { ":<c-u>execute 'move -1-'. v:count1<cr>", "Move line prev" },
-	["]e"] = { ":<c-u>execute 'move +'. v:count1<cr>", "Move line next" },
-	["[<leader>"] = { ":<c-u>put! =repeat(nr2char(10), v:count1)<cr>'[", "Add empty Line prev" },
-	["]<leader>"] = { ":<c-u>put =repeat(nr2char(10), v:count1)<cr>", "Add empty line next" },
+    ["[e"] = { ":<c-u>execute 'move -1-'. v:count1<cr>", "Move line prev" },
+    ["]e"] = { ":<c-u>execute 'move +'. v:count1<cr>", "Move line next" },
+    ["[<leader>"] = { ":<c-u>put! =repeat(nr2char(10), v:count1)<cr>'[", "Add empty Line prev" },
+    ["]<leader>"] = { ":<c-u>put =repeat(nr2char(10), v:count1)<cr>", "Add empty line next" },
 }, {
-	mode = "n",
-	prefix = "",
-	buffer = nil,
-	silent = true,
-	noremap = true,
-	nowait = false,
+    mode = "n",
+    prefix = "",
+    buffer = nil,
+    silent = true,
+    noremap = true,
+    nowait = false,
 })
 
 -- yank line

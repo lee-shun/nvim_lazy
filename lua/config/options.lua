@@ -11,8 +11,8 @@ local createdir = function()
     }
     -- There only check once that If cache_dir exists
     -- Then I don't want to check subs dir exists
-    if vim.fn.isdirectory(nvim_config_path.."/tmp") == 0 then
-        os.execute("mkdir -p " .. nvim_config_path.."/tmp")
+    if vim.fn.isdirectory(nvim_config_path .. "/tmp") == 0 then
+        os.execute("mkdir -p " .. nvim_config_path .. "/tmp")
         print("mkdir nvim tmp dir!")
         for _, v in pairs(tmp_data_dir) do
             if vim.fn.isdirectory(v) == 0 then
@@ -65,7 +65,7 @@ vim.o.ttyfast = true
 vim.o.termguicolors = true
 vim.o.laststatus = 2
 vim.o.cmdheight = 1
-vim.o.statusline="%#normal#"
+vim.o.statusline = "%#normal#"
 vim.o.spelllang = "en,cjk"
 vim.o.spellfile = nvim_config_path .. "/spell/en.utf-8.add"
 vim.o.shiftround = true
@@ -117,7 +117,7 @@ vim.o.backup = true
 vim.o.undodir = nvim_config_path .. "/tmp/undo"
 vim.o.backupdir = nvim_config_path .. "/tmp/backup"
 vim.o.directory = nvim_config_path .. "/tmp/swap"
-vim.o.sessionoptions="buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+vim.o.sessionoptions = "buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
 vim.opt.wildignore:append("*.o,*.obj,*.bin,*.dll,*.exe")
 vim.opt.wildignore:append("*/.git/*,*/.svn/*,*/__pycache__/*,*/build/**")

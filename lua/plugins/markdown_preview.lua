@@ -1,9 +1,9 @@
 return {
-	"iamcco/markdown-preview.nvim",
-	build = ":call mkdp#util#install()",
-	ft = { "markdown" },
-	config = function()
-		vim.cmd([[
+    "iamcco/markdown-preview.nvim",
+    build = ":call mkdp#util#install()",
+    ft = { "markdown" },
+    config = function()
+        vim.cmd([[
         function! g:Open_browser(url)
             if executable("microsoft-edge-dev")
                 let l:browser= "microsoft-edge-dev"
@@ -19,7 +19,7 @@ return {
                 silent exec "!" . l:browser . " --password-store=gnome --new-window " . a:url . " &"
         endfunction
             ]])
-		-- vim.g.mkdp_browser = "microsoft-edge-dev"
-		vim.g.mkdp_browserfunc = "g:Open_browser"
-	end,
+        -- vim.g.mkdp_browser = "microsoft-edge-dev"
+        vim.g.mkdp_browserfunc = "g:Open_browser"
+    end,
 }

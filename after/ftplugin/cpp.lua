@@ -4,20 +4,20 @@ vim.opt_local.shiftwidth = 2
 
 local wk = require("which-key")
 wk.register({
-	["rs"] = {
-		function()
-			vim.cmd([[
+    ["rs"] = {
+        function()
+            vim.cmd([[
         exec "!g++ -std=c++11 -ggdb % -Wall -o %<.out"
         exec "!time ./%<.out"
             ]])
-		end,
-		"RunSingleFile",
-	},
+        end,
+        "RunSingleFile",
+    },
 }, {
-	mode = "n",
-	prefix = "<leader>",
-	buffer = 0,
-	silent = true,
-	noremap = true,
-	nowait = false,
+    mode = "n",
+    prefix = "<leader>",
+    buffer = 0,
+    silent = true,
+    noremap = true,
+    nowait = false,
 })
