@@ -1,5 +1,3 @@
--- TODO: filetype plugins... tex + md snippest..
--- TODO: check the modules before use keymap
 require("config.options")
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
