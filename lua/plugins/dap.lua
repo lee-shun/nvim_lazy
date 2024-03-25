@@ -23,6 +23,7 @@ return {
                 end
             end,
         },
+        { "nvim-neotest/nvim-nio" }
     },
     config = function()
         local wk = require("which-key")
