@@ -185,6 +185,12 @@ return {
             capabilities = cmp_cap,
         })
 
+        -- bash
+        require("lspconfig").bashls.setup({
+            on_attach = on_attach,
+            capabilities = cmp_cap,
+        })
+
         -- lua
         local runtime_path = vim.split(package.path, ";")
         table.insert(runtime_path, "lua/?.lua")
