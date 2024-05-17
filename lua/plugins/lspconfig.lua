@@ -3,6 +3,7 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
         "mason.nvim",
+        "nvimdev/lspsaga.nvim",
         "williamboman/mason-lspconfig.nvim",
         {
             "SmiteshP/nvim-navic",
