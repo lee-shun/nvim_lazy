@@ -6,10 +6,6 @@ return {
         "lspsaga.nvim",
         "williamboman/mason-lspconfig.nvim",
         {
-            "SmiteshP/nvim-navic",
-            config = true,
-        },
-        {
             "smjonas/inc-rename.nvim",
             cmd = "IncRename",
             config = function()
@@ -23,12 +19,6 @@ return {
         local on_attach = function(client, bufnr)
             -- Enable completion triggered by <c-x><c-o>
             vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { scope = "local"})
-
-            -- navic
-            local navic = require("nvim-navic")
-            if client.server_capabilities.documentSymbolProvider then
-                navic.attach(client, bufnr)
-            end
 
             -- mappings
             local keymap_g = {
