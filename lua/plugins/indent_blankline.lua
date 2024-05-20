@@ -56,7 +56,6 @@ return {
             },
         }
 
-        -- require("indent-rainbowline").make_opts(opts)
         require("ibl").setup(opts)
     end,
 }

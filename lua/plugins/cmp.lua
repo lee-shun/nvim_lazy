@@ -86,7 +86,7 @@ return {
         cmp.setup({
             enabled = function()
                 -- disable autocompletion in telescope (wasn't playing good with telescope)
-                local ftype = vim.api.nvim_buf_get_option(0, "filetype")
+                local ftype = vim.api.nvim_get_option_value("filetype", { buf = 0 })
                 if ftype == "TelescopePrompt" then
                     return false
                 end

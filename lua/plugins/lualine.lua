@@ -4,7 +4,6 @@ return {
     dependencies = { "nvim-navic" },
     config = function()
         local lualine = require("lualine")
-        local navic = require("nvim-navic")
 
         -- Color table for highlights
         -- stylua: ignore
@@ -68,22 +67,6 @@ return {
                 lualine_c = {},
                 lualine_x = {},
             },
-            winbar = {
-                lualine_a = {},
-                lualine_b = {},
-                lualine_c = {},
-                lualine_x = {},
-                lualine_y = {},
-                lualine_z = {},
-            },
-            inactive_winbar = {
-                lualine_a = {},
-                lualine_b = {},
-                lualine_c = {},
-                lualine_x = {},
-                lualine_y = {},
-                lualine_z = {},
-            },
         }
 
         --------statues line---------
@@ -96,10 +79,6 @@ return {
         -- Inserts a component in lualine_x ot right section
         local function status_ins_right(component)
             table.insert(config.sections.lualine_x, component)
-        end
-
-        local function status_ins_left_inactive(component)
-            table.insert(config.inactive_sections.lualine_c, component)
         end
 
         local function status_ins_right_inactive(component)
@@ -202,8 +181,8 @@ return {
         status_ins_left({
             -- Lsp server name .
             function()
-                local buf_ft = vim.api.nvim_buf_get_option(0, "filetype")
-                local clients = vim.lsp.get_active_clients({ bufnr = 0 })
+                local buf_ft = vim.api.nvim_get_option_value("filetype", { buf = 0 })
+                local clients = vim.lsp.get_clients({ bufnr = 0 })
 
                 local buf_client_names = {}
                 for _, client in ipairs(clients) do
@@ -258,56 +237,6 @@ return {
             end,
             color = { fg = colors.blue },
             padding = { left = 1 },
-        })
-
-        -------- winbar ---------
-
-        -- Inserts a component in lualine_c at left section
-        local function winbar_ins_left(component)
-            table.insert(config.winbar.lualine_c, component)
-        end
-        local function winbar_ins_inactive_left(component)
-            table.insert(config.inactive_winbar.lualine_c, component)
-        end
-
-        -- Inserts a component in lualine_x ot right section
-        local function winbar_ins_right(component)
-            table.insert(config.winbar.lualine_x, component)
-        end
-        local function winbar_ins_inactive_right(component)
-            table.insert(config.inactive_winbar.lualine_x, component)
-        end
-
-        winbar_ins_left({
-            "filename",
-            path = 3,
-            cond = conditions.buffer_not_empty,
-            color = { fg = colors.magenta, gui = "bold" },
-        })
-        winbar_ins_inactive_left({
-            "filename",
-            path = 1,
-            cond = conditions.buffer_not_empty,
-            color = { fg = colors.fg },
-        })
-
-        winbar_ins_right({
-            function()
-                return navic.get_location()
-            end,
-            cond = function()
-                return navic.is_available()
-            end,
-            color = { fg = "#FFC300" },
-        })
-        winbar_ins_inactive_right({
-            function()
-                return navic.get_location()
-            end,
-            cond = function()
-                return navic.is_available()
-            end,
-            color = { fg = colors.fg },
         })
 
         -- Now don't forget to initialize lualine
