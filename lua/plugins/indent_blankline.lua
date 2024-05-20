@@ -1,6 +1,6 @@
 return {
     "lukas-reineke/indent-blankline.nvim",
-    dependencies = { "rainbow-delimiters.nvim", "TheGLander/indent-rainbowline.nvim" },
+    dependencies = { "rainbow-delimiters.nvim", "lee-shun/indent-rainbowline.nvim" },
     config = function(_, opts)
         local reg_color_func = function()
             vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#E06C75" })
@@ -56,6 +56,20 @@ return {
             },
         }
 
+        local rainbowline_opts = {
+            hl = highlight,
+            colors = {
+                0xE06C75,
+                0xE5C07B,
+                0x61AFEF,
+                0xD19A66,
+                0x98C379,
+                0xC678DD,
+                0x56B6C2,
+            },
+        }
+
+        opts = require("indent-rainbowline").make_opts(opts, rainbowline_opts)
         require("ibl").setup(opts)
     end,
 }
