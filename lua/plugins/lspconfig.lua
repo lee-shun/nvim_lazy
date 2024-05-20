@@ -18,7 +18,7 @@ return {
 
         local on_attach = function(client, bufnr)
             -- Enable completion triggered by <c-x><c-o>
-            vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { scope = "local"})
+            vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { scope = "local" })
 
             -- mappings
             local keymap_g = {
@@ -45,8 +45,8 @@ return {
             local keymap_l = {
                 l = {
                     name = "LSP",
-                    -- a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Lsp code action" },
-                    a = { "<cmd>Lspsaga code_action<cr>", "Lspsaga code action" },
+                    a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Lsp code action" },
+                    -- a = { "<cmd>Lspsaga code_action<cr>", "Lspsaga code action" },
                     d = { "<cmd>lua vim.diagnostic.open_float()<cr>", "Diagnostic float" },
                     i = {
                         function()
@@ -68,8 +68,10 @@ return {
             })
 
             wk.register({
-                ["[d"] = { "<cmd>Lspsaga diagnostic_jump_prev<cr>", "Lspsaga prev diagnostic" },
-                ["]d"] = { "<cmd>Lspsaga diagnostic_jump_next<cr>", "Lspsaga next diagnostic" },
+                -- ["[d"] = { "<cmd>Lspsaga diagnostic_jump_prev<cr>", "Lspsaga prev diagnostic" },
+                -- ["]d"] = { "<cmd>Lspsaga diagnostic_jump_next<cr>", "Lspsaga next diagnostic" },
+                ["[d"] = { "<cmd>lua vim.diagnostic.goto_prev()<cr>", "Lsp prev diagnostic" },
+                ["]d"] = { "<cmd>lua vim.diagnostic.goto_next()<cr>", "Lsp next diagnostic" },
             }, {
                 mode = "n",
                 prefix = "",
