@@ -65,10 +65,10 @@ return {
                     -- Source
                     vim_item.menu = ({
                         nvim_lsp = "[LSP]",
-                        buffer = "[Buffer]",
+                        buffer = "[Buf]",
                         luasnip = "[Snip]",
                         nvim_lua = "[Lua]",
-                        treesitter = "[Treesitter]",
+                        treesitter = "[TS]",
                         path = "[Path]",
                         nvim_lsp_signature_help = "[Sig]",
                         cmp_tabnine = "[TN]",

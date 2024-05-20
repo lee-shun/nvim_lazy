@@ -5,7 +5,6 @@ return {
     dependencies = { "nvim-web-devicons" },
     config = function()
         require('dropbar').setup({
-
         })
     end
 }
