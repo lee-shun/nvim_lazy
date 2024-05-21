@@ -5,7 +5,7 @@ return {
         { "<leader>t", "<cmd>NvimTreeToggle<cr>", desc = "NvimTreeToggle" },
     },
     cmd = { "NvimTreeToggle", "NvimTreeClose" },
-    dependencies = { "kyazdani42/nvim-web-devicons", "folke/which-key.nvim" },
+    dependencies = { "nvim-tree/nvim-web-devicons", "folke/which-key.nvim" },
     opts = {
         ui = {
             confirm = {
