@@ -23,20 +23,11 @@ return {
         require("telescope").load_extension("notify")
 
         local wk = require("which-key")
-        local telescope_map = {
-            f = {
-                name = "Find",
-                n = { "<cmd>Telescope notify<cr>", "Find notify" },
-            },
-        }
-        local telescope_map_opt = {
-            mode = "n",
-            prefix = "<leader>",
-            buffer = nil,
-            silent = true,
-            noremap = true,
-            nowait = false,
-        }
-        wk.register(telescope_map, telescope_map_opt)
+        wk.add(
+            {
+                { "<leader>f",  group = "Find",              nowait = false,       remap = false },
+                { "<leader>fn", "<cmd>Telescope notify<cr>", desc = "Find notify", nowait = false, remap = false },
+            }
+        )
     end,
 }

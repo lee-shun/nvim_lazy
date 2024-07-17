@@ -36,20 +36,9 @@ return {
         })
 
         local wk = require("which-key")
-        local yabs_map = {
-            r = {
-                name = "Task runner",
-            },
-        }
-        local yabs_map_opt = {
-            mode = "n",
-            prefix = "<leader>",
-            buffer = nil,
-            silent = true,
-            noremap = true,
-            nowait = false,
-        }
-        wk.register(yabs_map, yabs_map_opt)
+        wk.add({
+            { "<leader>r", group = "Task runner", nowait = false, remap = false },
+        })
     end,
 }
 

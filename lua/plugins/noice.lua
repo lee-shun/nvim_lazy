@@ -66,15 +66,8 @@ return {
     },
     config = function(_, opts)
         require("noice").setup(opts)
-        require("which-key").register({
-            n = { name = "Noice" },
-        }, {
-            mode = "n",
-            prefix = "<leader>",
-            buffer = nil,
-            silent = true,
-            noremap = true,
-            nowait = false,
+        require("which-key").add({
+            { "<leader>n", group = "Noice", nowait = false, remap = false },
         })
     end,
 }

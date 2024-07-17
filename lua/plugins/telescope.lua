@@ -74,32 +74,23 @@ return {
 
         -- keymaps
         local wk = require("which-key")
-        local telescope_map = {
-            f = {
-                name = "Find",
-                f = { "<cmd>Telescope find_files<cr>", "Find file" },
-                b = { "<cmd>Telescope buffers<cr>", "Find buffers" },
-                m = { "<cmd>Telescope oldfiles<cr>", "Find old files" },
-                o = { "<cmd>Telescope oldfiles<cr>", "Find old files" },
-                w = { "<cmd>Telescope live_grep<cr>", "Find word" },
-                l = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", "Find line in current buffer" },
-                r = { "<cmd>Telescope registers<cr>", "Find registers" },
-                d = { "<cmd>Telescope diagnostics<cr>", "Find diagnostics" },
-                j = { "<cmd>Telescope jumplist<cr>", "Find jumplist" },
-                y = { "<cmd>Telescope yank_history<cr>", "Find yank history" },
-                q = { "<cmd>Telescope loclist<cr>", "Find location list" },
-                Q = { "<cmd>Telescope quickfix<cr>", "Find quickfix list" },
-                p = { "<cmd>Telescope resume<cr>", "Resume previous picker" },
-            },
-        }
-        local telescope_map_opt = {
-            mode = "n",
-            prefix = "<leader>",
-            buffer = nil,
-            silent = true,
-            noremap = true,
-            nowait = false,
-        }
-        wk.register(telescope_map, telescope_map_opt)
+        wk.add(
+            {
+                { "<leader>f",  group = "Find",                                 nowait = false,                       remap = false },
+                { "<leader>fQ", "<cmd>Telescope quickfix<cr>",                  desc = "Find quickfix list",          nowait = false, remap = false },
+                { "<leader>fb", "<cmd>Telescope buffers<cr>",                   desc = "Find buffers",                nowait = false, remap = false },
+                { "<leader>fd", "<cmd>Telescope diagnostics<cr>",               desc = "Find diagnostics",            nowait = false, remap = false },
+                { "<leader>ff", "<cmd>Telescope find_files<cr>",                desc = "Find file",                   nowait = false, remap = false },
+                { "<leader>fj", "<cmd>Telescope jumplist<cr>",                  desc = "Find jumplist",               nowait = false, remap = false },
+                { "<leader>fl", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Find line in current buffer", nowait = false, remap = false },
+                { "<leader>fm", "<cmd>Telescope oldfiles<cr>",                  desc = "Find old files",              nowait = false, remap = false },
+                { "<leader>fo", "<cmd>Telescope oldfiles<cr>",                  desc = "Find old files",              nowait = false, remap = false },
+                { "<leader>fp", "<cmd>Telescope resume<cr>",                    desc = "Resume previous picker",      nowait = false, remap = false },
+                { "<leader>fq", "<cmd>Telescope loclist<cr>",                   desc = "Find location list",          nowait = false, remap = false },
+                { "<leader>fr", "<cmd>Telescope registers<cr>",                 desc = "Find registers",              nowait = false, remap = false },
+                { "<leader>fw", "<cmd>Telescope live_grep<cr>",                 desc = "Find word",                   nowait = false, remap = false },
+                { "<leader>fy", "<cmd>Telescope yank_history<cr>",              desc = "Find yank history",           nowait = false, remap = false },
+            }
+        )
     end,
 }

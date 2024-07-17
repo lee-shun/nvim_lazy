@@ -9,18 +9,8 @@ vim.keymap.set("i", "<Tab>", 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', { expr = tr
 vim.keymap.set("i", "<S-Tab>", 'pumvisible() ? "\\<C-p>" : "\\<Tab>"', { expr = true, noremap = true })
 
 -- quick
-local qucik_map = {
-    v = { "<cmd>e ~/.config/nvim/init.lua<cr>", "Edit personal VIMRC" },
-}
-local quick_map_opt = {
-    mode = "n",
-    prefix = "<leader>",
-    buffer = nil,
-    silent = true,
-    noremap = true,
-    nowait = false,
-}
-wk.register(qucik_map, quick_map_opt)
+local quick_map = { "<leader>v", "<cmd>e ~/.config/nvim/init.lua<cr>", desc = "Edit personal VIMRC", nowait = false, remap = false }
+wk.add(quick_map)
 
 vim.keymap.set("n", "<C-h>", ":set hlsearch!<cr>", { noremap = true, silent = true })
 
@@ -35,19 +25,13 @@ vim.keymap.set("v", "<", "<gv", { noremap = true, silent = true })
 vim.keymap.set("v", ">", ">gv", { noremap = true, silent = true })
 
 -- add blank line and move line
-wk.register({
-    ["[e"] = { ":<c-u>execute 'move -1-'. v:count1<cr>", "Move line prev" },
-    ["]e"] = { ":<c-u>execute 'move +'. v:count1<cr>", "Move line next" },
-    ["[<leader>"] = { ":<c-u>put! =repeat(nr2char(10), v:count1)<cr>'[", "Add empty Line prev" },
-    ["]<leader>"] = { ":<c-u>put =repeat(nr2char(10), v:count1)<cr>", "Add empty line next" },
-}, {
-    mode = "n",
-    prefix = "",
-    buffer = nil,
-    silent = true,
-    noremap = true,
-    nowait = false,
-})
+wk.add(
+    {
+        { "[<leader>", ":<c-u>put! =repeat(nr2char(10), v:count1)<cr>'[", desc = "Add empty Line prev", nowait = false, remap = false },
+        { "[e",        ":<c-u>execute 'move -1-'. v:count1<cr>",          desc = "Move line prev",      nowait = false, remap = false },
+        { "]<leader>", ":<c-u>put =repeat(nr2char(10), v:count1)<cr>",    desc = "Add empty line next", nowait = false, remap = false },
+        { "]e",        ":<c-u>execute 'move +'. v:count1<cr>",            desc = "Move line next",      nowait = false, remap = false },
+    })
 
 -- yank line
 vim.keymap.set("n", "Y", "y$", { noremap = true })

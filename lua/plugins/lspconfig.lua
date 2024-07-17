@@ -20,65 +20,38 @@ return {
             -- Enable completion triggered by <c-x><c-o>
             vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { scope = "local" })
 
-            -- mappings
-            local keymap_g = {
-                -- d = { "<cmd>lua vim.lsp.buf.definition()<cr>", "Definition" },
-                d = { "<cmd>Lspsaga goto_definition<cr>", "Lspsaga goto definition" },
-                D = { "<cmd>lua vim.lsp.buf.declaration()<cr>", "Declaration" },
-                H = { "<cmd>lua vim.lsp.buf.signature_help()<cr>", "Signature help" },
-                -- h = { "<cmd>lua vim.lsp.buf.hover()<cr>", "Lsp Hover" },
-                h = { "<cmd>Lspsaga hover_doc<cr>", "Lspsaga Hover" },
-                i = { "<cmd>Telescope lsp_implementations<cr>", "Goto implementation" },
-                t = { "<cmd>lua vim.lsp.buf.type_definition()<cr>", "Goto type definition" },
-                r = { "<cmd>lua vim.lsp.buf.references()<cr>", "Goto reference" },
-            }
-            wk.register(keymap_g, {
-                mode = "n",
-                prefix = "g",
-                buffer = nil,
-                silent = true,
-                noremap = true,
-                nowait = false,
+            wk.add({
+                { "gD", "<cmd>lua vim.lsp.buf.declaration()<cr>",     desc = "Declaration",             nowait = false, remap = false },
+                { "gH", "<cmd>lua vim.lsp.buf.signature_help()<cr>",  desc = "Signature help",          nowait = false, remap = false },
+                { "gd", "<cmd>Lspsaga goto_definition<cr>",           desc = "Lspsaga goto definition", nowait = false, remap = false },
+                { "gh", "<cmd>Lspsaga hover_doc<cr>",                 desc = "Lspsaga Hover",           nowait = false, remap = false },
+                { "gi", "<cmd>Telescope lsp_implementations<cr>",     desc = "Goto implementation",     nowait = false, remap = false },
+                { "gr", "<cmd>lua vim.lsp.buf.references()<cr>",      desc = "Goto reference",          nowait = false, remap = false },
+                { "gt", "<cmd>lua vim.lsp.buf.type_definition()<cr>", desc = "Goto type definition",    nowait = false, remap = false },
             })
 
             -- diagnostic
-            local keymap_l = {
-                l = {
-                    name = "LSP",
-                    a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Lsp code action" },
-                    -- a = { "<cmd>Lspsaga code_action<cr>", "Lspsaga code action" },
-                    d = { "<cmd>lua vim.diagnostic.open_float()<cr>", "Diagnostic float" },
-                    i = {
-                        function()
-                            return ":IncRename " .. vim.fn.expand("<cword>")
-                        end,
-                        "IncRename",
-                        expr = true,
-                    },
-                    r = { "<cmd>Lspsaga rename<cr>", "Lspsaga rename" },
+            wk.add({
+                { "<leader>l",  group = "LSP",                              nowait = false,            remap = false },
+                { "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>",   desc = "Lsp code action",  nowait = false, remap = false },
+                { "<leader>ld", "<cmd>lua vim.diagnostic.open_float()<cr>", desc = "Diagnostic float", nowait = false, remap = false },
+                {
+                    "<leader>li",
+                    function()
+                        return ":IncRename " .. vim.fn.expand("<cword>")
+                    end,
+                    desc = "IncRename",
+                    expr = true,
+                    nowait = false,
+                    remap = false,
+                    replace_keycodes = false
                 },
-            }
-            wk.register(keymap_l, {
-                mode = "n",
-                prefix = "<leader>",
-                buffer = nil,
-                silent = true,
-                noremap = true,
-                nowait = false,
+                { "<leader>lr", "<cmd>Lspsaga rename<cr>", desc = "Lspsaga rename", nowait = false, remap = false },
             })
 
-            wk.register({
-                -- ["[d"] = { "<cmd>Lspsaga diagnostic_jump_prev<cr>", "Lspsaga prev diagnostic" },
-                -- ["]d"] = { "<cmd>Lspsaga diagnostic_jump_next<cr>", "Lspsaga next diagnostic" },
-                ["[d"] = { "<cmd>lua vim.diagnostic.goto_prev()<cr>", "Lsp prev diagnostic" },
-                ["]d"] = { "<cmd>lua vim.diagnostic.goto_next()<cr>", "Lsp next diagnostic" },
-            }, {
-                mode = "n",
-                prefix = "",
-                buffer = nil,
-                silent = true,
-                noremap = true,
-                nowait = false,
+            wk.add({
+                { "[d", "<cmd>lua vim.diagnostic.goto_prev()<cr>", desc = "Lsp prev diagnostic", nowait = false, remap = false },
+                { "]d", "<cmd>lua vim.diagnostic.goto_next()<cr>", desc = "Lsp next diagnostic", nowait = false, remap = false },
             })
         end
 
