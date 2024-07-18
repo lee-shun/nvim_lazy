@@ -71,19 +71,9 @@ return {
         local clangd_cap = cmp_cap
         clangd_cap.offsetEncoding = { "utf-16" }
         local clangd_on_attach = function(client, bufnr)
-            local keymap_l = {
-                l = {
-                    name = "LSP",
-                    j = { "<cmd>ClangdSwitchSourceHeader<cr>", "Clangd switch header" },
-                },
-            }
-            wk.register(keymap_l, {
-                mode = "n",
-                prefix = "<leader>",
-                buffer = nil,
-                silent = true,
-                noremap = true,
-                nowait = false,
+            wk.add({
+                { "<leader>l",  group = "LSP",                       nowait = false,                remap = false },
+                { "<leader>lj", "<cmd>ClangdSwitchSourceHeader<cr>", desc = "Clangd switch header", nowait = false, remap = false },
             })
 
             return on_attach(client, bufnr)

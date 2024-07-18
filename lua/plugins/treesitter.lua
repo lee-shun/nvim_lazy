@@ -27,6 +27,8 @@ return {
                 "toml",
                 "yaml",
                 "json",
+                "vimdoc",
+                "xml",
             },
         })
     end,

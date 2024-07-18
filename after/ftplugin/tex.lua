@@ -3,25 +3,27 @@ vim.opt_local.spell = true
 
 -- add keymaps
 local buf = vim.api.nvim_get_current_buf()
-require("which-key").register({
-    ["rt"] = {
+
+require("which-key").add({
+    {
+        "<leader>rt",
         function()
-            vim.cmd([[exec "VimtexStop"]])
-            vim.cmd([[exec "VimtexCompile"]])
+            vim.cmd([[exec "vimtexstop"]])
+            vim.cmd([[exec "vimtexcompile"]])
         end,
-        "Recompile",
+        buffer = buf,
+        desc = "Recompile",
+        nowait = false,
+        remap = false
     },
-    ["rv"] = {
+    {
+        "<leader>rv",
         function()
             vim.cmd([[exec "VimtexView"]])
         end,
-        "View the pdf",
+        buffer = buf,
+        desc = "View the pdf",
+        nowait = false,
+        remap = false
     },
-}, {
-    mode = "n",
-    prefix = "<leader>",
-    buffer = buf,
-    silent = true,
-    noremap = true,
-    nowait = false,
 })
