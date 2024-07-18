@@ -89,7 +89,6 @@ return {
                 { "<leader>fq", "<cmd>Telescope loclist<cr>",                   desc = "Find location list",          nowait = false, remap = false },
                 { "<leader>fr", "<cmd>Telescope registers<cr>",                 desc = "Find registers",              nowait = false, remap = false },
                 { "<leader>fw", "<cmd>Telescope live_grep<cr>",                 desc = "Find word",                   nowait = false, remap = false },
-                { "<leader>fy", "<cmd>Telescope yank_history<cr>",              desc = "Find yank history",           nowait = false, remap = false },
             }
         )
     end,

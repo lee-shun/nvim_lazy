@@ -25,7 +25,6 @@ return {
         local wk = require("which-key")
         wk.add(
             {
-                { "<leader>f",  group = "Find",              nowait = false,       remap = false },
                 { "<leader>fn", "<cmd>Telescope notify<cr>", desc = "Find notify", nowait = false, remap = false },
             }
         )

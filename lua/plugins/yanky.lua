@@ -50,7 +50,6 @@ return {
         local wk = require("which-key")
         wk.add(
             {
-                { "<leader>f",  group = "Find",                    nowait = false,             remap = false },
                 { "<leader>fy", "<cmd>Telescope yank_history<cr>", desc = "Find yank history", nowait = false, remap = false },
             }
         )
