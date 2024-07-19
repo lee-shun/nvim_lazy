@@ -143,6 +143,7 @@ local disabled_built_ins = {
     "vimballPlugin",
     "zip",
     "zipPlugin",
+    "matchit"
 }
 
 for _, plugin in pairs(disabled_built_ins) do
