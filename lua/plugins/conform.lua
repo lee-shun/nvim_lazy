@@ -14,7 +14,8 @@ return {
     },
     opts = {
         -- Set up format-on-save
-        format_on_save = { timeout_ms = 500, lsp_fallback = true },
+        format_on_save = nil,
+        format_after_save = nil,
     },
     config = function(_, opts)
         require("conform").setup(opts)
