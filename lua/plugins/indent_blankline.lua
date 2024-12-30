@@ -1,6 +1,7 @@
 return {
     "lukas-reineke/indent-blankline.nvim",
-    dependencies = { "rainbow-delimiters.nvim", "lee-shun/indent-rainbowline.nvim" },
+    event = "VeryLazy",
+    dependencies = { "HiPhish/rainbow-delimiters.nvim", "lee-shun/indent-rainbowline.nvim" },
     config = function(_, opts)
         local reg_color_func = function()
             vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#E06C75" })
@@ -23,7 +24,21 @@ return {
         }
         local hooks = require("ibl.hooks")
         hooks.register(hooks.type.HIGHLIGHT_SETUP, reg_color_func)
-        vim.g.rainbow_delimiters = { highlight = highlight }
+        local rainbow_delimiters = require("rainbow-delimiters")
+        vim.g.rainbow_delimiters = {
+            strategy = {
+                [''] = rainbow_delimiters.strategy['global'],
+                vim = rainbow_delimiters.strategy['local'],
+            },
+            query = {
+                [''] = 'rainbow-delimiters',
+                lua = 'rainbow-blocks',
+            },
+            priority = {
+                [''] = 210,
+            },
+            highlight = highlight
+        }
         hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
 
         opts = {
@@ -41,8 +56,7 @@ return {
                     "coc-explorer",
                     "dashboard",
                     "alpha",
-                    "noice",
-                    "lspinfo",
+                    "noice", "lspinfo",
                     "packer",
                     "checkhealth",
                     "help",
