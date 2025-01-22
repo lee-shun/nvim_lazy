@@ -24,21 +24,6 @@ return {
         }
         local hooks = require("ibl.hooks")
         hooks.register(hooks.type.HIGHLIGHT_SETUP, reg_color_func)
-        local rainbow_delimiters = require("rainbow-delimiters")
-        vim.g.rainbow_delimiters = {
-            strategy = {
-                [''] = rainbow_delimiters.strategy['global'],
-                vim = rainbow_delimiters.strategy['local'],
-            },
-            query = {
-                [''] = 'rainbow-delimiters',
-                lua = 'rainbow-blocks',
-            },
-            priority = {
-                [''] = 210,
-            },
-            highlight = highlight
-        }
         hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
 
         opts = {
@@ -85,5 +70,20 @@ return {
 
         opts = require("indent-rainbowline").make_opts(opts, rainbowline_opts)
         require("ibl").setup(opts)
+
+        local rainbow_delimiters = require("rainbow-delimiters")
+        vim.g.rainbow_delimiters = {
+            strategy = {
+                [''] = rainbow_delimiters.strategy['global'],
+                vim = rainbow_delimiters.strategy['local'],
+            },
+            query = {
+                lua = 'rainbow-blocks',
+            },
+            priority = {
+                [''] = 10,
+            },
+            highlight = highlight
+        }
     end,
 }
