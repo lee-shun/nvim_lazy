@@ -18,7 +18,6 @@ return {
                 "cpp",
                 "c",
                 "python",
-                "latex",
                 "lua",
                 "bash",
                 "vim",
