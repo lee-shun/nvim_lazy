@@ -78,10 +78,12 @@ return {
                 vim = rainbow_delimiters.strategy['local'],
             },
             query = {
+                [''] = 'rainbow-delimiters',
                 lua = 'rainbow-blocks',
             },
             priority = {
-                [''] = 10,
+                [''] = 110,
+                lua = 210,
             },
             highlight = highlight
         }
