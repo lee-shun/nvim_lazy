@@ -13,6 +13,9 @@ return {
         },
     },
     opts = {
+        formatters_by_ft = {
+            tex = { "latexindent" },
+        },
         -- Set up format-on-save
         format_on_save = nil,
         format_after_save = nil,

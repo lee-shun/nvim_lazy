@@ -13,5 +13,14 @@ return {
         vim.g.vimtex_format_enabled = 0
         vim.g.vimtex_syntax_enabled = 0
         vim.g.vimtex_compiler_silent = 1
-    end,
-}
+        vim.g.tex_flavor = 'latex'
+        vim.g.vimtex_compiler_method = 'latexmk'
+        vim.cmd([[
+        let g:vimtex_compiler_latexmk = {
+            \ 'extra_options': '-xelatex -synctex=1 -shell-escape',
+            \ 'callback' : 1,
+            \ 'continuous' : 1,
+            \}
+            ]])
+        end,
+    }
