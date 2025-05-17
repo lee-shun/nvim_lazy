@@ -1,0 +1,19 @@
+{
+  "bd": {
+    "prefix": "bd",
+    "body": ["\\boldsymbol{$0}"],
+    "description": "boldsymbol"
+  },
+    "aligned": {
+    "prefix": "aligned",
+    "body": [
+      "\\left\\{",
+      "\\begin{aligned}",
+      "\t$1",
+      "\\end{aligned}",
+      "\\right."
+    ],
+    "description": "aligned environment"
+  }
+}
+
