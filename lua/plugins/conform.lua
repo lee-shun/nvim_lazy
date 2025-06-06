@@ -14,7 +14,7 @@ return {
     },
     opts = {
         formatters_by_ft = {
-            tex = { "latexindent" },
+            tex = { "tex-fmt" },
         },
         -- Set up format-on-save
         format_on_save = nil,
