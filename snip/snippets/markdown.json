@@ -4,10 +4,11 @@
     "body": [
         "---",
         "title: $1",
-        "tags: [$2]",
+        "tags:
+          - $2",
         "created: $3",
         "date: $4",
-        "source: $4",
+        "source: $5",
         "---",
         "$0"
     ],
