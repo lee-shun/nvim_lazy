@@ -1,4 +1,18 @@
 {
+  "fh":{
+    "prefix": "fh",
+    "body": [
+        "---",
+        "title: $1",
+        "tags: [$2]",
+        "created: $3",
+        "date: $4",
+        "source: $4",
+        "---",
+        "$0"
+    ],
+    "description": "environment"
+  },
   "env": {
     "prefix": "env",
     "body": ["\\begin{$1}", "\t$0", "\\end{$1}"],
