@@ -89,14 +89,6 @@ function _G.update_frontmatter_date(pattern)
     end
 end
 
--- 设置自动命令：保存时更新日期
-vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = "*.md",
-    callback = function()
-        _G.update_frontmatter_date()
-    end,
-})
-
 -- 可选：手动更新命令
 vim.api.nvim_create_user_command("UpdateDate", function()
     _G.update_frontmatter_date()

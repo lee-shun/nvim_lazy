@@ -109,6 +109,17 @@ return {
             capabilities = cmp_cap,
         })
 
+        -- typst
+        require("lspconfig").tinymist.setup({
+            on_attach = on_attach,
+            capabilities = cmp_cap,
+            settings = {
+                formatterMode = "typstyle",
+                exportPdf = "onType",
+                semanticTokens = "disable"
+        }
+        })
+
         -- bash
         require("lspconfig").bashls.setup({
             on_attach = on_attach,
