@@ -110,14 +110,35 @@ return {
         })
 
         -- typst
+        local typst_on_attach = function(client, bufnr)
+            vim.keymap.set("n", "<leader>mp", function()
+                client:exec_cmd({
+                    title = "pin",
+                    command = "tinymist.pinMain",
+                    arguments = { vim.api.nvim_buf_get_name(0) },
+                }, { bufnr = bufnr })
+                vim.notify("Pin current buffer as main!")
+            end, { desc = "Tinymist Pin", noremap = true })
+
+            vim.keymap.set("n", "<leader>mu", function()
+                client:exec_cmd({
+                    title = "unpin",
+                    command = "tinymist.pinMain",
+                    arguments = { vim.v.null },
+                }, { bufnr = bufnr })
+                vim.notify("Unpin current buffer as main!")
+            end, { desc = "Tinymist Unpin", noremap = true })
+            return on_attach(client, bufnr)
+        end
+
         require("lspconfig").tinymist.setup({
-            on_attach = on_attach,
+            on_attach = typst_on_attach,
             capabilities = cmp_cap,
             settings = {
                 formatterMode = "typstyle",
                 exportPdf = "onType",
                 semanticTokens = "disable"
-        }
+            }
         })
 
         -- bash
