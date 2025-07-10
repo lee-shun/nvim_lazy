@@ -7,11 +7,9 @@
     "aligned": {
     "prefix": "aligned",
     "body": [
-      "\\left\\{",
       "\\begin{aligned}",
       "\t$1",
-      "\\end{aligned}",
-      "\\right."
+      "\\end{aligned}"
     ],
     "description": "aligned environment"
   }

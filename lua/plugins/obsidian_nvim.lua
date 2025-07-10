@@ -1,6 +1,7 @@
 return {
     "obsidian-nvim/obsidian.nvim",
     lazy = true,
+    version = "*",
     ft = "markdown",
     dependencies = {
         -- Required.
@@ -14,8 +15,8 @@ return {
             },
         },
         preferred_link_style = "markdown",
-        ui={
-            enable=false
+        ui = {
+            enable = false
         }
     },
 }

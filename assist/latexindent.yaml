@@ -1,0 +1,43 @@
+# 基础缩进规则（保持不变）
+indentRules:
+  indentChar: " "
+  numberOfSpaces: 2  
+ 
+# 折行配置（保持不变）
+textWrapOptions:
+  textWrap: 1  
+  columns: 120  
+  wrapHard: 1  
+  hangingIndent: 1  
+ 
+# 新增：特殊环境缩进规则 
+environments:
+  # 公式环境（equation, align, gather等）
+  - name: "equation"
+    indent: "  "  # 2个空格缩进 
+  - name: "align\\*?"
+    indent: "  "  # 2个空格缩进 
+  - name: "gather\\*?"
+    indent: "    "
+ 
+  # 列表环境（itemize, enumerate）
+  - name: "itemize"
+    indent: "  "
+    itemCommand: "\\item"
+  - name: "enumerate"
+    indent: "  "
+    itemCommand: "\\item"
+ 
+  # 表格环境（tabular, table）
+  - name: "tabular"
+    indent: "  " 
+    lookForAlignDelims: 1  # 关键：识别表格列对齐符 
+  - name: "table"
+    indent: "  "
+ 
+# 例外环境排除（保持不变）
+textWrapIgnoreEnvironments:
+  - "lstlisting"
+  - "verbatim"
+  - "algorithm"
+  - "tikzpicture"
