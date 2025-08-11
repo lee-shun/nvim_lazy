@@ -12,6 +12,17 @@
       "\\end{aligned}"
     ],
     "description": "aligned environment"
+  },
+      "eali": {
+    "prefix": "eali",
+    "body": [
+      "\\begin{equation}",
+      "\\begin{aligned}",
+      "\t$1",
+      "\\end{aligned}",
+      "\\label{eq:\t$2}",
+      "\\end{equation}"
+    ],
+    "description": "aligned environment"
   }
 }
-
