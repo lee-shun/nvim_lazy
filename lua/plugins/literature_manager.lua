@@ -1,5 +1,6 @@
 return {
   dir = "~/nvim-literature-manager",
+  enabled=false,
   config = function()
     require("literature_manager").setup({
       literature_dir = "~/knowledge_library/literature",

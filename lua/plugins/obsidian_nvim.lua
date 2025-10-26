@@ -1,7 +1,7 @@
 return {
     "obsidian-nvim/obsidian.nvim",
     lazy = true,
-    -- version = "*",
+    version = "*",
     ft = "markdown",
     dependencies = {
         -- Required.

@@ -78,20 +78,23 @@ return {
 
             return on_attach(client, bufnr)
         end
-        require("lspconfig").clangd.setup({
+        vim.lsp.enable('clangd')
+        vim.lsp.config('clangd', {
             on_attach = clangd_on_attach,
             capabilities = clangd_cap,
         })
 
         -- cmake
-        require("lspconfig").cmake.setup({
+        vim.lsp.enable('cmake')
+        vim.lsp.config('cmake', {
             on_attach = on_attach,
             capabilities = cmp_cap,
         })
 
         -- pyright
         local pyright_cap = cmp_cap
-        require("lspconfig").pyright.setup({
+        vim.lsp.enable('pyright')
+        vim.lsp.config('pyright', {
             on_attach = on_attach,
             capabilities = pyright_cap,
         })
@@ -104,7 +107,8 @@ return {
         -- })
 
         -- taxlab
-        require("lspconfig").texlab.setup({
+        vim.lsp.enable('texlab')
+        vim.lsp.config('texlab', {
             on_attach = on_attach,
             capabilities = cmp_cap,
         })
@@ -131,7 +135,8 @@ return {
             return on_attach(client, bufnr)
         end
 
-        require("lspconfig").tinymist.setup({
+        vim.lsp.enable('tinymist')
+        vim.lsp.config('tinymist', {
             on_attach = typst_on_attach,
             capabilities = cmp_cap,
             settings = {
@@ -142,7 +147,8 @@ return {
         })
 
         -- bash
-        require("lspconfig").bashls.setup({
+        vim.lsp.enable('bashls')
+        vim.lsp.config('bashls', {
             on_attach = on_attach,
             capabilities = cmp_cap,
         })
@@ -152,7 +158,8 @@ return {
         table.insert(runtime_path, "lua/?.lua")
         table.insert(runtime_path, "lua/?/init.lua")
 
-        require("lspconfig").lua_ls.setup({
+        vim.lsp.enable('lua_ls')
+        vim.lsp.config('lua_ls', {
             on_attach = on_attach,
             capabilities = cmp_cap,
             settings = {
