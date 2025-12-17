@@ -39,5 +39,31 @@
     "prefix": "frac",
     "body": ["\\frac{$1}{$2}$0"],
     "description": "frac"
+  },
+  "bd": {
+    "prefix": "bd",
+    "body": ["\\boldsymbol{$0}"],
+    "description": "boldsymbol"
+  },
+    "aligned": {
+    "prefix": "aligned",
+    "body": [
+      "\\begin{aligned}",
+      "\t$1",
+      "\\end{aligned}"
+    ],
+    "description": "aligned environment"
+  },
+      "eali": {
+    "prefix": "eali",
+    "body": [
+      "\\begin{equation}",
+      "\\begin{aligned}",
+      "\t$1",
+      "\\end{aligned}",
+      "\\label{eq:\t$2}",
+      "\\end{equation}"
+    ],
+    "description": "aligned environment"
   }
 }

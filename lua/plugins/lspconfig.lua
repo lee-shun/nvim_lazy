@@ -91,12 +91,20 @@ return {
             capabilities = cmp_cap,
         })
 
-        -- pyright
-        local pyright_cap = cmp_cap
-        vim.lsp.enable('pyright')
-        vim.lsp.config('pyright', {
+        -- -- pyright
+        -- local pyright_cap = cmp_cap
+        -- vim.lsp.enable('pyright')
+        -- vim.lsp.config('pyright', {
+        --     on_attach = on_attach,
+        --     capabilities = pyright_cap,
+        -- })
+
+        -- ty
+        local ty_cap = cmp_cap
+        vim.lsp.enable('ty')
+        vim.lsp.config('ty', {
             on_attach = on_attach,
-            capabilities = pyright_cap,
+            capabilities = ty_cap,
         })
 
         -- -- pylyzer
