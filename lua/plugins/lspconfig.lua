@@ -99,20 +99,32 @@ return {
         --     capabilities = pyright_cap,
         -- })
 
-        -- ty
-        local ty_cap = cmp_cap
-        vim.lsp.enable('ty')
-        vim.lsp.config('ty', {
+        -- basedpyright
+        local pyright_cap = cmp_cap
+        vim.lsp.enable('basedpyright')
+        vim.lsp.config('basedpyright', {
             on_attach = on_attach,
-            capabilities = ty_cap,
+            capabilities = pyright_cap,
+            settings = {
+                basedpyright = {
+                    analysis = {
+                        typeCheckingMode = "basic", -- 可选值: "off", "basic", "strict"
+                        diagnosticSeverityOverrides = {
+                            reportUnknownArgumentType = "none"
+                        }
+                    }
+                }
+            }
         })
 
-        -- -- pylyzer
-        -- local pylyzer = cmp_cap
-        -- require("lspconfig").pylyzer.setup({
-        -- 	on_attach = on_attach,
-        -- 	capabilities = pylyzer,
+        -- -- ty
+        -- local ty_cap = cmp_cap
+        -- vim.lsp.enable('ty')
+        -- vim.lsp.config('ty', {
+        --     on_attach = on_attach,
+        --     capabilities = ty_cap,
         -- })
+
 
         -- taxlab
         vim.lsp.enable('texlab')
