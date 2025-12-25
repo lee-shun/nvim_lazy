@@ -79,7 +79,7 @@ return {
         })
 
         cmp.setup({
-            preselect = cmp.PreselectMode.None,     -- 关闭自动选中
+            preselect = cmp.PreselectMode.None,                 -- 关闭自动选中
             completion = {
                 completeopt = 'menu,menuone,noinsert,noselect', -- 关键：禁用自动插入
             }
