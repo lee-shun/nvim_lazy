@@ -5,7 +5,9 @@ return {
     config = function()
         vim.cmd([[
         function! g:Open_browser(url)
-            if executable("microsoft-edge-dev")
+            if executable("/home/ls/App/zen/zen")
+                let l:browser= "/home/ls/App/zen/zen"
+            elseif executable("microsoft-edge-dev")
                 let l:browser= "microsoft-edge-dev"
             elseif executable("microsoft-edge")
                 let l:browser= "microsoft-edge"
