@@ -24,7 +24,7 @@ return {
                 timeout = 1000000, -- Timeout in milliseconds
                 disable_tools = true,
                 extra_request_body = {
-                    temperature = 0,
+                    temperature = 0.15,
                     max_tokens = 204800,
                 },
             },

@@ -203,10 +203,27 @@ return {
         })
 
         -- set icons (if not use lspsaga)
-        local symbols = { Error = " ", Warn = " ", Info = " ", Hint = " " }
-        for type, icon in pairs(symbols) do
-            local hl = "DiagnosticSign" .. type
-            vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-        end
+        local float_config = {
+            focusable = true,
+            style = 'minimal',
+            border = 'rounded',
+            source = true,
+            header = '',
+            prefix = '',
+        }
+
+        vim.diagnostic.config({
+            virtual_text = true,
+            update_in_insert = true,
+            float = float_config,
+            signs = {
+                text = {
+                    [vim.diagnostic.severity.ERROR] = "",
+                    [vim.diagnostic.severity.WARN] = "",
+                    [vim.diagnostic.severity.HINT] = "",
+                    [vim.diagnostic.severity.INFO] = "",
+                },
+            },
+        })
     end,
 }
