@@ -43,8 +43,8 @@ return {
         end,
         templates = {
             folder = ".obsidian_template",
-            date_format = "%Y-%m-%d-%a",
-            time_format = "%H:%M",
+            date_format = "%Y-%m-%d",
+            time_format = "%H:%M:%S",
         },
     },
 }
