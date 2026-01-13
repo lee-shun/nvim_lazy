@@ -41,6 +41,20 @@ return {
                 :gsub("_+$", "")
             return s == "" and "untitled" or s
         end,
+        ---@param opts { path: string, label: string, id: string|integer|?, anchor: obsidian.note.HeaderAnchor|?, block: obsidian.note.Block|? }
+        ---@return string
+        markdown_link_func = function(opts)
+            local api = require("obsidian").api
+            local current_note = api.current_note(0, {})
+
+            local ws = api.find_workspace(opts.path)
+
+            local target_path_str = ws.path.filename .. "/" .. opts.path
+
+            local relative = require("util.relative_path").relative_path(current_note.path.filename, target_path_str)
+
+            return string.format("[%s](%s)", opts.label, relative)
+        end,
         templates = {
             folder = ".obsidian_template",
             date_format = "%Y-%m-%d",
