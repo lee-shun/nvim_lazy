@@ -1,6 +1,6 @@
 return {
     "voldikss/vim-translator",
-    keys = { { "<leader>s", "<cmd>TranslateW<cr>", desc = "Translate" } },
+    keys = { { "<leader>w", "<cmd>TranslateW<cr>", desc = "Translate" } },
     config = function()
         vim.cmd([[
         let g:translator_target_lang='zh'
