@@ -18,10 +18,15 @@ return {
                 return
             endif
 
-                silent exec "!" . l:browser . " --password-store=gnome --new-window " . a:url . " &"
+                silent exec "!" . l:browser . " --password-store=gnome --new-tab " . a:url . " &"
         endfunction
             ]])
-        -- vim.g.mkdp_browser = "microsoft-edge-dev"
+
+
         vim.g.mkdp_browserfunc = "g:Open_browser"
+        -- vim.g.mkdp_browser = '/home/ls/App/zen/zen'
+        vim.g.mkdp_auto_start = 0
+        vim.g.mkdp_auto_close = 0
+        vim.g.mkdp_combine_preview = 1
     end,
 }
