@@ -29,9 +29,11 @@ return {
             replace = "<leader>sr",        -- Replace surrounding
             update_n_lines = "<leader>sn", -- Update `n_lines`
 
-            suffix_last = "l",      -- Suffix to search with "prev" method
-            suffix_next = "n",      -- Suffix to search with "next" method
+            suffix_last = "l",             -- Suffix to search with "prev" method
+            suffix_next = "n",             -- Suffix to search with "next" method
         },
+        custom_surroundings = {
+        }
     },
     config = function(_, opts)
         -- use gz mappings instead of s to prevent conflict with leap

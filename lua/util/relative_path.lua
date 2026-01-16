@@ -26,6 +26,11 @@ function M.relative_path(current, target)
     for _ = 1, ups do
         table.insert(rel, '..')
     end
+
+    if ups == 0 then
+        table.insert(rel, '.')
+    end
+
     for j = common + 1, #target_parts do
         table.insert(rel, target_parts[j])
     end
