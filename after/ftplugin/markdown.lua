@@ -6,7 +6,7 @@ vim.opt_local.spell = true
 local buf = vim.api.nvim_get_current_buf()
 
 require("which-key").add({
-    "<leader>rm",
+    "<leader>mr",
     function()
         vim.cmd([[exec "MarkdownPreview" ]])
     end
@@ -96,3 +96,9 @@ end, {})
 vim.api.nvim_create_user_command("UpdateCreated", function()
     _G.update_frontmatter_date("created")
 end, {})
+
+-- 切换有序列表
+require('util.markdown_ordered_list')
+
+-- 切换无序列表
+require('util.markdown_unordered_list')

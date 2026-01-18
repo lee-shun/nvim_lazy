@@ -15,6 +15,7 @@ return {
             },
             ensure_installed = {
                 "markdown",
+                "markdown_inline",
                 "cpp",
                 "c",
                 "python",
@@ -22,12 +23,14 @@ return {
                 "bash",
                 "vim",
                 "regex",
-                "markdown_inline",
                 "toml",
                 "yaml",
                 "json",
                 "vimdoc",
                 "xml",
+            },
+            markdown = {
+                enable = true,
             },
         })
     end,
