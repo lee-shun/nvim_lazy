@@ -19,8 +19,8 @@ return {
         providers = {
             ollama = {
                 endpoint = "http://192.168.1.105:11434",
-                -- model = "devstral-small-2",
-                model = "qwen3-coder:latest",
+                model = "devstral-small-2",
+                -- model = "qwen3-coder:latest",
                 timeout = 1000000, -- Timeout in milliseconds
                 disable_tools = true,
                 extra_request_body = {
@@ -37,7 +37,6 @@ return {
         "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
         "hrsh7th/nvim-cmp",              -- autocompletion for avante commands and mentions
         "stevearc/dressing.nvim",        -- for input provider dressing
-        "folke/snacks.nvim",             -- for input provider snacks
         "nvim-tree/nvim-web-devicons",   -- or echasnovski/mini.icons
         {
             -- Make sure to set this up properly if you have lazy=true
