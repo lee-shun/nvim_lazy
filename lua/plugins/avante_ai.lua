@@ -19,13 +19,15 @@ return {
         providers = {
             ollama = {
                 endpoint = "http://192.168.1.105:11434",
-                model = "devstral-small-2",
+                -- model = "devstral-small-2",
                 -- model = "qwen3-coder:latest",
+                -- model = "deepseek-coder-v2",
+                model = "glm-4.7-flash",
                 timeout = 1000000, -- Timeout in milliseconds
                 disable_tools = true,
                 extra_request_body = {
-                    temperature = 0.15,
-                    max_tokens = 204800,
+                    temperature = 0.1,
+                    max_tokens = 2048,
                 },
             },
         },
