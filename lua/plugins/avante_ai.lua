@@ -13,9 +13,11 @@ return {
     opts = {
         -- add any opts here
         -- this file can contain specific instructions for your project
+        -- mode = "agentic",
         mode = "legacy", -- Switch from "agentic" to "legacy"
         instructions_file = "avante.md",
-        provider = "ollama",
+        -- provider = "opencode",
+        provider = "llamacpp",
         providers = {
             ollama = {
                 endpoint = "http://192.168.1.105:11434",
@@ -24,13 +26,34 @@ return {
                 -- model = "deepseek-coder-v2",
                 model = "glm-4.7-flash",
                 timeout = 1000000, -- Timeout in milliseconds
-                disable_tools = true,
+                disable_tools = false,
                 extra_request_body = {
-                    temperature = 0.1,
+                    temperature = 0,
+                    max_tokens = 4096,
+                },
+            },
+            llamacpp = {
+                __inherited_from = "openai",
+                endpoint = "http://127.0.0.1:8080/v1",
+                model = "llamacpp_models",
+                timeout = 1000000, -- Timeout in milliseconds
+                disable_tools = false,
+                api_key_name = "LLAMA_CPP_KEY",
+                extra_request_body = {
+                    temperature = 0,
                     max_tokens = 2048,
                 },
             },
         },
+        acp_providers = {
+            ["opencode"] = {
+                command = "opencode",
+                args = {"acp"},
+                env = {
+                    OPENCODE_API_KEY = os.getenv("OPENCODE_API_KEY"),
+                }
+            }
+        }
     },
     dependencies = {
         "nvim-lua/plenary.nvim",
