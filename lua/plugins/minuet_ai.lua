@@ -8,7 +8,7 @@ return {
     config = function()
         require('minuet').setup {
             virtualtext = {
-                auto_trigger_ft = { "*" },
+                auto_trigger_ft = { "c", "cpp", "python" },
                 keymap = {
                     -- accept whole completion
                     accept = '<A-A>',
@@ -39,13 +39,14 @@ return {
                     api_key = 'TERM',
                     name = 'ollama',
                     end_point = 'http://192.168.1.105:11434/v1/completions',
-                    model = "codestral",
+                    -- model = "codestral",
                     -- model = "deepseek-coder-v2",
+                    model = "qwen2.5-coder",
                     -- model = "glm-4.7-flash",
                     optional = {
                         max_tokens = 20480,
-                        temperature=0.75,
-                        stop=nil
+                        temperature = 0.75,
+                        stop = nil
                     },
                 },
             },
