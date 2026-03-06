@@ -39,8 +39,8 @@ return {
                     api_key = 'TERM',
                     name = 'ollama',
                     end_point = 'http://192.168.1.105:11434/v1/completions',
-                    model = "codestral",
-                    -- model = "deepseek-coder-v2",
+                    -- model = "codestral",
+                    model = "deepseek-coder-v2",
                     -- model = "glm-4.7-flash",
                     optional = {
                         max_tokens = 20480,
