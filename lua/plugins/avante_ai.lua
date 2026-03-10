@@ -63,13 +63,6 @@ return {
         "hrsh7th/nvim-cmp",              -- autocompletion for avante commands and mentions
         "stevearc/dressing.nvim",        -- for input provider dressing
         "nvim-tree/nvim-web-devicons",   -- or echasnovski/mini.icons
-        {
-            -- Make sure to set this up properly if you have lazy=true
-            'MeanderingProgrammer/render-markdown.nvim',
-            opts = {
-                file_types = { "markdown", "Avante" },
-            },
-            ft = { "markdown", "Avante" },
-        },
+        "MeanderingProgrammer/render-markdown.nvim",
     },
 }
