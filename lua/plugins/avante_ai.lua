@@ -34,14 +34,14 @@ return {
             },
             llamacpp = {
                 __inherited_from = "openai",
-                endpoint = "http://127.0.0.1:8080/v1",
+                endpoint = "http://192.168.1.105:8080/v1",
                 model = "llamacpp_models",
                 timeout = 1000000, -- Timeout in milliseconds
                 disable_tools = false,
                 api_key_name = "TERM",
                 extra_request_body = {
                     temperature = 0,
-                    max_tokens = 2048,
+                    max_tokens = 4096,
                 },
             },
         },
