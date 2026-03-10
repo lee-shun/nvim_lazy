@@ -38,7 +38,7 @@ return {
                 model = "llamacpp_models",
                 timeout = 1000000, -- Timeout in milliseconds
                 disable_tools = false,
-                api_key_name = "LLAMA_CPP_KEY",
+                api_key_name = "TERM",
                 extra_request_body = {
                     temperature = 0,
                     max_tokens = 2048,

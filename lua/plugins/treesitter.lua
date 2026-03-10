@@ -2,14 +2,8 @@ return {
     "nvim-treesitter/nvim-treesitter",
     lazy = true,
     build = ":TSUpdate",
-    dependencies = {
-        {
-            "nvim-treesitter/playground",
-            cmd = "TSPlaygroundToggle",
-        },
-    },
     config = function()
-        require("nvim-treesitter.configs").setup({
+        require("nvim-treesitter").setup({
             highlight = {
                 enable = true,
             },
