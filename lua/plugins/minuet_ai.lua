@@ -31,22 +31,35 @@ return {
             -- of 512, serves as an good starting point to estimate your computing
             -- power. Once you have a reliable estimate of your local computing power,
             -- you should adjust the context window to a larger value.
-            context_window = 2000,
+            context_window = 512,
             provider_options = {
                 openai_fim_compatible = {
                     -- For Windows users, TERM may not be present in environment variables.
                     -- Consider using APPDATA instead.
                     api_key = 'TERM',
-                    name = 'ollama',
-                    end_point = 'http://192.168.1.105:11434/v1/completions',
+                    name = 'llama.cpp',
+                    end_point = 'http://127.0.0.1:8080/v1/completions',
                     -- model = "codestral",
                     model = "deepseek-coder-v2",
                     -- model = "glm-4.7-flash",
                     optional = {
-                        max_tokens = 20480,
-                        temperature = 0.75,
+                        max_tokens = 2048,
+                        temperature = 0.1,
                         stop = nil
                     },
+            -- Llama.cpp does not support the `suffix` option in FIM completion.
+            -- Therefore, we must disable it and manually populate the special
+            -- tokens required for FIM completion.
+            template = {
+                prompt = function(context_before_cursor, context_after_cursor, _)
+                    return '<|fim_prefix|>'
+                        .. context_before_cursor
+                        .. '<|fim_suffix|>'
+                        .. context_after_cursor
+                        .. '<|fim_middle|>'
+                end,
+                suffix = false,
+                },
                 },
             },
         }
