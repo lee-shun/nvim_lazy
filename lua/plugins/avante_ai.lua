@@ -50,7 +50,7 @@ return {
                 command = "opencode",
                 args = {"acp"},
                 env = {
-                    OPENCODE_API_KEY = os.getenv("OPENCODE_API_KEY"),
+                    OPENCODE_API_KEY = os.getenv("TERM"),
                 }
             }
         }
