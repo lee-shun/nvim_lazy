@@ -16,7 +16,8 @@ return {
         formatters_by_ft = {
             tex = { "tex-fmt" },
             python = { "yapf" },
-            markdown = {"prettier",},
+            markdown = { "prettier", },
+            ["_"] = { "trim_whitespace" },
         },
         -- Set up format-on-save
         format_on_save = nil,
