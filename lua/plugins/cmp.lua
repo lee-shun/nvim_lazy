@@ -28,8 +28,8 @@ return {
 					exact_length = 2,
 					first_case_insensitive = true,
 					document = {
-						enable = false,
-						-- command = { "wn", "${label}", "-over" },
+						enable = true,
+						command = { "wn", "${label}", "-over" },
 					},
 				})
 
