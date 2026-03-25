@@ -17,6 +17,8 @@ return {
             tex = { "tex-fmt" },
             python = { "yapf" },
             markdown = { "prettier", },
+            cpp = {"clang-format"},
+            lua = {"stylua"},
             ["_"] = { "trim_whitespace" },
         },
         -- Set up format-on-save
