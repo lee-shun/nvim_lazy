@@ -28,7 +28,8 @@ return {
 					exact_length = 2,
 					first_case_insensitive = true,
 					document = {
-						enable = false, -- 关闭 wn，避免 exit code 7
+						enable = true,
+						command = { "wn", "${label}", "-over" },
 					},
 				})
 
@@ -86,6 +87,15 @@ return {
 			TN = "💡",
 		}
 
+		-- ====================== 辅助函数 ======================
+		local has_words_before = function()
+			-- 兼容 LuaJIT / Neovim 内置 Lua 5.1
+			unpack = unpack or table.unpack
+
+			local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+			return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+		end
+
 		-- ====================== 核心配置 ======================
 		cmp.setup({
 			preselect = cmp.PreselectMode.None,
@@ -121,7 +131,7 @@ return {
 				["<Tab>"] = cmp.mapping(function(fallback)
 					if cmp.visible() then
 						cmp.select_next_item()
-					elseif require("cmp.config.has_words_before")() then
+					elseif has_words_before() then
 						cmp.complete()
 					else
 						fallback()

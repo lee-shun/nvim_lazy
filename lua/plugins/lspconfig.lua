@@ -86,8 +86,8 @@ return {
         })
 
         -- cmake
-        vim.lsp.enable('cmake')
-        vim.lsp.config('cmake', {
+        vim.lsp.enable('neocmake')
+        vim.lsp.config('neocmake', {
             on_attach = on_attach,
             capabilities = cmp_cap,
         })

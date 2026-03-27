@@ -13,6 +13,7 @@ return {
             "cpplint",
             "clang-format",
             -- cmake
+            "neocmakelsp",
             -- "cmake-language-server",
             -- "shfmt",
             -- "flake8",
