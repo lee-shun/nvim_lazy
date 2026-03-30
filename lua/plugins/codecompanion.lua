@@ -7,7 +7,7 @@ return {
 		"nvim-telescope/telescope.nvim", -- 可选
 		"render-markdown.nvim",
 	},
-	cmd = "CodeCompanion",
+	cmd = { "CodeCompanion", "CodeCompanionCLI", "CodeCompanionChat", "CodeCompanionCmd", "CodeCompanionAction" },
 	config = function()
 		require("codecompanion").setup({
 			adapters = {
