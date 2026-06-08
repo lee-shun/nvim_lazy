@@ -18,6 +18,7 @@ return {
             python = { "yapf" },
             markdown = { "prettier", },
             cpp = {"clang-format"},
+            cmake = {"cmake_format"},
             lua = {"stylua"},
             ["_"] = { "trim_whitespace" },
         },

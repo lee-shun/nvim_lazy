@@ -1,6 +1,6 @@
 return {
 	"ggml-org/llama.vim",
-    events = "InsertEnter",
+	events = "InsertEnter",
 	init = function()
 		vim.g.llama_config = {
 			auto_fim = true,
@@ -15,6 +15,9 @@ return {
 			keymap_inst_continue = "<A-c>", -- Alt + c     继续生成
 			keymap_inst_accept = "<A-a>", -- Alt + a     接受指令编辑结果
 			keymap_inst_cancel = "<A-x>", -- Alt + x     取消
+
+			keymap_fim_next = "<A-J>",
+			keymap_fim_prev = "<A-K>",
 
 			keymap_debug_toggle = "<A-d>", -- Alt + d     切换调试模式
 		}
