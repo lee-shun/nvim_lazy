@@ -16,7 +16,6 @@ return {
 			},
 		},
 		new_notes_location = "current_dir",
-		completion = { nvim_cmp = true },
 		ui = {
 			enable = false,
 		},
