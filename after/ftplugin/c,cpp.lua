@@ -9,13 +9,11 @@ wk.add({
         "<leader>rs",
         function()
             vim.cmd([[
-            exec "!g++ -std=c++11 -ggdb % -Wall -o %<.out"
-            exec "!time ./%<.out"
+                exec "!g++ -std=c++11 -ggdb % -Wall -o %<.out"
+                exec "!time ./%<.out"
             ]])
         end,
         buffer = buf,
         desc = "RunSingleFile",
-        nowait = false,
-        remap = false
     },
 })

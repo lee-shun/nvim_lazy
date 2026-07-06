@@ -9,14 +9,14 @@ local createdir = function()
         nvim_config_path .. "/tmp/tags",
         nvim_config_path .. "/tmp/undo",
     }
-    -- There only check once that If cache_dir exists
-    -- Then I don't want to check subs dir exists
+    -- Only check once if cache_dir exists.
+    -- If not, create tmp and all subdirectories.
     if vim.fn.isdirectory(nvim_config_path .. "/tmp") == 0 then
-        os.execute("mkdir -p " .. nvim_config_path .. "/tmp")
+        vim.fn.mkdir(nvim_config_path .. "/tmp", "p")
         print("mkdir nvim tmp dir!")
-        for _, v in pairs(tmp_data_dir) do
+        for _, v in ipairs(tmp_data_dir) do
             if vim.fn.isdirectory(v) == 0 then
-                os.execute("mkdir -p " .. v)
+                vim.fn.mkdir(v, "p")
             end
         end
     end
@@ -60,10 +60,9 @@ vim.o.ttimeoutlen = 10
 vim.o.conceallevel = 0
 vim.o.wildmenu = true
 vim.o.lazyredraw = false
-vim.o.laststatus = 3
+vim.o.laststatus = 2
 vim.o.ttyfast = true
 vim.o.termguicolors = true
-vim.o.laststatus = 2
 vim.o.cmdheight = 1
 vim.o.statusline = "%#normal#"
 vim.o.spelllang = "en,cjk"
