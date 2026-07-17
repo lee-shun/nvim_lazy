@@ -91,7 +91,7 @@ wk.add({
     { "<leader>o", group = "💻 Opencode" },
     { "<leader>r", group = "▶️ Run" },
     { "<leader>s", group = "🧱 Surround" },
-    { "<leader>t", group = "✅ Todo" },
+    { "<leader>t", group = "📁 File Explorer" },
     { "<leader>u", group = "🔄 Undo" },
     { "<leader>x", group = "📐 TeX / Typst" },
 })
