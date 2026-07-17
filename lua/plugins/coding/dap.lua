@@ -27,18 +27,16 @@ return {
     },
     config = function()
         local wk = require("which-key")
-        wk.add(
-            {
-                { "<leader>d",  group = "🐛 Nvim Dap",                                                                 nowait = false,               remap = false },
-                { "<leader>dB", "<cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<cr>", desc = "🔴 Set cond breakpoint", nowait = false, remap = false },
-                { "<leader>db", "<cmd>lua require'dap'.toggle_breakpoint()<cr>",                                    desc = "🔴 Toggle breakpoint",   nowait = false, remap = false },
-                { "<leader>dc", "<cmd>lua require'dap'.continue()<cr>",                                             desc = "▶️ Continue",            nowait = false, remap = false },
-                { "<leader>di", "<cmd>lua require'dap'.step_into()<cr>",                                            desc = "⏬ Step into",           nowait = false, remap = false },
-                { "<leader>do", "<cmd>lua require'dap'.step_out()<cr>",                                             desc = "⏫ Step out",            nowait = false, remap = false },
-                { "<leader>ds", "<cmd>lua require'dap'.close()<cr>",                                                desc = "❌ Close",               nowait = false, remap = false },
-                { "<leader>du", "<cmd>lua require('dapui').toggle()<cr>",                                           desc = "🖥️ DapUI toggle",        nowait = false, remap = false },
-                { "<leader>dv", "<cmd>lua require'dap'.step_over()<cr>",                                            desc = "➡️ Step over",           nowait = false, remap = false },
-            })
+        wk.add({
+            { "<leader>dB", "<cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<cr>", desc = "🔴 Set cond breakpoint" },
+            { "<leader>db", "<cmd>lua require'dap'.toggle_breakpoint()<cr>",                                    desc = "🔴 Toggle breakpoint" },
+            { "<leader>dc", "<cmd>lua require'dap'.continue()<cr>",                                             desc = "▶️ Continue" },
+            { "<leader>di", "<cmd>lua require'dap'.step_into()<cr>",                                            desc = "⏬ Step into" },
+            { "<leader>do", "<cmd>lua require'dap'.step_out()<cr>",                                             desc = "⏫ Step out" },
+            { "<leader>ds", "<cmd>lua require'dap'.close()<cr>",                                                desc = "❌ Close" },
+            { "<leader>du", "<cmd>lua require('dapui').toggle()<cr>",                                           desc = "🖥️ Toggle DapUI" },
+            { "<leader>dv", "<cmd>lua require'dap'.step_over()<cr>",                                            desc = "➡️ Step over" },
+        })
 
         -- DAP winbar autocmd lives in lua/config/autocmds.lua (global scope)
 

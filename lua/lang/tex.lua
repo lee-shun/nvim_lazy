@@ -10,7 +10,6 @@ function M.setup(buf)
     local wk = require("which-key")
 
     wk.add({
-        { "<leader>x", group = "TeX / Typst", icon = { icon = "📐", color = "Cyan" }, buffer = buf },
         {
             "<leader>xt",
             function()

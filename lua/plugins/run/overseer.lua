@@ -340,19 +340,6 @@ return {
 
 			overseer.clear_task_cache()
 
-			local wk = require("which-key")
-            wk.add({
-                { "<leader>r", group = "▶️ Run/Build", icon = { icon = "󱓞", color = "blue" } },
-                { "<leader>rb", desc = "🔨 Smart Build", icon = { icon = "󰙵", color = "green" } },
-                { "<leader>rB", desc = "📋 Select Template", icon = { icon = "󰋙", color = "yellow" } },
-                { "<leader>rr", desc = "▶️ Run Executable", icon = { icon = "󰜎", color = "cyan" } },
-                { "<leader>rR", desc = "🔨 Build & Run", icon = { icon = "󰓦", color = "orange" } },
-                { "<leader>ro", desc = "📋 Task List", icon = { icon = "󰙵", color = "blue" } },
-                { "<leader>rl", desc = "🔁 Rerun Last", icon = { icon = "󰜉", color = "purple" } },
-                { "<leader>rc", desc = "❌ Cancel Running", icon = { icon = "󰜺", color = "red" } },
-                { "<leader>rd", desc = "🗑️ Dispose All", icon = { icon = "󰩹", color = "grey" } },
-                { "<leader>rq", desc = "👁️ Open Output", icon = { icon = "󰌵", color = "green" } },
-            })
-		end,
+			end,
 	},
 }

@@ -79,21 +79,18 @@ return {
 
         -- keymaps
         local wk = require("which-key")
-        wk.add(
-            {
-                { "<leader>f",  group = "🔍 Find",                                 nowait = false,                       remap = false },
-                { "<leader>fQ", "<cmd>Telescope quickfix<cr>",                  desc = "📋 Quickfix list",          nowait = false, remap = false },
-                { "<leader>fb", "<cmd>Telescope buffers<cr>",                   desc = "📑 Buffers",                nowait = false, remap = false },
-                { "<leader>fd", "<cmd>Telescope diagnostics<cr>",               desc = "⚠️ Diagnostics",            nowait = false, remap = false },
-                { "<leader>ff", "<cmd>Telescope find_files<cr>",                desc = "🔍 Files",                   nowait = false, remap = false },
-                { "<leader>fj", "<cmd>Telescope jumplist<cr>",                  desc = "📍 Jumplist",               nowait = false, remap = false },
-                { "<leader>fl", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "📍 Line in buffer", nowait = false, remap = false },
-                { "<leader>fm", "<cmd>Telescope oldfiles<cr>",                  desc = "📁 Old files",              nowait = false, remap = false },
-                { "<leader>fp", "<cmd>Telescope resume<cr>",                    desc = "🔁 Resume picker",      nowait = false, remap = false },
-                { "<leader>fq", "<cmd>Telescope loclist<cr>",                   desc = "📍 Location list",          nowait = false, remap = false },
-                { "<leader>fr", "<cmd>Telescope registers<cr>",                 desc = "📋 Registers",              nowait = false, remap = false },
-                { "<leader>fw", "<cmd>Telescope live_grep<cr>",                 desc = "🔍 Live grep",                   nowait = false, remap = false },
-            }
-        )
+        wk.add({
+            { "<leader>fQ", "<cmd>Telescope quickfix<cr>",                  desc = "📋 Quickfix list" },
+            { "<leader>fb", "<cmd>Telescope buffers<cr>",                   desc = "📑 Buffers" },
+            { "<leader>fd", "<cmd>Telescope diagnostics<cr>",               desc = "⚠️ Diagnostics" },
+            { "<leader>ff", "<cmd>Telescope find_files<cr>",                desc = "🔍 Files" },
+            { "<leader>fj", "<cmd>Telescope jumplist<cr>",                  desc = "📍 Jumplist" },
+            { "<leader>fl", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "📍 Line in buffer" },
+            { "<leader>fm", "<cmd>Telescope oldfiles<cr>",                  desc = "📁 Old files" },
+            { "<leader>fp", "<cmd>Telescope resume<cr>",                    desc = "🔁 Resume picker" },
+            { "<leader>fq", "<cmd>Telescope loclist<cr>",                   desc = "📍 Location list" },
+            { "<leader>fr", "<cmd>Telescope registers<cr>",                 desc = "📋 Registers" },
+            { "<leader>fw", "<cmd>Telescope live_grep<cr>",                 desc = "🔍 Live grep" },
+        })
     end,
 }

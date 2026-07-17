@@ -25,8 +25,7 @@ function M.on_attach(client, bufnr)
 
     -- LSP group
     wk.add({
-        { "<leader>l",  group = "📡 LSP",                              buffer = bufnr },
-        { "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>",   desc = "⚡ Code action",  buffer = bufnr },
+        { "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>", desc = "⚡ Code action", buffer = bufnr },
         { "<leader>ld", "<cmd>lua vim.diagnostic.open_float()<cr>", desc = "⚠️ Diagnostic float", buffer = bufnr },
         {
             "<leader>li",

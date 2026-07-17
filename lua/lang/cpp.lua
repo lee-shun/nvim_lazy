@@ -12,7 +12,7 @@ function M.setup(buf)
 
     wk.add({
         {
-            "<leader>rs",
+            "<leader>rF",
             function()
                 vim.cmd([[
             exec "!g++ -std=c++11 -ggdb % -Wall -o %<.out"

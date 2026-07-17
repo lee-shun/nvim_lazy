@@ -1,7 +1,10 @@
 return {
     "folke/todo-comments.nvim",
     event = "VeryLazy",
-    keys = { { "<leader>td", "<cmd>TodoTelescope<cr>", desc = "📝 Todo comments" } },
+    keys = { { "<leader>fT", "<cmd>TodoTelescope<cr>", desc = "✅ Todo comments" } },
+    config = function(_, opts)
+        require("todo-comments").setup(opts)
+    end,
     opts = {
         highlight = {
             before = "",

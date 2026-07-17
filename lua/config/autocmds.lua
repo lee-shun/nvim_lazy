@@ -129,6 +129,13 @@ api.nvim_create_autocmd("CmdLineLeave", {
 --- Update matching "Last [Cc]hange(d)? / [Mm]odified / [Uu]pdate(d)?" lines.
 -- Kept as a global function because autocmds and user commands may call it via the old name.
 _G.TimeStamp = function()
+    -- Double guard: the autocmd already filters by file extension, but bail
+    -- out here as well if something calls TimeStamp() from a non-text buffer.
+    local allowed = { markdown = true, org = true, text = true }
+    if not allowed[vim.bo.filetype] then
+        return
+    end
+
     local time_str = os.date("%a %d %b %Y %I:%M:%S %p")
 
     -- Each pattern captures the prefix (e.g. "Last changed:") so we can preserve it.

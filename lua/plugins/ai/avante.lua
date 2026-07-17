@@ -73,8 +73,5 @@ return {
     },
     config = function(_, opts)
         require("avante").setup(opts)
-        require("which-key").add({
-            { "<leader>a", group = "🤖 Avante", nowait = false, remap = false },
-        })
     end,
 }

@@ -24,7 +24,6 @@ return {
 
         local clangd_on_attach = function(client, bufnr)
             require("which-key").add({
-                { "<leader>l",  group = "📡 LSP",                       buffer = bufnr },
                 { "<leader>lj", "<cmd>ClangdSwitchSourceHeader<cr>", desc = "🔀 Switch header", buffer = bufnr },
             })
             return on_attach(client, bufnr)
@@ -90,9 +89,8 @@ return {
             end, { desc = "📌 Unpin Main", noremap = true, buffer = bufnr })
 
             require("which-key").add({
-                { "<leader>x", group = "TeX / Typst", icon = { icon = "📐", color = "Cyan" }, buffer = bufnr },
-                { "<leader>xp", desc = "📌 Pin Main", buffer = bufnr },
-                { "<leader>xu", desc = "📌 Unpin Main", buffer = bufnr },
+                { "<leader>xp", desc = "📌 Pin main", buffer = bufnr },
+                { "<leader>xu", desc = "📌 Unpin main", buffer = bufnr },
             })
 
             return on_attach(client, bufnr)

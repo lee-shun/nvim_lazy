@@ -8,8 +8,5 @@ return {
     },
     config = function(_, opts)
         require("mini.bufremove").setup(opts)
-        require("which-key").add({
-            { "<leader>b", group = "📑 Buffer", nowait = false, remap = false },
-        })
     end,
 }

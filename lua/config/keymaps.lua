@@ -72,3 +72,26 @@ vim.keymap.set("n", "J", "mzJ'z", { noremap = true, desc = "🔗 Join lines and 
 -- Terminal escape
 -- ─────────────────────────────────────────────────────────────
 vim.keymap.set("t", "<C-N>", "<C-\\><C-N>", { noremap = true, desc = "🔙 Exit terminal insert mode" })
+
+-- ─────────────────────────────────────────────────────────────
+-- Centralized leader group definitions
+-- ─────────────────────────────────────────────────────────────
+-- Keep all top-level <leader> groups in one place so descriptions
+-- and icons stay consistent across plugins.
+local wk = require("which-key")
+wk.add({
+    { "<leader>a", group = "🤖 Avante" },
+    { "<leader>b", group = "📑 Buffer" },
+    { "<leader>c", group = "🛠️ Code" },
+    { "<leader>d", group = "🐛 Debug" },
+    { "<leader>f", group = "🔍 Find" },
+    { "<leader>l", group = "📡 LSP" },
+    { "<leader>m", group = "✍️ Markdown" },
+    { "<leader>n", group = "🔔 Notifications" },
+    { "<leader>o", group = "💻 Opencode" },
+    { "<leader>r", group = "▶️ Run" },
+    { "<leader>s", group = "🧱 Surround" },
+    { "<leader>t", group = "✅ Todo" },
+    { "<leader>u", group = "🔄 Undo" },
+    { "<leader>x", group = "📐 TeX / Typst" },
+})

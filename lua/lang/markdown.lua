@@ -18,7 +18,6 @@ function M.setup(buf)
     -- Keymaps
     -- ─────────────────────────────────────────────────────────
     wk.add({
-        { "<leader>m", group = "✍️ Markdown", icon = { icon = "✍️", color = "Magenta" }, buffer = buf },
         { "<leader>mr", "<cmd>MarkdownPreview<cr>", buffer = buf, desc = "👁️ Preview" },
         {
             "<C-t>",
