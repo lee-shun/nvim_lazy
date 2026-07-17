@@ -128,7 +128,6 @@ return {
             vim.keymap.set("n", "mp", api.marks.navigate.prev, opts("Prev Bookmark"))
             vim.keymap.set("n", "J", mark_move_j, opts("Toggle Bookmark Down"))
             vim.keymap.set("n", "K", mark_move_k, opts("Toggle Bookmark Up"))
-            vim.keymap.set("n", "l", api.node.open.edit, opts("Open"))
             vim.keymap.set("n", "p", api.fs.paste, opts("Paste"))
             vim.keymap.set("n", "q", api.tree.close, opts("Close"))
             vim.keymap.set("n", "<C-r>", api.tree.reload, opts("Refresh"))

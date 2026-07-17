@@ -65,4 +65,16 @@ return {
         "nvim-tree/nvim-web-devicons",   -- or echasnovski/mini.icons
         "MeanderingProgrammer/render-markdown.nvim",
     },
+    keys = {
+        { "<leader>aa", "<cmd>Avante<cr>", desc = "🤖 Avante chat" },
+        { "<leader>ac", "<cmd>AvanteClose<cr>", desc = "❌ Close Avante" },
+        { "<leader>ap", "<cmd>AvanteProvider<cr>", desc = "⚙️ Avante provider" },
+        { "<leader>as", "<cmd>AvanteSuggestion<cr>", desc = "💡 Avante suggestion" },
+    },
+    config = function(_, opts)
+        require("avante").setup(opts)
+        require("which-key").add({
+            { "<leader>a", group = "🤖 Avante", nowait = false, remap = false },
+        })
+    end,
 }
