@@ -50,7 +50,7 @@ return {
 				local ws = api.find_workspace(opts.path)
 				local target_path_str = ws.path.filename .. "/" .. opts.path
 				local relative =
-					require("util.relative_path").relative_path(current_note.path.filename, target_path_str)
+					require("util.path").relative(current_note.path.filename, target_path_str)
 				return string.format("[%s](%s)", opts.label, relative)
 			end,
 		},

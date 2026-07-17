@@ -40,13 +40,7 @@ return {
                 { "<leader>dv", "<cmd>lua require'dap'.step_over()<cr>",                                            desc = "Step over",           nowait = false, remap = false },
             })
 
-        -- show the winbar
-        local dapWinbar = vim.api.nvim_create_augroup("DapWinbar", { clear = true })
-        vim.api.nvim_create_autocmd("FileType", {
-            pattern = { "dap*" },
-            command = "setlocal winbar=%f",
-            group = dapWinbar,
-        })
+        -- DAP winbar autocmd lives in lua/config/autocmds.lua (global scope)
 
         local dap = require("dap")
         --

@@ -1,63 +1,20 @@
--- lua/plugins/overseer.lua
+-- lua/plugins/run/overseer.lua
 -- overseer.nvim 完整配置
 -- 支持：ROS2 colcon / CMake / 单文件 g++ 的 构建 + 运行
 
--- ==================== 项目检测辅助函数 ====================
-local function find_root(markers)
-	local dir = vim.fn.expand("%:p:h")
-	while dir ~= "/" do
-		for _, marker in ipairs(markers) do
-			if vim.fn.filereadable(dir .. "/" .. marker) == 1 or vim.fn.isdirectory(dir .. "/" .. marker) == 1 then
-				return dir
-			end
-		end
-		dir = vim.fn.fnamemodify(dir, ":h")
-	end
-	return nil
-end
+local project = require("util.project")
 
-local function is_ros2_workspace()
-	local root = find_root({ "src", "build", "install", "log" })
-	if not root then
-		return false, nil
-	end
-	local entries = vim.fn.readdir(root .. "/src")
-	if type(entries) ~= "table" then
-		return false, nil
-	end
-	for _, name in ipairs(entries) do
-		if vim.fn.isdirectory(root .. "/src/" .. name) == 1 then
-			if vim.fn.filereadable(root .. "/src/" .. name .. "/package.xml") == 1 then
-				return true, root
-			end
-		end
-	end
-	return false, nil
-end
-
-local function is_cmake_project()
-	local dir = vim.fn.expand("%:p:h")
-	local root = nil
-	while dir ~= "/" do
-		if vim.fn.filereadable(dir .. "/CMakeLists.txt") == 1 then
-			root = dir
-		elseif root then
-			break
-		end
-		dir = vim.fn.fnamemodify(dir, ":h")
-	end
-	return root ~= nil, root
-end
+-- Project detection helpers are provided by util.project for reuse by other plugins.
 
 -- ==================== 构建函数 ====================
 local function smart_build()
 	local overseer = require("overseer")
-	local ros2_ok, _ = is_ros2_workspace()
+	local ros2_ok, _ = project.is_ros2_workspace()
 	if ros2_ok then
 		overseer.run_task({ name = "ROS2: colcon build" })
 		return
 	end
-	local cmake_ok, _ = is_cmake_project()
+	local cmake_ok, _ = project.is_cmake_project()
 	if cmake_ok then
 		overseer.run_task({ name = "CMake: build" })
 		return
@@ -75,7 +32,7 @@ local function run_executable()
 	local overseer = require("overseer")
 
 	-- 1. ROS2
-	local ros2_ok, ws_root = is_ros2_workspace()
+	local ros2_ok, ws_root = project.is_ros2_workspace()
 	if ros2_ok then
 		vim.ui.input({ prompt = "ROS2 package name: " }, function(pkg)
 			if not pkg or pkg == "" then
@@ -99,7 +56,7 @@ local function run_executable()
 	end
 
 	-- 2. CMake（在单文件之前检测，确保项目内的 .cpp 文件走 CMake 分支）
-	local cmake_ok, proj_root = is_cmake_project()
+	local cmake_ok, proj_root = project.is_cmake_project()
 	if cmake_ok then
 		vim.ui.input({ prompt = "Executable path in build/ (e.g. my_app or src/main): " }, function(name)
 			if not name or name == "" then
@@ -282,7 +239,7 @@ return {
 			overseer.register_template({
 				name = "ROS2: colcon build",
 				builder = function()
-					local _, ws_root = is_ros2_workspace()
+					local _, ws_root = project.is_ros2_workspace()
 					return {
 						name = "colcon build",
 						cmd = { "colcon" },
@@ -305,7 +262,7 @@ return {
 			overseer.register_template({
 				name = "CMake: build",
 				builder = function()
-					local _, proj_root = is_cmake_project()
+					local _, proj_root = project.is_cmake_project()
 					local build_dir = proj_root .. "/build"
 					vim.fn.mkdir(build_dir, "p")
 					return {
