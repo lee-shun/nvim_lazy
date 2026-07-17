@@ -160,6 +160,7 @@ _G.TimeStamp = function()
 end
 
 api.nvim_create_autocmd("BufWritePre", {
+    pattern = { "*.md", "*.org", "*.txt" },
     desc = "Auto-update timestamp before saving",
     callback = function()
         TimeStamp()
@@ -190,7 +191,7 @@ end
 vim.keymap.set("v", "#", visual_search_backwards, {
     noremap = true,
     silent = true,
-    desc = "Search visual selection backwards",
+    desc = "🔍 Search visual selection backwards",
 })
 
 -- ─────────────────────────────────────────────────────────────

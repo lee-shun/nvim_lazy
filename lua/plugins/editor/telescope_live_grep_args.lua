@@ -1,6 +1,6 @@
 return {
     "nvim-telescope/telescope-live-grep-args.nvim",
-    keys = { { "<leader>fW", "<cmd>Telescope live_grep_args<cr>", desc = "Find word args" } },
+    keys = { { "<leader>fW", "<cmd>Telescope live_grep_args<cr>", desc = "🔍 Live grep args" } },
     dependencies = {
         "nvim-telescope/telescope.nvim",
     },

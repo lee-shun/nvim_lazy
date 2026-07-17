@@ -1,15 +1,16 @@
 return {
     "folke/todo-comments.nvim",
     event = "VeryLazy",
+    keys = { { "<leader>td", "<cmd>TodoTelescope<cr>", desc = "📝 Todo comments" } },
     opts = {
         highlight = {
-            before = "",          -- "fg" or "bg" or empty
-            keyword = "bg",       -- "fg", "bg", "wide" or empty. (wide is the same as bg, but will also highlight surrounding characters)
-            after = "fg",         -- "fg" or "bg" or empty
+            before = "",
+            keyword = "bg",
+            after = "fg",
             pattern = [[.*<(KEYWORDS)(\([^\)]*\))?:]],
-            comments_only = true, -- uses treesitter to match keywords in comments only
-            max_line_len = 400,   -- ignore lines longer than this
-            exclude = {},         -- list of file types to exclude highlighting
+            comments_only = true,
+            max_line_len = 400,
+            exclude = {},
         },
         search = {
             command = "rg",
@@ -24,10 +25,9 @@ return {
         },
         keywords = {
             FIX = {
-                icon = "",                                  -- icon used for the sign, and in search results
-                color = "error",                            -- can be a hex color, or a named color (see below)
-                alt = { "FIXME", "BUG", "FIXIT", "ISSUE" }, -- a set of other keywords that all map to this FIX keywords
-                -- signs = false, -- configure signs for some keywords individually
+                icon = "",
+                color = "error",
+                alt = { "FIXME", "BUG", "FIXIT", "ISSUE" },
             },
             TODO = { icon = "", color = "info" },
             HACK = { icon = "", color = "warning", alt = { "DEBUG" } },

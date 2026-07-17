@@ -15,7 +15,7 @@ return {
   },
   cmd = {"LiteratureNewList", "LiteratureCheck"},
   keys = {
-    {"<leader>ln", "<cmd>LiteratureNewList<cr>", desc = "New Literature Notes"},
-    {"<leader>lc", "<cmd>LiteratureCheck<cr>", desc = "Check Literature Notes"}
+    {"<leader>ln", "<cmd>LiteratureNewList<cr>", desc = "📝 New Literature Notes"},
+    {"<leader>lc", "<cmd>LiteratureCheck<cr>", desc = "📝 Check Literature Notes"}
   }
 }

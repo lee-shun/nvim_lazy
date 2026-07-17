@@ -18,7 +18,8 @@ function M.setup(buf)
     -- Keymaps
     -- ─────────────────────────────────────────────────────────
     wk.add({
-        { "<leader>mr", "<cmd>MarkdownPreview<cr>", buffer = buf, desc = "Preview markdown" },
+        { "<leader>m", group = "✍️ Markdown", icon = { icon = "✍️", color = "Magenta" }, buffer = buf },
+        { "<leader>mr", "<cmd>MarkdownPreview<cr>", buffer = buf, desc = "👁️ Preview" },
         {
             "<C-t>",
             function()
@@ -26,7 +27,7 @@ function M.setup(buf)
             end,
             buffer = buf,
             mode = "i",
-            desc = "Insert formatted time",
+            desc = "🕐 Insert timestamp",
         },
         {
             "<leader>mn",
@@ -34,7 +35,7 @@ function M.setup(buf)
                 M.toggle_ordered()
             end,
             buffer = buf,
-            desc = "Toggle ordered list",
+            desc = "🔢 Toggle ordered list",
         },
         {
             "<leader>mu",
@@ -42,7 +43,7 @@ function M.setup(buf)
                 M.toggle_unordered()
             end,
             buffer = buf,
-            desc = "Toggle unordered list",
+            desc = "📌 Toggle unordered list",
         },
         {
             "<leader>mU",
@@ -50,7 +51,7 @@ function M.setup(buf)
                 M.toggle_unordered_indent()
             end,
             buffer = buf,
-            desc = "Toggle unordered list (indent levels)",
+            desc = "📌 Toggle unordered (indent)",
         },
     })
 

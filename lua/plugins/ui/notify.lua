@@ -6,7 +6,7 @@ return {
             function()
                 require("notify").dismiss({ silent = true, pending = true })
             end,
-            desc = "Delete all Notifications",
+            desc = "🔔 Dismiss all notifications",
         },
     },
     opts = {
@@ -25,7 +25,7 @@ return {
         local wk = require("which-key")
         wk.add(
             {
-                { "<leader>fn", "<cmd>Telescope notify<cr>", desc = "Find notify", nowait = false, remap = false },
+                { "<leader>fn", "<cmd>Telescope notify<cr>", desc = "🔔 Find notify", nowait = false, remap = false },
             }
         )
     end,

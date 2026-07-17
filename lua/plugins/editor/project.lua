@@ -2,7 +2,7 @@ return {
     "ahmedkhalf/project.nvim",
     event = "VeryLazy",
     keys = {
-        { "<leader>fp", "<cmd>Telescope projects<cr>", desc = "Find projects" },
+        { "<leader>fp", "<cmd>Telescope projects<cr>", desc = "📁 Projects" },
     },
     opts = {
         -- Manual mode doesn't automatically change your root directory, so you have

@@ -4,7 +4,7 @@ return {
         {
             "<F12>",
             "<cmd>ToggleTerm<cr>",
-            "ToggleTerm",
+            "💻 Toggle terminal",
         },
     },
     opts = { direction = "float" },

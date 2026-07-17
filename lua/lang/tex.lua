@@ -10,28 +10,28 @@ function M.setup(buf)
     local wk = require("which-key")
 
     wk.add({
+        { "<leader>x", group = "TeX / Typst", icon = { icon = "📐", color = "Cyan" }, buffer = buf },
         {
-            "<leader>rt",
+            "<leader>xt",
             function()
                 vim.cmd("VimtexStop")
                 vim.cmd("VimtexCompile")
             end,
             buffer = buf,
-            desc = "Recompile LaTeX",
+            desc = "🔄 Recompile LaTeX",
         },
         {
-            "<leader>rv",
+            "<leader>xv",
             function()
                 vim.cmd("VimtexView")
             end,
             buffer = buf,
-            desc = "View the PDF",
+            desc = "👁️ View PDF",
         },
         {
-            "<leader>bd",
+            "<leader>xb",
             function()
                 require("util.wrap").wrap_selection("\\boldsymbol")
-                -- Exit visual mode after wrapping
                 vim.api.nvim_feedkeys(
                     vim.api.nvim_replace_termcodes("<Esc>", true, false, true),
                     "n",
@@ -40,7 +40,7 @@ function M.setup(buf)
             end,
             buffer = buf,
             mode = { "n", "v" },
-            desc = "Bold (boldsymbol)",
+            desc = "𝐛 Bold (boldsymbol)",
         },
     })
 end

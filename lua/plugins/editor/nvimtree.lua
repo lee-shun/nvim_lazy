@@ -2,10 +2,16 @@ return {
     "nvim-tree/nvim-tree.lua",
     enabled = true,
     keys = {
-        { "<leader>t", "<cmd>NvimTreeToggle<cr>", desc = "NvimTreeToggle" },
+        { "<leader>t", "<cmd>NvimTreeToggle<cr>", desc = "📁 File Explorer" },
     },
     cmd = { "NvimTreeToggle", "NvimTreeClose" },
     dependencies = { "nvim-tree/nvim-web-devicons", "folke/which-key.nvim" },
+    config = function(_, opts)
+        require("nvim-tree").setup(opts)
+        require("which-key").add({
+            { "<leader>t", desc = "📁 File Explorer" },
+        })
+    end,
     opts = {
         ui = {
             confirm = {

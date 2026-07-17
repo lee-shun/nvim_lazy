@@ -2,7 +2,7 @@ return {
     "tibabit/vim-templates",
     cmd = { "TemplateInit", "TemplateExpand" },
     keys = {
-        { "<leader>ft", "<cmd>Telescope find_template<cr>", desc = "Find file templates" },
+        { "<leader>ft", "<cmd>Telescope find_template<cr>", desc = "📋 File templates" },
     },
     config = function()
         vim.g.tmpl_auto_initialize = 0

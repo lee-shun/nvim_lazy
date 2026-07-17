@@ -15,12 +15,12 @@ function M.setup(buf)
             "<leader>rs",
             function()
                 vim.cmd([[
-                    exec "!g++ -std=c++11 -ggdb % -Wall -o %<.out"
-                    exec "!time ./%<.out"
-                ]])
+            exec "!g++ -std=c++11 -ggdb % -Wall -o %<.out"
+            exec "!time ./%<.out"
+        ]])
             end,
             buffer = buf,
-            desc = "Run single file",
+            desc = "▶️ Run file",
         },
     })
 end

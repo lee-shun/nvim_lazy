@@ -14,37 +14,37 @@ function M.on_attach(client, bufnr)
 
     -- Navigation
     wk.add({
-        { "gD", "<cmd>lua vim.lsp.buf.declaration()<cr>",     desc = "Declaration",             buffer = bufnr },
-        { "gH", "<cmd>lua vim.lsp.buf.signature_help()<cr>",  desc = "Signature help",          buffer = bufnr },
-        { "gd", "<cmd>Lspsaga goto_definition<cr>",           desc = "Lspsaga goto definition", buffer = bufnr },
-        { "gh", "<cmd>Lspsaga hover_doc<cr>",                 desc = "Lspsaga Hover",           buffer = bufnr },
-        { "gi", "<cmd>Telescope lsp_implementations<cr>",     desc = "Goto implementation",     buffer = bufnr },
-        { "gr", "<cmd>lua vim.lsp.buf.references()<cr>",      desc = "Goto reference",          buffer = bufnr },
-        { "gt", "<cmd>lua vim.lsp.buf.type_definition()<cr>", desc = "Goto type definition",    buffer = bufnr },
+        { "gD", "<cmd>lua vim.lsp.buf.declaration()<cr>",     desc = "📍 Declaration",             buffer = bufnr },
+        { "gH", "<cmd>lua vim.lsp.buf.signature_help()<cr>",  desc = "💡 Signature help",          buffer = bufnr },
+        { "gd", "<cmd>Lspsaga goto_definition<cr>",           desc = "📍 Goto definition", buffer = bufnr },
+        { "gh", "<cmd>Lspsaga hover_doc<cr>",                 desc = "💡 Hover",           buffer = bufnr },
+        { "gi", "<cmd>Telescope lsp_implementations<cr>",     desc = "📍 Goto implementation",     buffer = bufnr },
+        { "gr", "<cmd>lua vim.lsp.buf.references()<cr>",      desc = "📍 Goto reference",          buffer = bufnr },
+        { "gt", "<cmd>lua vim.lsp.buf.type_definition()<cr>", desc = "📍 Goto type definition",    buffer = bufnr },
     })
 
     -- LSP group
     wk.add({
-        { "<leader>l",  group = "LSP",                              buffer = bufnr },
-        { "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>",   desc = "Lsp code action",  buffer = bufnr },
-        { "<leader>ld", "<cmd>lua vim.diagnostic.open_float()<cr>", desc = "Diagnostic float", buffer = bufnr },
+        { "<leader>l",  group = "📡 LSP",                              buffer = bufnr },
+        { "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>",   desc = "⚡ Code action",  buffer = bufnr },
+        { "<leader>ld", "<cmd>lua vim.diagnostic.open_float()<cr>", desc = "⚠️ Diagnostic float", buffer = bufnr },
         {
             "<leader>li",
             function()
                 return ":IncRename " .. vim.fn.expand("<cword>")
             end,
-            desc = "IncRename",
+            desc = "✏️ IncRename",
             expr = true,
             replace_keycodes = false,
             buffer = bufnr,
         },
-        { "<leader>lr", "<cmd>Lspsaga rename<cr>", desc = "Lspsaga rename", buffer = bufnr },
+        { "<leader>lr", "<cmd>Lspsaga rename<cr>", desc = "✏️ Rename", buffer = bufnr },
     })
 
     -- Diagnostics navigation
     wk.add({
-        { "[d", "<cmd>lua vim.diagnostic.goto_prev()<cr>", desc = "Lsp prev diagnostic", buffer = bufnr },
-        { "]d", "<cmd>lua vim.diagnostic.goto_next()<cr>", desc = "Lsp next diagnostic", buffer = bufnr },
+        { "[d", "<cmd>lua vim.diagnostic.goto_prev()<cr>", desc = "⚠️ Prev diagnostic", buffer = bufnr },
+        { "]d", "<cmd>lua vim.diagnostic.goto_next()<cr>", desc = "⚠️ Next diagnostic", buffer = bufnr },
     })
 end
 

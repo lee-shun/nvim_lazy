@@ -24,8 +24,8 @@ return {
 
         local clangd_on_attach = function(client, bufnr)
             require("which-key").add({
-                { "<leader>l",  group = "LSP",                       buffer = bufnr },
-                { "<leader>lj", "<cmd>ClangdSwitchSourceHeader<cr>", desc = "Clangd switch header", buffer = bufnr },
+                { "<leader>l",  group = "📡 LSP",                       buffer = bufnr },
+                { "<leader>lj", "<cmd>ClangdSwitchSourceHeader<cr>", desc = "🔀 Switch header", buffer = bufnr },
             })
             return on_attach(client, bufnr)
         end
@@ -71,23 +71,29 @@ return {
         -- typst (tinymist)
         local typst_on_attach = function(client, bufnr)
             local notify = require("util.notify")
-            vim.keymap.set("n", "<leader>mp", function()
+            vim.keymap.set("n", "<leader>xp", function()
                 client:exec_cmd({
                     title = "pin",
                     command = "tinymist.pinMain",
                     arguments = { vim.api.nvim_buf_get_name(0) },
                 }, { bufnr = bufnr })
                 notify.info("Pin current buffer as main!")
-            end, { desc = "Tinymist Pin", noremap = true, buffer = bufnr })
+            end, { desc = "📌 Pin Main", noremap = true, buffer = bufnr })
 
-            vim.keymap.set("n", "<leader>mu", function()
+            vim.keymap.set("n", "<leader>xu", function()
                 client:exec_cmd({
                     title = "unpin",
                     command = "tinymist.pinMain",
                     arguments = { vim.v.null },
                 }, { bufnr = bufnr })
                 notify.info("Unpin current buffer as main!")
-            end, { desc = "Tinymist Unpin", noremap = true, buffer = bufnr })
+            end, { desc = "📌 Unpin Main", noremap = true, buffer = bufnr })
+
+            require("which-key").add({
+                { "<leader>x", group = "TeX / Typst", icon = { icon = "📐", color = "Cyan" }, buffer = bufnr },
+                { "<leader>xp", desc = "📌 Pin Main", buffer = bufnr },
+                { "<leader>xu", desc = "📌 Unpin Main", buffer = bufnr },
+            })
 
             return on_attach(client, bufnr)
         end
