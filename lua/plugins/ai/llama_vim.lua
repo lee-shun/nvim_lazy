@@ -1,6 +1,6 @@
 return {
 	"ggml-org/llama.vim",
-	events = "InsertEnter",
+	event = "InsertEnter",
 	init = function()
 		vim.g.llama_config = {
 			auto_fim = true,

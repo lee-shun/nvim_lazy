@@ -3,7 +3,6 @@ return {
     cmd = { "Telescope" },
     keys = { "<leader>f" },
     dependencies = {
-        { "nvim-lua/popup.nvim" },
         { "nvim-lua/plenary.nvim" },
         { "nvim-tree/nvim-web-devicons" },
         { "nvim-telescope/telescope-media-files.nvim",

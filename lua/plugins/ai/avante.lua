@@ -63,6 +63,7 @@ return {
         "hrsh7th/nvim-cmp",              -- autocompletion for avante commands and mentions
         "nvim-tree/nvim-web-devicons",   -- or echasnovski/mini.icons
         "MeanderingProgrammer/render-markdown.nvim",
+        -- bare dependency; full spec owned by lua/plugins/writing/markdown_render.lua
     },
     keys = {
         { "<leader>aa", "<cmd>Avante<cr>", desc = "🤖 Avante chat" },

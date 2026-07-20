@@ -1,7 +1,12 @@
 return {
     "lukas-reineke/indent-blankline.nvim",
     event = "VeryLazy",
-    dependencies = { "HiPhish/rainbow-delimiters.nvim", "lee-shun/indent-rainbowline.nvim" },
+    dependencies = {
+        "HiPhish/rainbow-delimiters.nvim",
+        -- lee-shun/indent-rainbowline.nvim is a small helper plugin; pin it to
+        -- avoid unexpected breakage when indent-blankline updates.
+        { "lee-shun/indent-rainbowline.nvim", pin = true },
+    },
     config = function(_, opts)
         local reg_color_func = function()
             vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#E06C75" })

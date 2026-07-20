@@ -5,7 +5,7 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 		"hrsh7th/nvim-cmp", -- 可选：slash commands
 		"nvim-telescope/telescope.nvim", -- 可选
-		"render-markdown.nvim",
+        "MeanderingProgrammer/render-markdown.nvim",
 	},
 	cmd = { "CodeCompanion", "CodeCompanionCLI", "CodeCompanionChat", "CodeCompanionCmd", "CodeCompanionAction" },
 	config = function()

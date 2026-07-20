@@ -249,7 +249,7 @@ return {
 	end,
 	dependencies = {
 		"nvim-lua/plenary.nvim",
-		"render-markdown.nvim",
+        "MeanderingProgrammer/render-markdown.nvim",
 		-- Optional, for file mentions and commands completion, pick only one
 		"hrsh7th/nvim-cmp",
 

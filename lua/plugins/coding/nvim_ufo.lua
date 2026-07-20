@@ -2,7 +2,7 @@ return {
     "kevinhwang91/nvim-ufo",
     event = "VeryLazy",
     dependencies = { "kevinhwang91/promise-async" },
-    tag = "v1.4.0",
+    -- tag = "v1.4.0",  -- removed to track upstream main branch
     config = function()
         local handler = function(virtText, lnum, endLnum, width, truncate)
             local newVirtText = {}
