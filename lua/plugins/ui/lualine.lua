@@ -180,20 +180,11 @@ return {
         status_ins_left({
             -- Lsp server name .
             function()
-                local buf_ft = vim.api.nvim_get_option_value("filetype", { buf = 0 })
                 local clients = vim.lsp.get_clients({ bufnr = 0 })
 
                 local buf_client_names = {}
                 for _, client in ipairs(clients) do
-                    if client.name ~= "null-ls" then
-                        table.insert(buf_client_names, client.name)
-                    end
-                end
-
-                local sources = require("null-ls.sources")
-                local available = sources.get_available(buf_ft)
-                for _, source in ipairs(available) do
-                    table.insert(buf_client_names, source.name)
+                    table.insert(buf_client_names, client.name)
                 end
 
                 if next(buf_client_names) == nil then

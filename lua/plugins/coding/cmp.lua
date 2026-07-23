@@ -8,7 +8,6 @@ return {
 		{ "hrsh7th/cmp-path" },
 		{ "hrsh7th/cmp-cmdline" },
 		{ "ray-x/cmp-treesitter" },
-		{ "tzachar/cmp-tabnine", build = "./install.sh" },
         { "saadparwaiz1/cmp_luasnip" },
         { "hrsh7th/cmp-nvim-lsp-signature-help" },
         { "lukas-reineke/cmp-under-comparator" },
@@ -116,7 +115,6 @@ return {
 						nvim_lsp = "[LSP]",
 						nvim_lsp_signature_help = "[Sig]",
 						luasnip = "[Snip]",
-						cmp_tabnine = "[TN]",
 						path = "[Path]",
 						buffer = "[Buf]",
 						treesitter = "[TS]",
@@ -168,7 +166,6 @@ return {
 					end,
 				},
 				{ name = "luasnip", priority = 900, max_item_count = 5 },
-				{ name = "cmp_tabnine", priority = 850, max_item_count = 5 },
 				{ name = "path", priority = 800, max_item_count = 2 },
 				{
 					name = "buffer",

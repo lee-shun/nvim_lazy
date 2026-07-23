@@ -73,6 +73,26 @@ return {
                 -- Developer configurations: Not meant for general override
                 buffer_previewer_maker = require("telescope.previewers").buffer_previewer_maker,
             },
+            extensions = {
+                live_grep_args = {
+                    auto_quoting = true,
+                    mappings = {
+                        i = {
+                            ["<C-i>"] = require("telescope-live-grep-args.actions").quote_prompt(),
+                        },
+                    },
+                },
+                undo = {
+                    side_by_side = true,
+                    mappings = {
+                        i = {
+                            ["<C-a>"] = require("telescope-undo.actions").yank_additions,
+                            ["<C-d>"] = require("telescope-undo.actions").yank_deletions,
+                            ["<cr>"] = require("telescope-undo.actions").restore,
+                        },
+                    },
+                },
+            },
         })
 
 
