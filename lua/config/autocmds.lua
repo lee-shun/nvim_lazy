@@ -27,7 +27,7 @@ api.nvim_create_autocmd("TextYankPost", {
     group = yank_grp,
     desc = "Highlight yanked region",
     callback = function()
-        vim.highlight.on_yank({ timeout = 300 })
+        vim.hl.on_yank({ timeout = 300 })
     end,
 })
 

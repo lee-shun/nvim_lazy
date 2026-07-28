@@ -102,7 +102,11 @@ vim.o.list = true
 vim.o.listchars = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←"
 vim.o.showbreak = "↪"
 
-vim.opt.clipboard:prepend("unnamed,unnamedplus")
+if vim.fn.executable("xclip") or vim.fn.executable("xsel") or vim.fn.executable("wl-copy") then
+    vim.opt.clipboard:prepend("unnamed,unnamedplus")
+else
+    vim.opt.clipboard:prepend("unnamed")
+end
 
 vim.o.completeopt = "menuone,noselect,noinsert"
 vim.opt.complete:append("k")
@@ -123,6 +127,11 @@ vim.opt.wildignore:append("*/.git/*,*/.svn/*,*/__pycache__/*,*/build/**")
 vim.opt.wildignore:append("*.pyc")
 vim.opt.wildignore:append("*.DS_Store")
 vim.opt.wildignore:append("*.aux,*.bbl,*.blg,*.brf,*.fls,*.fdb_latexmk,*.synctex.gz,*.pdf")
+
+-- Disable providers not needed (suppress healthcheck warnings)
+vim.g.loaded_node_provider = 0
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
 
 -- Disable some builtin vim plugins
 local disabled_built_ins = {

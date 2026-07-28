@@ -46,10 +46,8 @@ vim.keymap.set("v", ">", ">gv", { noremap = true, silent = true, desc = "➡️ 
 -- ─────────────────────────────────────────────────────────────
 wk.add({
     { "[<leader>", ":<c-u>put! =repeat(nr2char(10), v:count1)<cr>'[", desc = "⬆️ Add empty line above" },
-    { "[<space>",  ":<c-u>put! =repeat(nr2char(10), v:count1)<cr>'[", desc = "⬆️ Add empty line above" },
     { "[e",        ":<c-u>execute 'move -1-'. v:count1<cr>",        desc = "⬆️ Move line up" },
     { "]<leader>", ":<c-u>put =repeat(nr2char(10), v:count1)<cr>",   desc = "⬇️ Add empty line below" },
-    { "]<space>",  ":<c-u>put =repeat(nr2char(10), v:count1)<cr>",   desc = "⬇️ Add empty line below" },
     { "]e",        ":<c-u>execute 'move +'. v:count1<cr>",          desc = "⬇️ Move line down" },
 })
 

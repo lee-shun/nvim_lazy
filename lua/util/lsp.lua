@@ -42,8 +42,8 @@ function M.on_attach(client, bufnr)
 
     -- Diagnostics navigation
     wk.add({
-        { "[d", "<cmd>lua vim.diagnostic.goto_prev()<cr>", desc = "⚠️ Prev diagnostic", buffer = bufnr },
-        { "]d", "<cmd>lua vim.diagnostic.goto_next()<cr>", desc = "⚠️ Next diagnostic", buffer = bufnr },
+        { "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, desc = "⚠️ Prev diagnostic", buffer = bufnr },
+        { "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, desc = "⚠️ Next diagnostic", buffer = bufnr },
     })
 end
 

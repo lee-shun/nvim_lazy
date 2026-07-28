@@ -46,11 +46,14 @@ return {
         --
 
         -- adapter
-        dap.adapters.cppdbg = {
-            id = "cppdbg",
-            type = "executable",
-            command = "/home/ls/.language_tools/cpptools-linux/extension/debugAdapters/bin/OpenDebugAD7",
-        }
+        local cpptools_path = "/home/ls/.language_tools/cpptools-linux/extension/debugAdapters/bin/OpenDebugAD7"
+        if vim.fn.executable(cpptools_path) == 1 then
+            dap.adapters.cppdbg = {
+                id = "cppdbg",
+                type = "executable",
+                command = cpptools_path,
+            }
+        end
 
         -- gdb
         dap.configurations.cpp = {

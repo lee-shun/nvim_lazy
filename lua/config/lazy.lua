@@ -29,4 +29,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 -- Import all plugin specs. Subdirectories are explicitly imported in plugins/init.lua.
-require("lazy").setup("plugins")
+require("lazy").setup("plugins", {
+    rocks = { enabled = false },
+})
