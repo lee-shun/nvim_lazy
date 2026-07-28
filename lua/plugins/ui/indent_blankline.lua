@@ -54,7 +54,6 @@ return {
                     "gitcommit",
                     "TelescopePrompt",
                     "TelescopeResults",
-                    "''",
                 },
                 buftypes = { "terminal", "prompt", "nofile", "quickfix" },
             },

@@ -8,9 +8,6 @@ return {
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function(_, opts)
         require("nvim-tree").setup(opts)
-        require("which-key").add({
-            { "<leader>t", desc = "📁 File Explorer" },
-        })
     end,
     opts = {
         ui = {

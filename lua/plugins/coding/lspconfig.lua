@@ -4,7 +4,6 @@ return {
     dependencies = {
         "mason.nvim",
         "lspsaga.nvim",
-        "williamboman/mason-lspconfig.nvim",
         {
             "smjonas/inc-rename.nvim",
             cmd = "IncRename",
@@ -29,22 +28,21 @@ return {
             return on_attach(client, bufnr)
         end
 
-        vim.lsp.enable("clangd")
         vim.lsp.config("clangd", {
             cmd = { "clangd", "--clang-tidy=0" },
             on_attach = clangd_on_attach,
             capabilities = clangd_cap,
         })
+        vim.lsp.enable("clangd")
 
         -- cmake
-        vim.lsp.enable("neocmake")
         vim.lsp.config("neocmake", {
             on_attach = on_attach,
             capabilities = capabilities,
         })
+        vim.lsp.enable("neocmake")
 
         -- basedpyright
-        vim.lsp.enable("basedpyright")
         vim.lsp.config("basedpyright", {
             on_attach = on_attach,
             capabilities = capabilities,
@@ -59,13 +57,14 @@ return {
                 },
             },
         })
+        vim.lsp.enable("basedpyright")
 
         -- texlab
-        vim.lsp.enable("texlab")
         vim.lsp.config("texlab", {
             on_attach = on_attach,
             capabilities = capabilities,
         })
+        vim.lsp.enable("texlab")
 
         -- typst (tinymist)
         local typst_on_attach = function(client, bufnr)
@@ -96,7 +95,6 @@ return {
             return on_attach(client, bufnr)
         end
 
-        vim.lsp.enable("tinymist")
         vim.lsp.config("tinymist", {
             on_attach = typst_on_attach,
             capabilities = capabilities,
@@ -106,20 +104,20 @@ return {
                 semanticTokens = "disable",
             },
         })
+        vim.lsp.enable("tinymist")
 
         -- bash
-        vim.lsp.enable("bashls")
         vim.lsp.config("bashls", {
             on_attach = on_attach,
             capabilities = capabilities,
         })
+        vim.lsp.enable("bashls")
 
         -- lua
         local runtime_path = vim.split(package.path, ";")
         table.insert(runtime_path, "lua/?.lua")
         table.insert(runtime_path, "lua/?/init.lua")
 
-        vim.lsp.enable("lua_ls")
         vim.lsp.config("lua_ls", {
             on_attach = on_attach,
             capabilities = capabilities,
@@ -142,6 +140,7 @@ return {
                 },
             },
         })
+        vim.lsp.enable("lua_ls")
 
         -- Global diagnostic configuration (signs, floats, virtual text)
         lsp_util.setup_diagnostics()

@@ -37,8 +37,5 @@ return {
     },
     config = function(_, opts)
         require("mini.surround").setup(opts)
-        require("which-key").add({
-            { "<leader>s", group = "🧱 Surround" },
-        })
     end,
 }

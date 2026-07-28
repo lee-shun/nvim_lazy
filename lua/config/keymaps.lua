@@ -85,6 +85,7 @@ wk.add({
     { "<leader>c", group = "🛠️ Code" },
     { "<leader>d", group = "🐛 Debug" },
     { "<leader>f", group = "🔍 Find" },
+    { "<leader>g", group = "🐙 Git" },
     { "<leader>l", group = "📡 LSP" },
     { "<leader>m", group = "✍️ Markdown" },
     { "<leader>n", group = "🔔 Notifications" },
