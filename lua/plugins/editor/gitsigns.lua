@@ -1,6 +1,6 @@
 return {
     "lewis6991/gitsigns.nvim",
-    keys = { "<leader>g" },
+    event="VeryLazy",
     config = function()
         require("gitsigns").setup()
         local wk = require("which-key")
