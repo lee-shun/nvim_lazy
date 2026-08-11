@@ -1,5 +1,6 @@
 return {
     "nvim-telescope/telescope.nvim",
+    event = "VeryLazy",
     cmd = { "Telescope" },
     keys = { "<leader>f" },
     dependencies = {
@@ -10,6 +11,13 @@ return {
             require("telescope").load_extension("media_files")
         end
              },
+        {
+            "nvim-telescope/telescope-ui-select.nvim",
+            event = "VeryLazy",
+            config = function()
+                require("telescope").load_extension("ui-select")
+            end,
+        },
     },
     config = function()
         local present, telescope = pcall(require, "telescope")
@@ -95,6 +103,7 @@ return {
             },
         })
 
+        require("telescope").load_extension("ui-select")
 
         -- keymaps
         local wk = require("which-key")

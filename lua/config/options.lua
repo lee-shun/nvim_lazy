@@ -102,8 +102,48 @@ vim.o.list = true
 vim.o.listchars = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←"
 vim.o.showbreak = "↪"
 
-if vim.fn.executable("xclip") or vim.fn.executable("xsel") or vim.fn.executable("wl-copy") then
-    vim.opt.clipboard:prepend("unnamed,unnamedplus")
+if vim.fn.executable("xclip") == 1 then
+    vim.g.clipboard = {
+        name = "xclip",
+        copy = {
+            ["+"] = "xclip -selection clipboard",
+            ["*"] = "xclip -selection primary",
+        },
+        paste = {
+            ["+"] = "xclip -selection clipboard -o",
+            ["*"] = "xclip -selection primary -o",
+        },
+        cache_enabled = 1,
+    }
+    vim.opt.clipboard:prepend("unnamedplus")
+elseif vim.fn.executable("xsel") == 1 then
+    vim.g.clipboard = {
+        name = "xsel",
+        copy = {
+            ["+"] = "xsel --clipboard --input",
+            ["*"] = "xsel --primary --input",
+        },
+        paste = {
+            ["+"] = "xsel --clipboard --output",
+            ["*"] = "xsel --primary --output",
+        },
+        cache_enabled = 1,
+    }
+    vim.opt.clipboard:prepend("unnamedplus")
+elseif vim.fn.executable("wl-copy") == 1 then
+    vim.g.clipboard = {
+        name = "wl-clipboard",
+        copy = {
+            ["+"] = "wl-copy",
+            ["*"] = "wl-copy --type text/plain",
+        },
+        paste = {
+            ["+"] = "wl-paste",
+            ["*"] = "wl-paste --type text/plain",
+        },
+        cache_enabled = 1,
+    }
+    vim.opt.clipboard:prepend("unnamedplus")
 else
     vim.opt.clipboard:prepend("unnamed")
 end

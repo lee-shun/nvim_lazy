@@ -128,7 +128,7 @@ return {
                     overrides = {}, -- Optional per-key overrides, see section below
                 },
                 questions = {
-                    use_vim_ui_select = false, -- If true, render questions/prompts with vim.ui.select instead of showing them inline in the output buffer.
+                    use_vim_ui_select = true, -- If true, render questions/prompts with vim.ui.select instead of showing them inline in the output buffer.
                 },
                 output = {
                     tools = {
@@ -136,7 +136,7 @@ return {
                         show_reasoning_output = true, -- Show reasoning/thinking steps output (default: true)
                     },
                     rendering = {
-                        markdown_debounce_ms = 250, -- Debounce time for markdown rendering on new data (default: 250ms)
+                        markdown_debounce_Permissionms = 250, -- Debounce time for markdown rendering on new data (default: 250ms)
                         on_data_rendered = nil, -- Called when new data is rendered; set to false to disable default RenderMarkdown/Markview behavior
                     },
                 },
