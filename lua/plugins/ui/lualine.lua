@@ -20,6 +20,21 @@ return {
             red      = '#ec5f67',
         }
 
+        -- Transparent theme: no background on any section (theme = "auto"
+        -- gives the default theme colored backgrounds to a/b/c/x/y/z).
+        -- Every component sets its own fg; this fg is only a fallback
+        -- (e.g. the "location" component has no explicit color).
+        local function transparent_theme()
+            local theme = {}
+            for _, mode in ipairs({ "normal", "insert", "visual", "replace", "command", "terminal", "inactive" }) do
+                theme[mode] = {}
+                for _, section in ipairs({ "a", "b", "c", "x", "y", "z" }) do
+                    theme[mode][section] = { fg = colors.fg, bg = "none" }
+                end
+            end
+            return theme
+        end
+
         local conditions = {
             buffer_not_empty = function()
                 return vim.fn.empty(vim.fn.expand("%:t")) ~= 1
@@ -40,7 +55,7 @@ return {
                 -- Disable sections and component separators
                 component_separators = "",
                 section_separators = "",
-                theme = "auto",
+                theme = transparent_theme(),
                 disabled_filetypes = { -- Filetypes to disable lualine for.
                     winbar = { "vista", "alpha", "NvimTree", "vfiler" },
                     statusline = { "alpha" },
@@ -49,35 +64,49 @@ return {
             },
             sections = {
                 -- these are to remove the defaults
-                lualine_a = {},
-                lualine_b = {},
+                lualine_a = {}, -- far left   (accent bar + mode)
+                lualine_b = {}, -- left       (filesize / branch / diff)
+                lualine_c = {}, -- center     (centered: diagnostics / treesitter / LSP)
+                lualine_x = {}, -- right      (encoding / fileformat / location / progress)
                 lualine_y = {},
-                lualine_z = {},
-                -- These will be filled later
-                lualine_c = {},
-                lualine_x = {},
+                lualine_z = {}, -- far right  (accent bar)
             },
             inactive_sections = {
                 -- these are to remove the defaults
                 lualine_a = {},
                 lualine_b = {},
-                lualine_y = {},
-                lualine_z = {},
                 lualine_c = {},
                 lualine_x = {},
+                lualine_y = {},
+                lualine_z = {},
             },
         }
 
         --------statues line---------
 
-        -- Inserts a component in lualine_c at left section
+        -- far left section (lualine_a)
+        local function status_ins_far_left(component)
+            table.insert(config.sections.lualine_a, component)
+        end
+
+        -- left section (lualine_b)
         local function status_ins_left(component)
+            table.insert(config.sections.lualine_b, component)
+        end
+
+        -- center section (lualine_c)
+        local function status_ins_center(component)
             table.insert(config.sections.lualine_c, component)
         end
 
-        -- Inserts a component in lualine_x ot right section
+        -- right section (lualine_x)
         local function status_ins_right(component)
             table.insert(config.sections.lualine_x, component)
+        end
+
+        -- far right section (lualine_z)
+        local function status_ins_far_right(component)
+            table.insert(config.sections.lualine_z, component)
         end
 
         local function status_ins_right_inactive(component)
@@ -85,16 +114,16 @@ return {
         end
 
         --
-        -- insert c
+        -- lualine_a: accent bar + mode
         --
-        status_ins_left({
+        status_ins_far_left({
             function()
                 return "▊"
             end,
             color = { fg = colors.blue },      -- Sets highlighting of component
             padding = { left = 0, right = 1 }, -- We don't need space before this
         })
-        status_ins_left({
+        status_ins_far_left({
             -- mode component
             function()
                 return ""
@@ -127,6 +156,10 @@ return {
             end,
             padding = { right = 1 },
         })
+
+        --
+        -- lualine_b: file info
+        --
         status_ins_left({
             -- filesize component
             "filesize",
@@ -149,15 +182,19 @@ return {
             cond = conditions.hide_in_width,
         })
 
-        -- insert mid
-        -- section. You can make any number of sections in neovim :)
-        -- for lualine it's any number greater then 2
-        status_ins_left({
+        --
+        -- lualine_c: centered section
+        -- lualine puts a "%=" before lualine_x, and this leading "%="
+        -- creates a second separator. Vim centers everything between
+        -- two separators, so this group stays visually centered no
+        -- matter how wide the left/right sections get.
+        --
+        status_ins_center({
             function()
                 return "%="
             end,
         })
-        status_ins_left({
+        status_ins_center({
             "diagnostics",
             sources = { "nvim_diagnostic" },
             symbols = { error = " ", warn = " ", info = " ", hint = " " },
@@ -167,7 +204,7 @@ return {
                 color_info = { fg = colors.cyan },
             },
         })
-        status_ins_left({
+        status_ins_center({
             function()
                 local b = vim.api.nvim_get_current_buf()
                 if next(vim.treesitter.highlighter.active[b]) then
@@ -177,7 +214,7 @@ return {
             end,
             color = { fg = "#DAF7A6" },
         })
-        status_ins_left({
+        status_ins_center({
             -- Lsp server name .
             function()
                 local clients = vim.lsp.get_clients({ bufnr = 0 })
@@ -198,7 +235,7 @@ return {
         })
 
         --
-        -- insert right
+        -- insert right (lualine_x)
         --
         status_ins_right({
             "o:encoding",       -- option component same as &encoding in viml
@@ -206,7 +243,6 @@ return {
             cond = conditions.hide_in_width,
             color = { fg = colors.green, gui = "bold" },
         })
-
         status_ins_right({
             "fileformat",
             fmt = string.upper,
@@ -221,7 +257,11 @@ return {
         })
         status_ins_right({ "location" })
         status_ins_right({ "progress", color = { fg = colors.fg, gui = "bold" } })
-        status_ins_right({
+
+        --
+        -- lualine_z: accent bar
+        --
+        status_ins_far_right({
             function()
                 return "▊"
             end,
@@ -231,5 +271,56 @@ return {
 
         -- Now don't forget to initialize lualine
         lualine.setup(config)
+
+        -- Absolute centering. Vim's "%=" centers the middle group only
+        -- between the two side groups, so it reaches the true window
+        -- center only when both sides are equally wide. Wrap lualine's
+        -- statusline builder: measure both side groups (component text is
+        -- escaped, so the only bare "%=" are the two separators) and pad
+        -- the narrower side with invisible spaces until both sides match.
+        local orig_statusline = lualine.statusline
+
+        local function find_stl_separators(s)
+            local seps = {}
+            local i = 1
+            while true do
+                local start = s:find("%%=", i)
+                if not start then
+                    break
+                end
+                -- skip "%%=" which is an escaped literal "%" followed by "="
+                if start == 1 or s:sub(start - 1, start - 1) ~= "%" then
+                    seps[#seps + 1] = start
+                end
+                i = start + 2
+            end
+            return seps
+        end
+
+        lualine.statusline = function(...)
+            local raw = orig_statusline(...)
+            if type(raw) ~= "string" then
+                return raw
+            end
+            local ok, result = pcall(function()
+                local seps = find_stl_separators(raw)
+                if #seps ~= 2 then
+                    return raw
+                end
+                local left = raw:sub(1, seps[1] - 1)
+                local center = raw:sub(seps[1] + 2, seps[2] - 1)
+                local right = raw:sub(seps[2] + 2)
+                local lw = vim.api.nvim_eval_statusline(left, {}).width
+                local rw = vim.api.nvim_eval_statusline(right, {}).width
+                if lw > rw then
+                    -- pad goes before the right group so it still hugs the edge
+                    right = string.rep(" ", lw - rw) .. right
+                elseif rw > lw then
+                    left = left .. string.rep(" ", rw - lw)
+                end
+                return left .. "%=" .. center .. "%=" .. right
+            end)
+            return ok and result or raw
+        end
     end,
 }
