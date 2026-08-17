@@ -3,7 +3,7 @@
 
 local M = {}
 
----Kind icons used by nvim-cmp and other completion UIs.
+---Kind icons used by blink.cmp and other completion UIs.
 M.kinds = {
     Array = " ",
     Boolean = " ",

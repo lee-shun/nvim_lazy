@@ -5,7 +5,7 @@ return {
         -- Default configuration with all available options
         require("opencode").setup({
             preferred_picker = "telescope", -- 'telescope', 'fzf', 'mini.pick', 'snacks', 'select', if nil, it will use the best available picker. Note mini.pick does not support multiple selections
-            preferred_completion = "nvim-cmp", -- 'blink', 'nvim-cmp','vim_complete' if nil, it will use the best available completion
+            preferred_completion = "blink", -- 'blink', 'nvim-cmp','vim_complete' if nil, it will use the best available completion
             default_global_keymaps = false, -- If false, disables all default global keymaps
             default_mode = "build", -- 'build' or 'plan' or any custom configured. @see [OpenCode Agents](https://opencode.ai/docs/modes/)
             default_system_prompt = nil, -- Custom system prompt to use for all sessions. If nil, uses the default built-in system prompt
@@ -252,7 +252,7 @@ return {
         "nvim-lua/plenary.nvim",
         "MeanderingProgrammer/render-markdown.nvim",
         -- Optional, for file mentions and commands completion, pick only one
-        "hrsh7th/nvim-cmp",
+        "saghen/blink.cmp",
 
         -- Optional, for file mentions picker, pick only one
         "nvim-telescope/telescope.nvim",

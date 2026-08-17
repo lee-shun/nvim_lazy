@@ -12,21 +12,19 @@ function M.on_attach(client, bufnr)
     -- Enable omnifunc
     vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { scope = "local" })
 
-    -- All LSP operations under gr prefix
-    wk.add({
-        -- Built-in defaults (registered for which-key display)
-        { "gra", desc = "⚡ Code action",      buffer = bufnr },
-        { "grr", desc = "📍 References",       buffer = bufnr },
-        { "grn", desc = "✏️ Rename",           buffer = bufnr },
-        { "gri", desc = "📍 Implementation",   buffer = bufnr },
-        { "grt", desc = "📍 Type definition",  buffer = bufnr },
-        { "grx", desc = "🔬 CodeLens run",     buffer = bufnr },
-        -- Custom additions
-        { "grd", "<cmd>Lspsaga goto_definition<cr>",    desc = "📍 Goto definition", buffer = bufnr },
-        { "grD", "<cmd>lua vim.lsp.buf.declaration()<cr>", desc = "📍 Declaration",  buffer = bufnr },
-        { "grh", "<cmd>Lspsaga hover_doc<cr>",          desc = "💡 Hover",            buffer = bufnr },
-        { "grH", "<cmd>lua vim.lsp.buf.signature_help()<cr>", desc = "💡 Signature help", buffer = bufnr },
-    })
+        -- All LSP operations under g prefix
+        wk.add({
+            { "ga", "<cmd>lua vim.lsp.buf.code_action()<cr>",     desc = "⚡ Code action",      buffer = bufnr },
+            { "gr", "<cmd>lua vim.lsp.buf.references()<cr>",      desc = "📍 References",       buffer = bufnr },
+            { "gn", "<cmd>lua vim.lsp.buf.rename()<cr>",          desc = "✏️ Rename",           buffer = bufnr },
+            { "gi", "<cmd>lua vim.lsp.buf.implementation()<cr>",  desc = "📍 Implementation",   buffer = bufnr },
+            { "gt", "<cmd>lua vim.lsp.buf.type_definition()<cr>", desc = "📍 Type definition",  buffer = bufnr },
+            { "gx", "<cmd>lua vim.lsp.codelens.run()<cr>",        desc = "🔬 CodeLens run",     buffer = bufnr },
+            { "gd", "<cmd>Lspsaga goto_definition<cr>",           desc = "📍 Goto definition", buffer = bufnr },
+            { "gD", "<cmd>lua vim.lsp.buf.declaration()<cr>",     desc = "📍 Declaration",      buffer = bufnr },
+            { "gh", "<cmd>Lspsaga hover_doc<cr>",                 desc = "💡 Hover",            buffer = bufnr },
+            { "gH", "<cmd>lua vim.lsp.buf.signature_help()<cr>",  desc = "💡 Signature help",   buffer = bufnr },
+        })
 
     -- Lower-frequency actions under <leader>l
     wk.add({
@@ -58,7 +56,7 @@ function M.capabilities()
         dynamicRegistration = false,
         lineFoldingOnly = true,
     }
-    return require("cmp_nvim_lsp").default_capabilities(capabilities)
+    return require("blink.cmp").get_lsp_capabilities(capabilities)
 end
 
 ---Configure global diagnostic signs and floats.
