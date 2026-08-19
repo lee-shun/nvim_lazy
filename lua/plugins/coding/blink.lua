@@ -71,11 +71,12 @@ return {
 		require("blink.cmp").setup({
 			-- ====================== 补全列表 ======================
 			completion = {
-				-- 保持与旧 cmp 一致：preselect = None（不预选，Enter 需显式选择）
+				-- preselect = false：不预选（Enter 需显式选择后才确认）
+				-- auto_insert = true：Tab/S-Tab（及 C-n/C-p）导航时自动填充选中项，无需按 Enter
 				list = {
 					selection = {
 						preselect = false,
-						auto_insert = false,
+						auto_insert = true,
 					},
 				},
 				menu = {
