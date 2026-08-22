@@ -1,3 +1,7 @@
+# 注意：此配置未被 lua 配置自动调用（conform 的 tex 格式化走 tex-fmt）。
+# 手动使用：cd ~/.config/nvim/assist && latexindent -l <file.tex>
+# （-l 会在当前目录读取本文件作为配置）
+#
 # 基础缩进规则（保持不变）
 indentRules:
   indentChar: " "

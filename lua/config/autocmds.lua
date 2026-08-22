@@ -127,8 +127,7 @@ api.nvim_create_autocmd("CmdLineLeave", {
 -- ─────────────────────────────────────────────────────────────
 
 --- Update matching "Last [Cc]hange(d)? / [Mm]odified / [Uu]pdate(d)?" lines.
--- Kept as a global function because autocmds and user commands may call it via the old name.
-_G.TimeStamp = function()
+local function time_stamp()
     -- Double guard: the autocmd already filters by file extension, but bail
     -- out here as well if something calls TimeStamp() from a non-text buffer.
     local allowed = { markdown = true, org = true, text = true }
@@ -170,36 +169,14 @@ api.nvim_create_autocmd("BufWritePre", {
     pattern = { "*.md", "*.org", "*.txt" },
     desc = "Auto-update timestamp before saving",
     callback = function()
-        TimeStamp()
+        time_stamp()
     end,
 })
 
 -- ─────────────────────────────────────────────────────────────
 -- 9. Visual selection search (previously plugin/searchcode.vim)
+--    → 已移至 lua/config/keymaps.lua（它是键位，不是 autocmd）
 -- ─────────────────────────────────────────────────────────────
-
---- Search for the current visual selection backwards.
--- Escapes special regex characters and populates the / register.
-local function visual_search_backwards()
-    local saved_reg = vim.fn.getreg("@")
-
-    -- Yank visual selection into the unnamed register
-    vim.cmd('normal! "xy')
-    local pattern = vim.fn.escape(vim.fn.getreg("x"), [[\/.*'$^~[]])
-    pattern = vim.fn.substitute(pattern, "\n$", "", "")
-
-    vim.fn.setreg("/", pattern)
-    vim.fn.setreg("@", saved_reg)
-
-    -- Start search
-    vim.cmd("normal! N")
-end
-
-vim.keymap.set("v", "#", visual_search_backwards, {
-    noremap = true,
-    silent = true,
-    desc = "🔍 Search visual selection backwards",
-})
 
 -- ─────────────────────────────────────────────────────────────
 -- 10. DAP winbar (moved here because it is a global autocmd)

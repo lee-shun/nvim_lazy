@@ -29,7 +29,6 @@ convolutional
 YOLOv3
 Kalman
 ROS
-Kalman
 DNN
 ROC
 IoU
@@ -55,13 +54,11 @@ coc
 nvim
 solAIr
 nvidia
-#mtroduced
 YunGuan2
 Icrest
 osdk
 dji
 Unet
-#end
 gps
 resNet34
 TODOs
@@ -85,7 +82,6 @@ thebibliography
 bibitem
 uav
 IoT
-#emporally
 gimbal
 subsubsection
 includegraphics
@@ -123,7 +119,6 @@ MobileNet
 Resnet50
 VGG16
 Eq
-#egmentated
 Labelme
 UNet
 Pytroch
@@ -137,7 +132,6 @@ parallex
 regular
 ResNet
 upsamplings
-#pu
 colmap
 geolocated
 openMVS
@@ -159,11 +153,9 @@ contribe
 gcc
 EIGEN3
 SfM
-#FM
 unet
 Fastai
 DLT
-#he
 NMS
 GBA
 UAV's

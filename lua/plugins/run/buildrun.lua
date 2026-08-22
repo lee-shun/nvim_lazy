@@ -7,12 +7,14 @@ local build = require("util.build")
 
 return {
     {
-        "nvim-lua/plenary.nvim",
-        lazy = true,
-    },
-    -- Main config: toggleterm is installed externally, we only bind keys here.
-    {
-        dir = vim.fn.stdpath("config") .. "/lua/plugins",
+        -- 本地虚拟插件（lazy.nvim `virtual`）：不安装、不加 rtp，只承载 keys + config。
+        -- 之前用自指 dir 指向 lua/plugins，会把该目录（非插件）加进 rtp。
+        "buildrun",
+        virtual = true,
+        -- toggleterm 是构建/运行流程的真实依赖：之前只有 F12 触发其加载，
+        -- 先按构建键会在 require("toggleterm.terminal") 处失败。
+        -- （plenary 依赖已删：util.build 未使用，avante/obsidian 已声明）
+        dependencies = { "akinsho/toggleterm.nvim" },
         keys = {
             -- Build
             { "<leader>rb", function() build.build(project) end, desc = "Build (Release)" },

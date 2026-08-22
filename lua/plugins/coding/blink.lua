@@ -3,7 +3,8 @@ return {
 	version = "1.*",
 	event = "InsertEnter",
 	dependencies = {
-		-- snippet 引擎（原 luasnip.lua 独立管理，这里保证加载顺序）
+		-- snippet 引擎：luasnip.lua 已自带 InsertEnter 触发，
+		-- 此依赖边仅保证 LuaSnip 先于 blink 的 config 加载（snippets preset 依赖它）
 		"L3MON4D3/LuaSnip",
 		"rafamadriz/friendly-snippets",
 		-- 兼容层：让 nvim-cmp 生态的源跑在 blink.cmp 上

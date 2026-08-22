@@ -1,6 +1,8 @@
 return {
     "L3MON4D3/LuaSnip",
-    lazy = true,
+    -- 独立触发：之前 lazy=true 且无任何触发器，只能靠 blink.lua 的依赖边加载；
+    -- 现在 InsertEnter 自行加载，blink 的依赖边仅作为加载顺序保险
+    event = "InsertEnter",
     version = "v2.*",
     dependencies = {
         "rafamadriz/friendly-snippets",

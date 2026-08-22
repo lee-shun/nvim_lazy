@@ -4,8 +4,7 @@
     "body": [
         "---",
         "title: $1",
-        "tags:
-          - $2",
+        "tags:\n          - $2",
         "created: $3",
         "date: $4",
         "source: $5",
@@ -23,17 +22,6 @@
     "prefix": "matrix",
     "body": ["\\left[", "\\begin{matrix}", "\t$1", "\\end{matrix}", "\\right]"],
     "description": "matrix environment"
-  },
-  "aligned": {
-    "prefix": "aligned",
-    "body": [
-      "\\left\\{",
-      "\\begin{aligned}",
-      "\t$1",
-      "\\end{aligned}",
-      "\\right."
-    ],
-    "description": "aligned environment"
   },
   "frac": {
     "prefix": "frac",

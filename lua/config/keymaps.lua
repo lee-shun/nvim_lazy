@@ -41,6 +41,30 @@ vim.keymap.set("n", "<right>", ":vertical resize+5<cr>",  { noremap = true, sile
 vim.keymap.set("v", "<", "<gv", { noremap = true, silent = true, desc = "⬅️ Decrease indent and reselect" })
 vim.keymap.set("v", ">", ">gv", { noremap = true, silent = true, desc = "➡️ Increase indent and reselect" })
 
+--- Search for the current visual selection backwards.
+-- Escapes special regex characters and populates the / register.
+-- (moved from lua/config/autocmds.lua, previously plugin/searchcode.vim)
+local function visual_search_backwards()
+    local saved_reg = vim.fn.getreg("@")
+
+    -- Yank visual selection into the unnamed register
+    vim.cmd('normal! "xy')
+    local pattern = vim.fn.escape(vim.fn.getreg("x"), [[\/.*'$^~[]])
+    pattern = vim.fn.substitute(pattern, "\n$", "", "")
+
+    vim.fn.setreg("/", pattern)
+    vim.fn.setreg("@", saved_reg)
+
+    -- Start search
+    vim.cmd("normal! N")
+end
+
+vim.keymap.set("v", "#", visual_search_backwards, {
+    noremap = true,
+    silent = true,
+    desc = "🔍 Search visual selection backwards",
+})
+
 -- ─────────────────────────────────────────────────────────────
 -- Add blank lines and move lines
 -- ─────────────────────────────────────────────────────────────
@@ -76,7 +100,6 @@ vim.keymap.set("t", "<C-N>", "<C-\\><C-N>", { noremap = true, desc = "🔙 Exit 
 -- ─────────────────────────────────────────────────────────────
 -- Keep all top-level <leader> groups in one place so descriptions
 -- and icons stay consistent across plugins.
-local wk = require("which-key")
 wk.add({
     { "<leader>a", group = "🤖 Avante" },
     { "<leader>b", group = "📑 Buffer" },

@@ -25,7 +25,8 @@ return {
         }
         dashboard.section.buttons.val = {
             dashboard.button("SPC f m", "  Hist File", "<cmd>Telescope oldfiles<cr>"),
-            dashboard.button("SPC f s", "󰃃  Session", "<cmd>Telescope  session-lens search_session<cr>"),
+            -- Session 按钮已移除：session-lens 未安装，按键会报错。
+            -- 如需 session 管理，装 lewis6991/nvim-session-lens 后恢复此按钮并注册 <leader>fs。
             dashboard.button("SPC f f", "󰈞  Find File", "<cmd>Telescope find_files<cr>"),
             dashboard.button("SPC f w", "  Find Word", "<cmd>Telescope live_grep<cr>"),
             dashboard.button("e", "  New  File", "<cmd>ene <BAR> startinsert <cr>"),
