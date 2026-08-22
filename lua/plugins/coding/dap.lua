@@ -46,33 +46,40 @@ return {
         --
 
         -- adapter
-        local cpptools_path = "/home/ls/.language_tools/cpptools-linux/extension/debugAdapters/bin/OpenDebugAD7"
+        -- cppdbg 路径：可用环境变量 NVIM_CPPDBG_PATH 覆盖
+        local cpptools_path = os.getenv("NVIM_CPPDBG_PATH")
+            or "/home/ls/.language_tools/cpptools-linux/extension/debugAdapters/bin/OpenDebugAD7"
         if vim.fn.executable(cpptools_path) == 1 then
             dap.adapters.cppdbg = {
                 id = "cppdbg",
                 type = "executable",
                 command = cpptools_path,
             }
+
+            -- gdb
+            dap.configurations.cpp = {
+                {
+                    name = "Launch file",
+                    type = "cppdbg",
+                    request = "launch",
+                    program = function()
+                        return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+                    end,
+                    cwd = "${workspaceFolder}",
+                    stopAtEntry = true,
+                },
+            }
+
+            --
+            -- c
+            --
+            dap.configurations.c = dap.configurations.cpp
+        else
+            vim.notify(
+                "cppdbg 未找到: " .. cpptools_path .. "（C/C++ 调试不可用，可用 NVIM_CPPDBG_PATH 覆盖路径）",
+                vim.log.levels.WARN
+            )
         end
-
-        -- gdb
-        dap.configurations.cpp = {
-            {
-                name = "Launch file",
-                type = "cppdbg",
-                request = "launch",
-                program = function()
-                    return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
-                end,
-                cwd = "${workspaceFolder}",
-                stopAtEntry = true,
-            },
-        }
-
-        --
-        -- c
-        --
-        dap.configurations.c = dap.configurations.cpp
 
         --
         -- python

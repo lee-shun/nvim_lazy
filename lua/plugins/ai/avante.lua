@@ -1,3 +1,6 @@
+-- 局域网 AI 服务器地址：可用环境变量 NVIM_AI_HOST 覆盖（换网络不用改配置）
+local ai_host = os.getenv("NVIM_AI_HOST") or "192.168.1.105"
+
 return {
     "yetone/avante.nvim",
     enabled = true,
@@ -20,7 +23,7 @@ return {
         provider = "llamacpp",
         providers = {
             ollama = {
-                endpoint = "http://192.168.1.105:11434",
+                endpoint = "http://" .. ai_host .. ":11434",
                 -- model = "devstral-small-2",
                 -- model = "qwen3-coder:latest",
                 -- model = "deepseek-coder-v2",
@@ -34,7 +37,7 @@ return {
             },
             llamacpp = {
                 __inherited_from = "openai",
-                endpoint = "http://192.168.1.105:8080/v1",
+                endpoint = "http://" .. ai_host .. ":8080/v1",
                 model = "llamacpp_models",
                 timeout = 1000000, -- Timeout in milliseconds
                 disable_tools = false,
