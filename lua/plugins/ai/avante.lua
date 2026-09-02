@@ -1,5 +1,5 @@
 -- 局域网 AI 服务器地址：可用环境变量 NVIM_AI_HOST 覆盖（换网络不用改配置）
-local ai_host = os.getenv("NVIM_AI_HOST") or "192.168.1.105"
+local ai_host = os.getenv("NVIM_AI_HOST") or "192.168.1.61"
 
 return {
     "yetone/avante.nvim",
@@ -16,36 +16,19 @@ return {
     opts = {
         -- add any opts here
         -- this file can contain specific instructions for your project
-        -- mode = "agentic",
-        mode = "legacy", -- Switch from "agentic" to "legacy"
+        mode = "agentic",
+        -- mode = "legacy", -- Switch from "agentic" to "legacy"
         instructions_file = "avante.md",
         -- provider = "opencode",
         provider = "llamacpp",
         providers = {
-            ollama = {
-                endpoint = "http://" .. ai_host .. ":11434",
-                -- model = "devstral-small-2",
-                -- model = "qwen3-coder:latest",
-                -- model = "deepseek-coder-v2",
-                model = "glm-4.7-flash",
-                timeout = 1000000, -- Timeout in milliseconds
-                disable_tools = false,
-                extra_request_body = {
-                    temperature = 0,
-                    max_tokens = 4096,
-                },
-            },
             llamacpp = {
                 __inherited_from = "openai",
                 endpoint = "http://" .. ai_host .. ":8080/v1",
-                model = "llamacpp_models",
+                model = "Qwen3.8-27B-Q5_K_M",
                 timeout = 1000000, -- Timeout in milliseconds
                 disable_tools = false,
                 api_key_name = "TERM",
-                extra_request_body = {
-                    temperature = 0,
-                    max_tokens = 4096,
-                },
             },
         },
         acp_providers = {
