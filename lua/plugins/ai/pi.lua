@@ -7,9 +7,7 @@ return {
 	},
 	config = function()
 		require("pi").setup({
-			-- 保持默认，只覆盖你明确需要改的行为
-			-- 如需信任项目本地 pi 配置，取消下面注释：
-			-- cli = { args = { "--approve" } },
+            show_thinking = true,
 		})
 
 		-- ============================================
