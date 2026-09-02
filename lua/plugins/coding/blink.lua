@@ -274,6 +274,8 @@ return {
 				completion = {
 					-- 默认仅在 cmdwin（<C-f>）里自动弹出；改为在命令行里也自动弹出
 					menu = { auto_show = true },
+					-- 与主补全列表一致：不预选第一项（cmdline 默认 preselect=true 会直接选中并填充第一个候选）
+					list = { selection = { preselect = false, auto_insert = true } },
 				},
 			},
 		})
