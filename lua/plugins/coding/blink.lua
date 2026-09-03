@@ -203,7 +203,7 @@ return {
 					},
 					path = {
 						score_offset = 80,
-						max_items = 2,
+						max_items = 5,
 					},
 					buffer = {
 						score_offset = 70,
