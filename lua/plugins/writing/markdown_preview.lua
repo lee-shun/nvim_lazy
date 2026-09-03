@@ -5,8 +5,9 @@ return {
     config = function()
         vim.cmd([[
         function! g:Open_browser(url)
-            if executable("/home/ls/App/zen/zen")
-                let l:browser= "/home/ls/App/zen/zen"
+            let l:zen = expand("~/App/zen/zen")
+            if executable(l:zen)
+                let l:browser= l:zen
             elseif executable("microsoft-edge-dev")
                 let l:browser= "microsoft-edge-dev"
             elseif executable("microsoft-edge")
@@ -24,7 +25,7 @@ return {
 
 
         vim.g.mkdp_browserfunc = "g:Open_browser"
-        -- vim.g.mkdp_browser = '/home/ls/App/zen/zen'
+        -- vim.g.mkdp_browser = expand('~/App/zen/zen')
         vim.g.mkdp_auto_start = 0
         vim.g.mkdp_auto_close = 0
         vim.g.mkdp_combine_preview = 1

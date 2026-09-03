@@ -51,7 +51,7 @@ return {
         -- 真缺了的话，nvim-dap 在实际启动调试会话时才会报错：
         -- "Executable `...` not found, fix the adapter definition for `cppdbg`"
         local cpptools_path = os.getenv("NVIM_CPPDBG_PATH")
-            or "/home/ls/.language_tools/cpptools-linux/extension/debugAdapters/bin/OpenDebugAD7"
+            or vim.fn.expand("~/.language_tools/cpptools-linux/extension/debugAdapters/bin/OpenDebugAD7")
         dap.adapters.cppdbg = {
             id = "cppdbg",
             type = "executable",
