@@ -101,7 +101,36 @@ vim.o.list = true
 vim.o.listchars = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←"
 vim.o.showbreak = "↪"
 
-if vim.fn.executable("xclip") == 1 then
+-- 剪切板：自动检测外部剪切板工具是否真的可用
+-- （对每个工具跑一次无害的读取命令，timeout 2s 限时防止卡住）
+-- 无图形界面（如 SSH、没有 X11/Wayland）时退回 unnamed，避免 yy 报错
+local function clipboard_tool_ok(args)
+    if vim.fn.executable(args[1]) == 0 then
+        return false
+    end
+    local cmd = {}
+    if vim.fn.executable("timeout") == 1 then
+        cmd[1] = "timeout"
+        cmd[2] = "2"
+    end
+    for i = 1, #args do
+        cmd[#cmd + 1] = args[i]
+    end
+    local sys = vim.fn.system
+    local ok = pcall(sys, cmd)
+    return ok and vim.v.shell_error == 0
+end
+
+local clip_tool = nil
+if clipboard_tool_ok({ "xclip", "-selection", "clipboard", "-o" }) then
+    clip_tool = "xclip"
+elseif clipboard_tool_ok({ "xsel", "--primary", "--output" }) then
+    clip_tool = "xsel"
+elseif clipboard_tool_ok({ "wl-paste" }) then
+    clip_tool = "wl-clipboard"
+end
+
+if clip_tool == "xclip" then
     vim.g.clipboard = {
         name = "xclip",
         copy = {
@@ -144,6 +173,7 @@ elseif vim.fn.executable("wl-copy") == 1 then
     }
     vim.opt.clipboard:prepend("unnamedplus")
 else
+    -- 没有可用的外部剪切板（headless / 工具缺失），只用内部 unnamed 寄存器
     vim.opt.clipboard:prepend("unnamed")
 end
 
