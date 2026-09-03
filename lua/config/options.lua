@@ -144,7 +144,7 @@ if clip_tool == "xclip" then
         cache_enabled = 1,
     }
     vim.opt.clipboard:prepend("unnamedplus")
-elseif vim.fn.executable("xsel") == 1 then
+elseif clip_tool == "xsel" then
     vim.g.clipboard = {
         name = "xsel",
         copy = {
@@ -158,7 +158,7 @@ elseif vim.fn.executable("xsel") == 1 then
         cache_enabled = 1,
     }
     vim.opt.clipboard:prepend("unnamedplus")
-elseif vim.fn.executable("wl-copy") == 1 then
+elseif clip_tool == "wl-clipboard" then
     vim.g.clipboard = {
         name = "wl-clipboard",
         copy = {
