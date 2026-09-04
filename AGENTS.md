@@ -16,6 +16,10 @@
 | AI 服务 | 局域网 host 可用 `NVIM_AI_HOST` 覆盖（默认 `192.168.1.105`）：ollama `:11434`、llamacpp `:8080/v1`（llama-swap 路由，模型按需加载）；本机 FIM `127.0.0.1:8080/infill`（**常未运行**，llama.vim 的 auto_fim 会打空请求） |
 | 用户 | CASIA（中科院自动化所），SLAM/VIO/ROS2/无人机方向；**注释和提示文案用中文** |
 | LSP 测试文件 | `/tmp/lsp_test/`（t.cpp + t.h 配对、test.tex、note.md、ts.md） |
+| git 远程 | `origin` = github `lee-shun/nvim_lazy`、`lan` = `shun@192.168.1.135:Shun/nvim_config.git`；**工作分支是 `new`**（不是 main/master，`git push origin main` 会报 "refspec does not match any"）。gitee `liangshun-dev/config` **本机无凭据**（ssh known_hosts 无条目、无 https credential），推不了 |
+| 远程机器 61 | `lee@30.221.130.61`，网络常超时；同步配置要等它可达。61 上没有 `~/knowledge_library` |
+| 知识库 | `~/knowledge_library`（2.4G git repo，只在本地 ls 机器上） |
+| 未安装的插件 | **snacks.nvim 不在配置里**（`~/.local/share/nvim/snacks` 只是残留数据目录）；buffer 管理用 vim-barbaric；通知用 noice；别凭印象认为有 snacks |
 
 ## 2. 配置结构
 
@@ -37,6 +41,9 @@ tmp/                          → gitignored；跨会话状态写 tmp/nvim-impro
 
 关键链路：
 - **LSP 键位**（ga/gr/gn/gi/gt/gx/gd/gD/gh/gH、`<leader>lf/li/l[/l]`）由 `util/lsp.lua` 的 `on_attach` 经 which-key 注册。任何在 on_attach 之前抛错的代码（如坏的 user_command）会**静默杀掉全部 LSP 键位**——用户症状是"很多按键不行了"，日志在 `LSP[xxx]: Error ON_ATTACH_ERROR`。
+- **大文件处理**在 `lua/config/autocmds.lua` §11（Lua 版，替换了原 `after/plugin/LargeFile.vim`，已删）：阈值 1.5MB 或平均行长 >1000 → 关 swap/backup/undo/syntax/folds/matchparen + `ei=FileType`（顺带挡掉 ftplugin/语法/treesitter/ft 触发的懒加载插件）；全局选项按窗口生效；`:Unlarge` 恢复 + `doautocmd FileType`（手动重新加载），`:Large` 强制启用。
+- **treesitter 锁 `branch = "master"`（旧版 API）**：main 分支是完全重写，`highlight`/`ensure_installed` 会被**静默忽略**（spec 里有注释）。旧版靠 FileType autocmd attach 高亮，所以能被 `ei=FileType` 挡住。
+- **跨机器插件守护**：数据路径在某台机器可能不存在的插件用 lazy `cond = vim.fn.isdirectory(expand("~/xxx")) == 1`（obsidian 对 knowledge_library 就是这么做的）——路径缺失时整体禁用不报错，路径建好后自动生效，零维护。
 - **snippet**：LuaSnip 独立 spec（`event = "InsertEnter"` 自持）；blink.lua 里的 `"L3MON4D3/LuaSnip"` 依赖边**不能删**（加载顺序保险：blink 的 snippets preset 依赖 LuaSnip 先加载）。
 - **构建/运行**：`buildrun` 是 `virtual = true` 本地插件（不安装、不加 rtp），`<leader>r*` 键位触发，依赖 toggleterm。
 - **tex**：conceal 全局关闭（`conceallevel = 0` + `vimtex_syntax_conceal_disable = 1`），用户要原始符号；`vimtex_syntax_enabled = 0`（无高亮，用户已知）。
@@ -70,7 +77,21 @@ io.write('clients: ', #cs, '\n')
   lazy 的键位回调会同步加载插件（`Loader.load` 是同步的），随后 `nvim_feedkeys` 重放按键。
 - 查插件状态：`require("lazy").plugins()`（**是函数**，不是表）；`p._.loaded` / `p._.installed` / `p._.is_local`。
 
-### 3.4 headless 命令注意事项（全部踩过）
+### 3.4 which-key 注册的键位：必须等 VimEnter
+
+`wk.add()` 只是**入队**（`lua/which-key/init.lua` 的 `M.add` → `M._queue`），队列只在 `config.setup()` 的 load 里消费一次——启动时 load 被 defer 到 **VimEnter**（`vim_did_enter == 1` 才立即跑）。而 headless 的 `-c` 命令在 **VimEnter 之前**执行，此时断言键位必然为空（曾因此误判"`<leader>mr` 没注册"，实际交互中一切正常）。正确做法：
+```bash
+nvim --headless -u ~/.config/nvim/init.lua file.md -c "
+lua vim.api.nvim_create_autocmd('VimEnter', {once=true, callback=function()
+  vim.defer_fn(function()
+    -- 这里断言键位（vim.wait 不够，schedule 的 load 需要事件循环）
+    vim.cmd('qa!')
+  end, 300)
+end})
+" 2>&1 | grep -v clipboard
+```
+
+### 3.5 headless 命令注意事项（全部踩过）
 - `-c` 参数**总共最多 10 个**（实测 10 个 OK、11 个报 "Too many ... command arguments"）；多步操作合并进**一个** `-c "lua ..."` 块（lua 块内用 `vim.cmd` 分步，autocmd 是同步的，不需要 sleep）。
 - `io.write` **不接受 boolean**（要 `tostring(x)`），接受 string/number。
 - **`silent!` 会吞掉命令错误**——先不加 `silent!` 跑一遍确认命令有效。
@@ -79,7 +100,7 @@ io.write('clients: ', #cs, '\n')
 - autocmd 是同步触发的，`lua` 块里 `vim.cmd(...)` 之后直接断言即可，不需要 sleep。
 - `:enew [file]` 是**无效命令**（E488 Trailing characters，enew 不接受文件名）；同窗口换 buffer 用 `:edit`。
 
-### 3.5 改动后验证清单
+### 3.6 改动后验证清单
 1. 每个改过的 lua 文件 `loadfile` 语法检查（一个 headless 命令批量做）。
 2. `CONFIG_OK` 启动检查。
 3. 打开真实文件的功能检查（LSP 附加、键位、autocmd 效果）。
@@ -89,6 +110,11 @@ io.write('clients: ', #cs, '\n')
 
 ### 4.1 Neovim API（0.11/0.12 变更）
 1. **`nvim_create_user_command` 移除了 `buffer` 选项**（0.12）。传了报 `invalid key: buffer`，且若在 on_attach 里触发会杀掉全部 LSP 键位。做法：全局命令定义一次，回调里 `vim.api.nvim_get_current_buf()` 取当前 buffer。
+1b. **本机 0.12.4 build 的 `nvim_create_user_command` 只支持 3 参数形式** `(name, fn, opts)`；传 table spec（`{name=..., callback=...}`）报 `Expected 3 arguments`。别信"0.11+ 新 API 通用"，以本机实测为准。
+1c. **`foldmethod` / `foldenable` 是 window-local**（`vim.bo[buf].foldmethod = ...` 直接报 `'buf' cannot be passed for window-local option`）。要 `vim.wo`，且多窗口场景下每个窗口显示该 buffer 时要重新应用（BufEnter/WinEnter 回调）。
+1d. **Lua 表下标 `0` 不是"当前 buffer"**：`vim.bo[0]` 是 API 约定，但 `my_table[0]` 只是 key 0。自己维护 `saved[bufnr]` 之类的表时，入口必须 `api.nvim_get_current_buf()` 解析成真实编号（曾因此 `:Unlarge` 报"未处于大文件模式"）。
+1e. **`eventignore` 的语义是"忽略列表"，不是"白名单"**：`vim.o.ei = "FileType"` = 只忽略 FileType 事件（跳过 ftplugin/语法/treesitter/ft 触发的懒加载插件），其他事件照常。恢复后 `vim.cmd("doautocmd FileType")` 可补跑被跳过的 ft 配置（`:doautocmd` 不受 ei 影响）。这是大文件"自动禁用插件 + :Unlarge 手动加载"的核心机制。
+1f. **对最后一个已加载 buffer `bdelete!` 会让 nvim 重载另一个 unloaded buffer**（BufReadPre 重新触发）——headless 多窗口测试里"删除后状态异常"可能只是测错了对象，先确认当前 buffer 是谁（`nvim_get_current_buf`）再断言。
 2. **`vim.lsp.util.make_position_params()` 必须传 `position_encoding`**（0.12）。如果请求只需要 `TextDocumentIdentifier`（如 `textDocument/switchSourceHeader`），直接 `{ uri = vim.uri_from_bufnr(bufnr) }`。
 3. **`conceallevel` / `concealcursor` 自 0.11 起是 window-local**（options.txt 可查 "local to window"）。`nvim_set_option_value(..., { buf = })` 直接报错。且 `vim.go` 对它**读/写都不可靠**：设窗口值会污染 `vim.go` 的读取；`vim.go` 的 setter 不影响新窗口。需要"全局默认"时，在改动任何窗口值**之前**先捕获。
 4. **`nvim_buf_get_keymap()` 只返回 buffer-local 键位**；全局键位用 `nvim_get_keymap()`。
@@ -104,15 +130,18 @@ io.write('clients: ', #cs, '\n')
 12. **lazy 启动时不会把所有插件注入 `package.path`**（实测 toggleterm 启动时不在）。config/回调里 `require("某插件.module")` 前，必须确保该插件已加载——把它声明为真实 dependency，别指望"它肯定加载了"。
 13. **`require("lazy").plugins` 是函数**（这个版本），调用 `require("lazy").plugins()` 拿列表。
 14. **spec 校验发生在启动时**：坏 spec 启动即报错。改完 spec 先跑 `CONFIG_OK` 启动检查。
+15. **删插件要删三处**：spec 文件 + `lazy-lock.json` 条目 + `~/.local/share/nvim/lazy/<name>` clone（多机器每台都要删，clone 可能几十 MB）。lock 条目 lazy 启动时会自动清，但 clone 目录不会。
+16. **lazy `cond` 在启动时求值**，适合守护"数据路径可能缺失"的插件（见 §2 跨机器插件守护）。注意 `cond` 里用 `vim.fn.expand("~/..." )`，别用 os 函数猜 HOME。
 
 ### 4.3 插件选项
-15. **选项名必须对照插件当前源码，不能信记忆/旧文档**。实例：`g:tex_conceal` 是旧版 vimtex 选项，当前版本源码零引用（`grep -r tex_conceal` 无结果）——基于它做的"修复"全是无效改动。当前 vimtex 的 conceal 开关是 `g:vimtex_syntax_conceal`（字典）+ `g:vimtex_syntax_conceal_disable`。
-16. **注意选项的联动/副作用**：`vimtex_syntax_enabled = 0` 关掉的是**全部语法高亮**，不只是 conceal。改一个选项前先 grep 插件源码看它控制什么。
+17. **选项名必须对照插件当前源码，不能信记忆/旧文档**。实例：`g:tex_conceal` 是旧版 vimtex 选项，当前版本源码零引用（`grep -r tex_conceal` 无结果）——基于它做的"修复"全是无效改动。当前 vimtex 的 conceal 开关是 `g:vimtex_syntax_conceal`（字典）+ `g:vimtex_syntax_conceal_disable`。
+18. **注意选项的联动/副作用**：`vimtex_syntax_enabled = 0` 关掉的是**全部语法高亮**，不只是 conceal。改一个选项前先 grep 插件源码看它控制什么。
+19. **全局注册的插件（noice/blink/lualine/illuminate/yanky…）无法通用"卸载"**：没有卸载 Lua 插件的 API，per-buffer 禁用得插件自己支持（vim-illuminate 只有全局 `disable_keymaps`，没有 per-buffer 开关）。大文件场景真正重的东西（LSP/treesitter/语法/ft 插件/undo/swap）全是 ft 触发或可选项，`ei=FileType` + 显式关选项已覆盖；gitsigns 还有自带的 `max_file_length`（默认 40000 行）自动跳过。别为长尾全局插件造通用开关，收益极低。
 
 ### 4.4 数据文件
-17. **JSON 字符串内的裸换行 = 整个文件非法 JSON**，LuaSnip 会**静默跳过整个文件**（所有 snippet 失效，无任何报错）。多行内容必须 `\n` 转义。改完用 `vim.json.decode` 验证。
-18. **JSON 重复键静默后者胜**（`vim.json.decode` 不报错）；lua 表字面量重复键同理。
-19. **spell 改 `en.utf-8.add` 后要删 `en.utf-8.add.spl`**（编译缓存），否则不生效。
+20. **JSON 字符串内的裸换行 = 整个文件非法 JSON**，LuaSnip 会**静默跳过整个文件**（所有 snippet 失效，无任何报错）。多行内容必须 `\n` 转义。改完用 `vim.json.decode` 验证。
+21. **JSON 重复键静默后者胜**（`vim.json.decode` 不报错）；lua 表字面量重复键同理。
+22. **spell 改 `en.utf-8.add` 后要删 `en.utf-8.add.spl`**（编译缓存），否则不生效。
 
 ## 5. 工作方法论
 
