@@ -2,6 +2,8 @@ return {
 	"obsidian-nvim/obsidian.nvim",
 	lazy = true,
 	version = "*",
+	-- 只在 vault 存在的机器上启用（如 61 无 ~/knowledge_library 时自动禁用，避免启动报错）
+	cond = vim.fn.isdirectory(vim.fn.expand("~/knowledge_library")) == 1,
 	ft = "markdown",
 	dependencies = {
 		-- Required.
