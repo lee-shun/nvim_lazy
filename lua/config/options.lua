@@ -177,18 +177,6 @@ else
     vim.opt.clipboard:prepend("unnamed")
 end
 
--- project.nvim 上游仍用已废弃的 vim.lsp.buf_get_clients（未修），
--- 0.12 每次调用都弹 deprecation 警告。这里用等价实现顶掉（保留
--- 原来 client.id 为键的返回格式，project.nvim 的 pairs/next 用法不受影响）。
--- 上游修了之后这段可以删（它只是往 vim.lsp 表里加一个同名字段）。
-vim.lsp.buf_get_clients = function(bufnr)
-    local result = {}
-    for _, client in ipairs(vim.lsp.get_clients({ bufnr = bufnr })) do
-        result[client.id] = client
-    end
-    return result
-end
-
 vim.o.completeopt = "menuone,noselect,noinsert"
 vim.opt.complete:append("k")
 
