@@ -14,31 +14,48 @@ function M.insert_timestamp()
     buf.insert_text_at_cursor(time_str)
 end
 
----Update a YAML frontmatter date field in the given lines.
+---Update (or, when overwrite=false, only insert if missing) a YAML frontmatter date field.
 ---@param lines string[]
 ---@param field? string default "date"
+---@param overwrite? boolean default true. true=改写已有字段为当前时间；false=仅当字段不存在时插入（不覆盖）
 ---@return string[] new_lines
 ---@return boolean changed
-function M.update_frontmatter_date(lines, field)
+function M.update_frontmatter_date(lines, field, overwrite)
     field = field or "date"
+    if overwrite == nil then overwrite = true end
     local escaped = field:gsub("[%-%.%+%[%]%(%)]", "%%%1")
     local pattern = "^" .. escaped .. "%s*:"
 
     local in_frontmatter = false
-    local changed = false
+    local has_frontmatter = false
+    local field_present = false
+    local close_idx = nil            -- 1-based 行号：闭合 '---'
     local new_time = os.date("%Y-%m-%d  %H:%M:%S")
 
     for i, line in ipairs(lines) do
         if line:match("^%-%-%-$") then
             if in_frontmatter then
+                close_idx = i
                 break
             else
                 in_frontmatter = true
+                has_frontmatter = true
+            end
+        elseif in_frontmatter and line:match(pattern) then
+            field_present = true
+            if overwrite then
+                lines[i] = field .. ": " .. new_time
             end
         end
+    end
 
-        if in_frontmatter and line:match(pattern) then
-            lines[i] = field .. ": " .. new_time
+    local changed
+    if overwrite then
+        changed = field_present      -- 仅当字段已存在才算改动
+    else
+        changed = false
+        if has_frontmatter and not field_present and close_idx then
+            table.insert(lines, close_idx, field .. ": " .. new_time)  -- 插在闭合 '---' 前
             changed = true
         end
     end
