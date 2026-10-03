@@ -25,36 +25,6 @@ H.describe("install_zathurarc", function()
   end)
 end)
 
-H.describe("consume", function()
-  H.it("inserts citation for valid latest drop, deletes file", function()
-    local d = tmp .. "/drops"; vim.fn.mkdir(d, "p")
-    local f = d .. "/20261003000000_1.txt"
-    local o = io.open(f, "w"); o:write('3\n' .. vault_pdf .. '\nhello\nworld here\n'); o:close()
-    local got
-    local ok = zc.consume(d, function(t) got = t end, function() end)
-    H.truthy(ok)
-    H.eq(got, '[[literature/2017_msckf_notes|2017_msckf_notes]] p.3: "hello world here"')
-    H.falsy(vim.uv.fs_stat(f), "drop file should be consumed")
-  end)
-  H.it("empty text -> false, no insert, file deleted", function()
-    local d = tmp .. "/drops2"; vim.fn.mkdir(d, "p")
-    local f = d .. "/20261003000001_1.txt"
-    local o = io.open(f, "w"); o:write("2\n/tmp/a.pdf\n"); o:close()
-    local got
-    local ok = zc.consume(d, function(t) got = t end, function() end)
-    H.falsy(ok)
-    H.falsy(got)
-    H.falsy(vim.uv.fs_stat(f))
-  end)
-  H.it("malformed -> false, no insert", function()
-    local d = tmp .. "/drops3"; vim.fn.mkdir(d, "p")
-    local f = d .. "/20261003000002_1.txt"
-    local o = io.open(f, "w"); o:write("x\n/tmp/a.pdf"); o:close()
-    local got
-    local ok = zc.consume(d, function(t) got = t end, function() end)
-    H.falsy(ok); H.falsy(got)
-  end)
-end)
 
 H.run()
 if vim.v.exception == "" then vim.fn.delete(tmp, "rf") end

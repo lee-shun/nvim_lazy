@@ -17,7 +17,7 @@
 - 不做配置 UI / option 体系（路径、键位写死，后续需要再加）
 - 不做 Windows/Wayland（用户机器为 i3 X11）
 - 不做参考文献自动管理（只插行内引用，不维护 References 区）
-- 不做多 drop 文件并发处理（只取最新一个）
+- 不做 nvim 离线兜底（插入失败时选中文字已在剪贴板，用户可手粘）
 - 不做 LSP 集成
 
 ## 3. 已验证的环境事实（实测结论，非假设）
@@ -46,41 +46,27 @@
   map Y exec /home/ls/.local/share/nvim/site/zathura-cite/bin/zath-cite.sh\ $PAGE
   ```
 - nvim 只扫描 `<rtp>/plugin/` 一层：`~/.local/share/nvim/site/plugin/zathura_cite.lua` 是 shim（symlink 到仓库 `loader.lua`），加载嵌套项目。
-- `/tmp/zathura-cite/`：drop 目录（运行时产物，不入 git）
+- 前提：有 nvim 实例监听 `$NVIM_LISTEN_ADDRESS`（默认 `/tmp/nvimsocket`）——用户主实例经 nvr 启动即满足（synctex 已在用）
 
-## 5. 数据格式
+## 5. 数据通道（无中间文件）
 
-`bin/zath-cite.sh` 收到 `page` 参数后，从 zathura 窗口标题取 file，写 `/tmp/zathura-cite/<YYYYmmddHHMMSS_NANOS>.txt`：
+zathura Y → `bin/zath-cite.sh`：
+1. 页码 ← `$1`；PDF 全路径 ← zathura 窗口标题（`xdotool` 逐窗取 `*.pdf`）
+2. 选中文字 ← `xclip -o -selection clipboard`，压平成单行（换行/制表符→空格，去首尾空白）
+3. sh 拼引用串（`build_citation`，可 source 单测）
+4. 引用串 → `xclip -selection clipboard` → `nvim --server $server --remote-expr 'execute("normal! \"\\\"+p")'` 在光标字符后粘贴
 
-```
-<page>            # 1-based 页码
-<file>            # PDF 绝对路径
-<selected text>   # 第 3 行起，可多行；无选区时为空
-```
-
-- 文件名含纳秒时间戳保证并发唯一
-- 脚本不依赖 nvim 在线；nvim 离线时文件留在目录里，下次启动消费（或手动 `:ZathuraCiteLatest`）
+文本全程只走 X 剪贴板，不进 shell 参数或 Lua 字符串 → **零转义**。
 
 ## 6. 正向：插入行为
 
-nvim 插件 500ms uv timer 轮询 drop 目录。触发条件（全部满足才消费）：
-- 当前 buffer 是 markdown 且文件位于 vault（`~/knowledge_library`）内
-- 目录里有未消费文件
-
-消费流程：
-1. 取最新文件，读取 page/file/text，**立即删除**该文件（防重复消费）
-2. text 为空 → 提示 "zathura-cite: 无选中文字"，结束
-3. 清理 text：换行/制表符压成单空格，去首尾空白
-4. 生成引用（插入在光标处）：
-   - PDF 在 vault 内：`[[<vault 相对路径，去 .pdf 后缀>|<basename>]] p.<page>: "<text>"`
-     例：`[[literature/2017_msckf_notes|2017_msckf_notes]] p.3: "MSCKF is a filter-based VIO..."`
-   - PDF 不在 vault 内：`[<basename>](<绝对路径>) p.<page>: "<text>"`
-5. 提示插入完成（echo 一行即可）
+- 插入位置：光标字符**之后**（`normal! \"+p` 粘贴 @+）；行尾则接在行尾
+- 当前 buffer 是哪一个就插哪一个（nvim 前台焦点 buffer）；不校验 vault——选中文本属于哪个笔记由用户焦点决定
+- 空选区 → 脚本静默退出（不覆盖剪贴板、不插入）
+- 无 nvim 实例 / 未监听 → `--remote-expr` 失败，脚本静默退出（选中文字仍在剪贴板）
 
 命令接口（测试/手动用）：
-- `:ZathuraCiteLatest` — 手动消费 drop 目录最新文件并插入
 - `:ZathuraCiteJump` — 对光标行执行反向跳转（见 §7）
-
 ## 7. 反向：跳转行为
 
 `<CR>` dispatcher（buffer-local，n 模式，expr mapping）：
@@ -103,24 +89,26 @@ nvim 插件 500ms uv timer 轮询 drop 目录。触发条件（全部满足才�
 | 场景 | 行为 |
 |---|---|
 | zathura 未开窗口（反向） | 自动 `zathura -P N file` |
-| 空选区（正向） | 提示后丢弃 drop 文件 |
+| 空选区（正向） | 脚本静默退出（不动剪贴板） |
 | xclip 读不到（无 CLIPBOARD） | text 为空，同上 |
 | obsidian.nvim require 失败 | dispatcher 退化为纯 zathura 判定 + `<CR>` |
 | zathurarc 已含本 map 行 | 不重复写 |
-| drop 目录不存在 | 创建 |
-| timer 轮询开销 | 仅在 markdown+vault buffer 且目录非空时做重活，其余路径 O(1) |
+| 无 nvim 实例监听（正向） | `--remote-expr` 失败，脚本静默退出（文字仍在剪贴板） |
+| alpha 启动页为焦点（正向） | 粘贴落到 readonly 启动页被拒（W10）；用户切到笔记窗口即可，不做处理 |
 
 ## 9. 测试计划
 
-1. **脚本单测**：手动 `sh bin/zath-cite.sh 3 /path/x.pdf` + 预先 `xclip -loop -i` 放文本 → 校验 drop 文件三行格式
-2. **插入单测**：造假 drop 文件 → `:ZathuraCiteLatest` → 断言插入文本格式、文件被删、空文本被拦截
-3. **正向 e2e**：真开 zathura → 选中 → Y → nvim 光标处出现正确引用
-4. **反向 e2e**：光标在引用行 `<CR>` → zathura 跳页（已开/未开两种情况）
-5. **共存回归**：光标在普通 wikilink 上 `<CR>` → 仍走 obsidian follow_link；无链接行 `<CR>` → 正常 CR
+1. **脚本单测**：source `bin/zath-cite.sh`（main guard 阻止执行）→ `build_citation` 各分支断言（vault 内/外、深目录、含特殊字符文本、vault 不存在）
+2. **core 单测**：`match_citation_line` 各分支（wikilink 相对/绝对/.pdf 后缀/md 链接/幽灵链接/多位页码/p.N 无链接）+ `install_zathurarc`（幂等/旧行替换/无尾换行）
+3. **remote 机制单测**：后台 `nvim --listen` → `--remote-expr setline/cursor/execute(normal! "+p)` → 断言行内容（含刁钻文本零转义往返）
+4. **正向 e2e**：真开 zathura → 鼠标选中 → Y → 前台 nvim 光标字符后出现正确引用
+5. **反向 e2e**：光标在引用行 `<CR>` → zathura 跳页（截图 RMSE 对比断言页面变化）
+6. **共存回归**：光标在普通 wikilink 上 `<CR>` → 仍走 obsidian follow_link；空行 → toggle_checkbox；非 vault buffer 无 keymap
 
 ## 10. 关键决策记录
 
-- 数据通道选 **exec + 剪贴板 + 窗口标题** 而非 D-Bus：D-Bus 服务名在本机 tmux 环境未观察到注册（疑似会话总线差异），而 exec+剪贴板+标题已实测可用、版本无关
+- 数据通道选 **exec + 剪贴板 + 窗口标题 + nvim --remote-expr** 而非 D-Bus 或 drop 文件：D-Bus 服务名在本机 tmux 环境未观察到注册；remote-expr 实测可用（nvim ≥0.10 需显式 --server），文本走 X 剪贴板实现**零转义**（含引号/$/反引号/反斜杠/CJK 原样往返）
+- 正向不再有中间 drop 文件：脚本拼好引用串后直接 `nvim --server $NVIM_LISTEN_ADDRESS --remote-expr 'execute("normal! \"\\\"+p")'` 粘贴 @+；无 nvim 实例时插入失败，但选中文字已在剪贴板（用户可手粘），不做文件兜底
 - **$FILE 不可经 exec 传参**（zathura 展开后按空格切 argv，实测），改从窗口标题取全路径
 - 插件需 shim 加载：nvim 不扫描嵌套 plugin/ 目录（实测），`site/plugin/zathura_cite.lua` shim -> 项目 loader
 - 反向键用 `<CR>` 覆盖而非另加键：用户明确要求 Enter；覆盖时保留 obsidian 原逻辑

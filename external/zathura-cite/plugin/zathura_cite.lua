@@ -1,5 +1,5 @@
 -- zathura-cite: zathura <-> nvim 双向 PDF 引用
--- 正向: zathura 选中按 Y -> drop 文件 -> 本插件在光标处插入 wikilink 引用
+-- 正向: zathura 选中按 Y -> bin/zath-cite.sh 直接 nvim --remote-expr 在光标处插入引用（无中间文件）
 -- 反向: 光标停在引用行按 <CR> -> zathura 跳页（其余 CR 行为委托 obsidian.nvim）
 -- realpath 归一化：无论从 site symlink 还是 repo 直接加载，plugin_dir 都解析到同一真实路径
 -- （否则 zathurarc 里的 script 路径会随加载方式来回翻转）
@@ -9,7 +9,6 @@ vim.opt.rtp:prepend(plugin_dir)
 local core = require("zathura_cite.core")
 
 local M = {}
-local DROP_DIR = "/tmp/zathura-cite"
 local vault = vim.fn.expand("~/knowledge_library")
 local enabled = vim.fn.isdirectory(vault) == 1
 
@@ -50,42 +49,6 @@ function M.install_zathurarc(zathurarc_path, script_path)
   out:write(want .. "\n")
   out:close()
   return true
-end
-
----------------- 正向: 消费 drop ----------------
-
-function M.consume(drop_dir, insert_fn, notify)
-  local p = core.latest_drop(drop_dir or DROP_DIR)
-  if not p then return false end
-  local d = core.parse_drop_file(p)
-  vim.uv.fs_unlink(p)
-  notify = notify or vim.notify
-  if not d then
-    notify("zathura-cite: drop 文件格式错误", vim.log.levels.WARN)
-    return false
-  end
-  if d.text == "" then
-    notify("zathura-cite: 无选中文字", vim.log.levels.WARN)
-    return false
-  end
-  insert_fn(core.format_citation(d.page, d.file, core.clean_text(d.text), vault))
-  return true
-end
-
-local function insert_citation(text)
-  local buf = vim.api.nvim_get_current_buf()
-  local cursor = vim.api.nvim_win_get_cursor(0)
-  local row, col = cursor[1], cursor[2]
-  local l = (vim.api.nvim_buf_get_lines(buf, row - 1, row, true)[1]) or ""
-  local first
-  if col > #l then
-    first = l .. text
-    vim.api.nvim_buf_set_lines(buf, row - 1, row, false, { first })
-  else
-    first = l:sub(1, col - 1) .. text
-    vim.api.nvim_buf_set_lines(buf, row - 1, row, false, { first, l:sub(col) })
-  end
-  vim.api.nvim_win_set_cursor(0, { row, #first + 1 })
 end
 
 ---------------- 反向: 跳页 ----------------
@@ -146,18 +109,6 @@ if enabled then
     end,
   })
 
-  local timer = vim.uv.new_timer()
-  timer:start(500, 500, vim.schedule_wrap(function()
-    local buf = vim.api.nvim_get_current_buf()
-    local f = vim.api.nvim_buf_get_name(buf)
-    if vim.bo[buf].filetype ~= "markdown" or not f:find(vault, 1, true) then return end
-    if not vim.uv.fs_stat(DROP_DIR) or #vim.fn.readdir(DROP_DIR) == 0 then return end
-    M.consume(DROP_DIR, insert_citation)
-  end))
-
-  vim.api.nvim_create_user_command("ZathuraCiteLatest", function()
-    if M.consume(DROP_DIR, insert_citation) then vim.notify("zathura-cite: 已插入引用") end
-  end, {})
   vim.api.nvim_create_user_command("ZathuraCiteJump", function()
     local row = vim.api.nvim_win_get_cursor(0)[1]
     local line = (vim.api.nvim_buf_get_lines(0, row - 1, row, true)[1]) or ""
