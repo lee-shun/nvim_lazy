@@ -1,7 +1,10 @@
 -- zathura-cite: zathura <-> nvim 双向 PDF 引用
 -- 正向: zathura 选中按 Y -> drop 文件 -> 本插件在光标处插入 wikilink 引用
 -- 反向: 光标停在引用行按 <CR> -> zathura 跳页（其余 CR 行为委托 obsidian.nvim）
-local plugin_dir = vim.fs.abspath(vim.fs.dirname(vim.fs.dirname(debug.getinfo(1).source:sub(2))))
+-- realpath 归一化：无论从 site symlink 还是 repo 直接加载，plugin_dir 都解析到同一真实路径
+-- （否则 zathurarc 里的 script 路径会随加载方式来回翻转）
+local _base = vim.fs.abspath(vim.fs.dirname(vim.fs.dirname(debug.getinfo(1).source:sub(2))))
+local plugin_dir = vim.uv.fs_realpath(_base, nil) or _base
 vim.opt.rtp:prepend(plugin_dir)
 local core = require("zathura_cite.core")
 

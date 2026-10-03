@@ -1,0 +1,4 @@
+buffer now: { "before line", 'curs[[literature/2017_msckf_notes|2017_msckf_notes]] p.4: "hello world"', "or here" }
+PASS: inserted at cursor col 5 (mid-line split)
+PASS: drop dir consumed
+cursor after: { 2, 70 }
