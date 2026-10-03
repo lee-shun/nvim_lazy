@@ -45,7 +45,15 @@ cite=$(build_citation "$page" "$file" "$text" "$HOME/knowledge_library")
 
 # 零转义通道：引用串 -> CLIPBOARD -> nvim 粘贴 @+
 printf '%s' "$cite" | xclip -selection clipboard
-server=${NVIM_LISTEN_ADDRESS:-/tmp/nvimsocket}
+# 探测活 socket：$NVIM_LISTEN_ADDRESS 优先，其次固定名，其余 nvim* 按 mtime 新→旧
+# ponytail: 多活实例并存时挑最近用过的，极端情况可挑错；要确定性就只开一个带 socket 的 nvim
+server=""
+for cand in ${NVIM_LISTEN_ADDRESS:-} /tmp/nvimsocket $(ls -t /tmp/nvim* 2>/dev/null); do
+  [ -n "$cand" ] && [ -S "$cand" ] || continue
+  if nvim --server "$cand" --remote-expr '1' >/dev/null 2>&1; then
+    server="$cand"; break
+  fi
+done
 nvim --server "$server" --remote-expr 'execute("normal! \"+p")' 2>/dev/null
 
 }
