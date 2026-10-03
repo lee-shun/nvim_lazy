@@ -16,16 +16,34 @@ local function map_line(script_path)
   return "map Y exec " .. script_path .. "\\ $PAGE"
 end
 
---- 幂等追加 map Y 行。已存在 -> false；写入 -> true
+--- 幂等维护 map Y 行：移除所有旧 zath-cite map 行后追加当前行
+--- （script 路径变化时——如插件目录 symlink 解析变化——自动替换旧行）
 function M.install_zathurarc(zathurarc_path, script_path)
   local want = map_line(script_path)
   local f = io.open(zathurarc_path, "r")
   local existing = f and f:read("*a") or nil
   if f then f:close() end
-  if existing and existing:find(want, 1, true) then return false end
-  local out = io.open(zathurarc_path, "a")
+  local lines = {}
+  if existing and existing ~= "" then
+    lines = vim.split(existing, "\n", { plain = true })
+    if lines[#lines] == "" then table.remove(lines) end
+  end
+  local kept = {}
+  local had_stale = false
+  local want_present = false
+  for _, body in ipairs(lines) do
+    if body == want then
+      want_present = true
+    elseif body:find("map Y exec ", 1, true) == 1 and body:find("zath-cite.sh", 1, true) then
+      had_stale = true
+    else
+      kept[#kept + 1] = body
+    end
+  end
+  if want_present and not had_stale then return false end
+  local out = io.open(zathurarc_path, "w")
   if not out then return false end
-  if existing and existing:sub(-1) ~= "\n" then out:write("\n") end
+  for _, body in ipairs(kept) do out:write(body .. "\n") end
   out:write(want .. "\n")
   out:close()
   return true

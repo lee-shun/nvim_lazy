@@ -25,7 +25,8 @@
 - zathura 0.4.9：`zathurarc` 中 `map Y exec 脚本\ $PAGE` 把**页码（1-based）**传给外部脚本；`$FILE` 展开后被 zathura 按空格切 argv（实测），带空格路径不可用
 - zathura **窗口标题 = 当前文档全路径**（含空格完整）→ 脚本经 `xdotool search --class zathura` 逐窗取 `*.pdf` 标题得文件路径
 - zathura `selection-clipboard clipboard`（用户已配置）：选中文字自动进 X CLIPBOARD，脚本内 `xclip -o -selection clipboard` 可靠读出
-- 本机 nvim 构建（/home/ls/neovim_source, Zig）的 `string.find` 模式模式在 pattern 含 `-` 时返回错误位置（实测）→ 插件全部用 plain find / match / gsub 规避
+- 本机 nvim 构建（/home/ls/neovim_source, Zig）的 pattern 引擎在 pattern 含 `-` 时行为错误：`string.find` 模式模式返回错误位置，`string.match` 混合元字符时直接 nil（实测）→ 插件所有含 `-` 的匹配一律用 plain find / sub 前缀判断
+- `install_zathurarc` 维护语义：移除**所有** zath-cite map 行后追加当前行（处理 script 路径变化，如 symlink 解析导致 plugin_dir 变化；当前行存在且无旧行才 no-op）
 - zathura 窗口标题包含文件名 basename（`xdotool search --name <basename>` 可定位窗口）
 - obsidian.nvim 在 vault 的 markdown buffer 设置 buffer-local `n <CR>` = `actions.smart_action`（expr mapping）；光标在链接上会执行 `:Obsidian follow_link`
 - obsidian.nvim 在 setup 后触发用户 autocmd `ObsidianNoteEnter`（晚于其 keymap 注册，可用于覆盖挂载点）
