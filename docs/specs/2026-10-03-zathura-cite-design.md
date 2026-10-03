@@ -22,8 +22,10 @@
 
 ## 3. 已验证的环境事实（实测结论，非假设）
 
-- zathura 0.4.9：`zathurarc` 中 `map Y exec 脚本\ $FILE\ $PAGE` 可把**当前文档绝对路径**和**页码（1-based）**作为参数传给外部脚本
+- zathura 0.4.9：`zathurarc` 中 `map Y exec 脚本\ $PAGE` 把**页码（1-based）**传给外部脚本；`$FILE` 展开后被 zathura 按空格切 argv（实测），带空格路径不可用
+- zathura **窗口标题 = 当前文档全路径**（含空格完整）→ 脚本经 `xdotool search --class zathura` 逐窗取 `*.pdf` 标题得文件路径
 - zathura `selection-clipboard clipboard`（用户已配置）：选中文字自动进 X CLIPBOARD，脚本内 `xclip -o -selection clipboard` 可靠读出
+- 本机 nvim 构建（/home/ls/neovim_source, Zig）的 `string.find` 模式模式在 pattern 含 `-` 时返回错误位置（实测）→ 插件全部用 plain find / match / gsub 规避
 - zathura 窗口标题包含文件名 basename（`xdotool search --name <basename>` 可定位窗口）
 - obsidian.nvim 在 vault 的 markdown buffer 设置 buffer-local `n <CR>` = `actions.smart_action`（expr mapping）；光标在链接上会执行 `:Obsidian follow_link`
 - obsidian.nvim 在 setup 后触发用户 autocmd `ObsidianNoteEnter`（晚于其 keymap 注册，可用于覆盖挂载点）
@@ -39,14 +41,14 @@
 
 - `~/.config/zathura/zathurarc` 追加一行（插件启动时自动检测/补写，重复不写）：
   ```
-  map Y exec /home/ls/.local/share/nvim/site/zathura-cite/bin/zath-cite.sh\ $FILE\ $PAGE
+  map Y exec /home/ls/.local/share/nvim/site/zathura-cite/bin/zath-cite.sh\ $PAGE
   ```
-  脚本路径由插件用 `vim.fn.expand` 相对自身位置计算后写入，换机器不用改。
+- nvim 只扫描 `<rtp>/plugin/` 一层：`~/.local/share/nvim/site/plugin/zathura_cite.lua` 是 shim（symlink 到仓库 `loader.lua`），加载嵌套项目。
 - `/tmp/zathura-cite/`：drop 目录（运行时产物，不入 git）
 
 ## 5. 数据格式
 
-`bin/zath-cite.sh` 收到 `page file` 两个参数后，写 `/tmp/zathura-cite/<YYYYmmddHHMMSS_NANOS>.txt`：
+`bin/zath-cite.sh` 收到 `page` 参数后，从 zathura 窗口标题取 file，写 `/tmp/zathura-cite/<YYYYmmddHHMMSS_NANOS>.txt`：
 
 ```
 <page>            # 1-based 页码
@@ -116,6 +118,8 @@ nvim 插件 500ms uv timer 轮询 drop 目录。触发条件（全部满足才�
 
 ## 10. 关键决策记录
 
-- 数据通道选 **exec + 剪贴板** 而非 D-Bus：D-Bus 服务名在本机 tmux 环境未观察到注册（疑似会话总线差异），而 exec+剪贴板已实测可用、版本无关
+- 数据通道选 **exec + 剪贴板 + 窗口标题** 而非 D-Bus：D-Bus 服务名在本机 tmux 环境未观察到注册（疑似会话总线差异），而 exec+剪贴板+标题已实测可用、版本无关
+- **$FILE 不可经 exec 传参**（zathura 展开后按空格切 argv，实测），改从窗口标题取全路径
+- 插件需 shim 加载：nvim 不扫描嵌套 plugin/ 目录（实测），`site/plugin/zathura_cite.lua` shim -> 项目 loader
 - 反向键用 `<CR>` 覆盖而非另加键：用户明确要求 Enter；覆盖时保留 obsidian 原逻辑
 - 插件放 `~/.local/share/nvim/site/zathura-cite/` 独立自包含（脚本在内）：不进 lazy（无依赖、启动即载、~150 行无成本），多机同步后续再升级为 repo

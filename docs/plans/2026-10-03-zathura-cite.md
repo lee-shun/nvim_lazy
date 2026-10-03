@@ -22,7 +22,7 @@
 
 ## Review Focus
 
-1. **PDF 文件名含空格**：zathurarc `exec` 的 `$FILE` 展开未经 shell 加引号，带空格路径可能被 word-split → Task 5 e2e 用含空格文件名验证，失败则给 zathurarc 行套 `sh -c` 引号方案
+1. **PDF 文件名含空格**：实测 zathura exec 的 `$FILE` 展开后按空格切 argv，引号无效 → 最终方案：map 只传 `$PAGE`，文件路径从 zathura 窗口标题（全路径，空格安全）取；Task 5 e2e 已用含空格文件名验证通过
 2. **Y 前用户又复制了别的内容**：剪贴板已不是选中文本 → 设计接受此风险（spec §2），无代码处理，仅文档说明
 3. **多个同名 PDF 的 zathura 窗口**：xdotool 取第一个匹配 → 接受（spec 未要求更智能选择）
 4. **wikilink 指向 .md 同名但 PDF 不存在**：match_citation_line 必须返回 nil 回退 obsidian，不得误跳
