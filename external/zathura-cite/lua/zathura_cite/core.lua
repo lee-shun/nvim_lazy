@@ -21,25 +21,34 @@ local function wiki_target_to_abs(target, vault_root)
 end
 
 --- 行匹配引用格式 -> {file=绝对路径, page} | nil
+--- 新（Obsidian 原生）: [[rel.pdf#page=N|显示]]  旧: [[…|…]] p.N: "text" / [base](abs.pdf) p.N:
 function M.match_citation_line(line, vault_root)
-  local page = line:match("p%.%d+") and tonumber(line:match("p%.(%d+)"))
-  if not page then return nil end
   local s = line:find("%[%[", 1, false)
   if s then
     local e = line:find("]", s + 2, false)
     if e then
       local target = (line:sub(s + 2, e - 1)):match("^([^|]+)")
       if target then
-        local f = wiki_target_to_abs(target, vault_root)
-        if f then return { file = f, page = page } end
+        -- 新格式：#page=N 锚点
+        local page = tonumber(target:match("#page=(%d+)"))
+        if page then
+          local f = wiki_target_to_abs(target:match("^[^#]+"), vault_root)
+          if f then return { file = f, page = page } end
+        else
+          local p2 = tonumber(line:match("p%.(%d+)"))
+          if p2 then
+            local f = wiki_target_to_abs(target, vault_root)
+            if f then return { file = f, page = p2 } end
+          end
+        end
       end
     end
   end
   local mpath = line:match("%[[^%]]+%]%(([^) ]+%.pdf)%)")
-  if mpath then
+  local page = mpath and tonumber(line:match("p%.(%d+)"))
+  if mpath and page then
     local abs = mpath:sub(1, 1) == "/" and mpath or vault_root .. "/" .. mpath
     if vim.uv.fs_stat(abs) then return { file = abs, page = page } end
-    return nil
   end
   return nil
 end
