@@ -3,13 +3,13 @@ return {
     -- 替换 voldikss/vim-translator（2023 停更，网页接口已死）
     -- sdcv 离线查词 + 本机 Ollama AI 翻译，全离线无 key
     -- sdcv: 免 root 装在 ~/.local/bin/sdcv（Ubuntu deb 解包），词典 ~/.stardict/dic/（ECDICT）
-    -- ollama: 用户态装在 ~/.local/ollama/，`ollama serve` 监听 127.0.0.1:11434
+    -- AI: 走 ollama_shim（systemd user 服务 ollama-shim.service，11434 -> llama-server :8080）
+    -- ollama 本体未安装（用户拍板不装），model 名字 shim 会忽略
     lazy = false,
     opts = {
         sdcv_cmd = "~/.local/bin/sdcv",
-        ollama_cmd = "~/.local/ollama/ollama",
-        ollama_model = "translategemma:4b",
-        ollama_host = "http://127.0.0.1:11434", -- 走本机 HTTP API
+        ollama_model = "local-llama-server", -- shim 忽略此字段
+        ollama_host = "http://127.0.0.1:11434", -- shim 转发到 llama-server
         stream = true,
         keymaps = {
             -- 保持旧 <leader>y：normal 查词（原 TranslateW），visual AI 翻译
