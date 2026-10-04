@@ -15,7 +15,10 @@ function M.setup()
     -- 4. Global and leader keymaps
     require("config.keymaps")
 
-    -- 5. Filetype-specific configuration dispatcher
+    -- 5. Obsidian preview（:ObsidianPreview / <leader>oP，跨平台 URI 协议）
+    require("util.obsidian_preview").setup()
+
+    -- 6. Filetype-specific configuration dispatcher
     require("lang").setup()
 end
 
