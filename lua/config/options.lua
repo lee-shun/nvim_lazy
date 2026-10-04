@@ -37,6 +37,8 @@ vim.cmd("filetype plugin indent on")
 vim.cmd("syntax on")
 vim.o.compatible = false
 vim.g.mapleader = " "
+-- localleader 用逗号（markdown-plus 等插件的 buffer 局部键前缀），不用双空格
+vim.g.maplocalleader = ","
 vim.o.autochdir = false
 vim.o.autoread = true
 vim.o.scrolloff = 5

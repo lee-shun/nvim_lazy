@@ -1,6 +1,6 @@
 return {
     "stevearc/conform.nvim",
-    cmd = { "ConformInfo", "Format" },
+    cmd = { "ConformInfo" },
     keys = {
         {
             -- Customize or remove this keymap to your liking

@@ -6,17 +6,7 @@ local wk = require("which-key")
 -- ─────────────────────────────────────────────────────────────
 -- Insert mode: popup/completion navigation
 -- ─────────────────────────────────────────────────────────────
-vim.keymap.set("i", "<cr>", function()
-    return vim.v.pumvisible == 1 and "<C-y>" or "<cr>"
-end, { expr = true, noremap = true, desc = "✅ Confirm popup or insert CR" })
-
-vim.keymap.set("i", "<Tab>", function()
-    return vim.v.pumvisible == 1 and "<C-n>" or "<Tab>"
-end, { expr = true, noremap = true, desc = "⬇️ Next popup item or Tab" })
-
-vim.keymap.set("i", "<S-Tab>", function()
-    return vim.v.pumvisible == 1 and "<C-p>" or "<Tab>"
-end, { expr = true, noremap = true, desc = "⬆️ Previous popup item or Tab" })
+-- 补全弹框导航交给 blink.cmp 自己的 keymap（accept / auto_brackets / 无弹框时触发补全）
 
 -- ─────────────────────────────────────────────────────────────
 -- Quick access

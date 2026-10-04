@@ -36,7 +36,7 @@ return {
             confirm_destructive = true, -- Confirm before transpose/sort operations
             keymaps = {
                 enabled = true,
-                prefix = "<leader>mt",
+                prefix = ",t", -- 统一用 localleader（逗号）开头
                 insert_mode_navigation = true, -- Alt+hjkl cell navigation
             },
         },

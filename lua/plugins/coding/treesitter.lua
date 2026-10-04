@@ -24,9 +24,6 @@ return {
                 "vimdoc",
                 "xml",
             },
-            markdown = {
-                enable = true,
-            },
         })
     end,
 }
