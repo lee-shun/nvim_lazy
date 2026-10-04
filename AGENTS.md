@@ -12,7 +12,8 @@
 | nvim 运行时文档 | `/usr/local/share/nvim/runtime/doc/` |
 | lazy.nvim 源码 | `~/.local/share/nvim/lazy/lazy.nvim/lua/lazy/`（spec 字段看 `core/types.lua`，加载看 `core/loader.lua`/`meta.lua`/`plugin.lua`） |
 | Rust/cargo | **本机没有**（blink.cmp frecency 因此关闭；别加需要 Rust 的插件） |
-| AI 服务 | 局域网（`NVIM_AI_HOST` 覆盖，默认 `192.168.1.105`）：ollama `:11434`、llamacpp `:8080/v1`（llama-swap 路由）；本机 FIM `127.0.0.1:8080/infill`（**常未运行**，llama.vim auto_fim 会打空请求）。注意：avante/opencode 配置里 `api_key_name="TERM"` 很可疑（TERM 是终端类型变量），本地 llama.cpp 不校验 key 所以能跑，换真 API 前必须改 |
+| AI 服务 | 局域网（`NVIM_AI_HOST` 覆盖，默认 `192.168.1.105`）：ollama `:11434`、llamacpp `:8080/v1`（llama-swap 路由）；本机 llama-server `127.0.0.1:8080`（Qwen2.5-Coder-3B，OpenAI 兼容 API，FIM `/infill` 常未运行）。注意：avante/opencode 配置里 `api_key_name="TERM"` 很可疑（TERM 是终端类型变量），本地 llama.cpp 不校验 key 所以能跑，换真 API 前必须改 |
+| 本机翻译栈 | **transdog.nvim**（替换已死的 vim-translator）：sdcv 查词 + 本地 AI 翻译。① sdcv 免 root 装在 `~/.local/bin/sdcv`（Ubuntu deb 解包），词典 `~/.stardict/dic/`（ECDICT 340 万词条）；② ollama 二进制装在 `~/.local/ollama/ollama`（无 root，模型 registry 连接不稳，translategemma:4b 只下到 ~350MB）；③ **实际走 shim**：`~/.local/bin/ollama_shim.py`（Ollama `/api/generate` → OpenAI chat）由 systemd **user** 服务 `ollama-shim.service` 托管，监听 `127.0.0.1:11434` 转发到 llama-server `:8080`。transdog 的 `ollama_host` 指 11434。若将来 4b 模型下齐：停 shim 服务、改跑真 `ollama serve` |
 | 用户 | CASIA（中科院自动化所），SLAM/VIO/ROS2/无人机方向；**注释和提示文案用中文** |
 | LSP 测试文件 | `/tmp/lsp_test/`（t.cpp+t.h、test.tex、note.md、ts.md） |
 | git 远程 | `origin`=github `lee-shun/nvim_lazy`、`lan`=`shun@192.168.1.135:Shun/nvim_config.git`。当前工作分支 **`try/treesitter-main`**（treesitter 迁移实验，验证后合回）；历史分支：`new`（旧工作分支）、`feat/zathura-cite`、`master`/`dev`。gitee `liangshun-dev/config` 本机无凭据，推不了 |
