@@ -1,7 +1,7 @@
 return {
     "lervag/vimtex",
-    ft = "tex",
-    -- ft = "tex",
+    -- 不能 ft 懒加载：zathura 的 -x 反向搜索靠 headless 实例里的
+    -- :VimtexInverseSearch 命令，懒加载时 headless 实例里命令不存在
     config = function()
         vim.g.latex_view_general_viewer = "zathura"
         vim.g.vimtex_view_method = "zathura"
