@@ -14,7 +14,7 @@
 | Rust/cargo | **本机没有**（blink.cmp frecency 因此关闭；别加需要 Rust 的插件） |
 | AI 服务 | 局域网（`NVIM_AI_HOST` 覆盖，默认 `192.168.1.105`）：ollama `:11434`、llamacpp `:8080/v1`（llama-swap 路由）；本机 llama-server `127.0.0.1:8080`（Qwen2.5-Coder-3B，OpenAI 兼容 API，FIM `/infill` 常未运行）。注意：avante/opencode 配置里 `api_key_name="TERM"` 很可疑（TERM 是终端类型变量），本地 llama.cpp 不校验 key 所以能跑，换真 API 前必须改 |
 | ⚠️ 拉模型限制 | **用户拍板：不要用 105 对应的局域网网口/链路拉取大模型**（ollama registry 下载走局域网时连接不稳）；模型一律走其他途径（本机已有模型、直连官方源等） |
-| GitHub 访问 | 本机直连 GitHub **极不稳定**（clone 反复超时/中断）；走本机代理 `export http_proxy=https_proxy=http://127.0.0.1:33461`（shell 历史里找到的）可正常 clone。lazy 克隆失败时手动加代理克隆，保证 commit 与 lazy-lock 一致 |
+| GitHub 访问 | 本机直连 GitHub **极不稳定**（clone 反复超时/中断）。**网络不稳时优先去 bash history 找最新的代理命令**：`grep -hiE "export.*(proxy)" ~/.bash_history | tail -5`（代理端口会变，以历史里最新的为准；曾用到 `http://127.0.0.1:33461`）。用法：`https_proxy=http://127.0.0.1:<port> http_proxy=... git clone/push` 或 `git -c https.proxy=...`。lazy 克隆失败时手动加代理克隆，保证 commit 与 lazy-lock 一致 |
 | 本机翻译栈 | **transdog.nvim**（替换已死的 vim-translator）：sdcv 查词 + 本地 AI 翻译。① sdcv 免 root 装在 `~/.local/bin/sdcv`（Ubuntu deb 解包），词典 `~/.stardict/dic/`（ECDICT 340 万词条）；② **ollama 未安装**（用户拍板不装，模型 registry 连接不稳）；③ **走 shim**：`assist/ollama_shim.py`（仓库内，Ollama `/api/generate` → OpenAI chat）由 systemd **user** 服务 `ollama-shim.service`（`~/.config/systemd/user/`）托管，监听 `127.0.0.1:11434` 转发到 llama-server `:8080`（Qwen2.5-Coder-3B，会多嘴但可用）。transdog 的 `ollama_host` 指 11434、`ollama_model` 名字无所谓（shim 忽略） |
 | 用户 | CASIA（中科院自动化所），SLAM/VIO/ROS2/无人机方向；**注释和提示文案用中文** |
 | LSP 测试文件 | `/tmp/lsp_test/`（t.cpp+t.h、test.tex、note.md、ts.md） |
