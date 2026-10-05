@@ -6,12 +6,19 @@
 local M = {}
 
 --- 向上找最近的含 .obsidian 的目录（vault 根）
+-- 注意：本模块的热路径在 CursorMoved 回调里跑，expand/fnamemodify 等
+-- 会被 Nvim 禁调（E5560），所以只用 buffer API + vim.uv/fs
 local sep = vim.fn.has("win32") == 1 and "\\" or "/"
+
+local function isdir(p)
+  local st = vim.uv.fs_stat(p)
+  return st ~= nil and st.type == "directory"
+end
 
 local function vault_root(abs)
   local d = vim.fs.dirname(abs)
   while d and #d > 1 do
-    if vim.fn.isdirectory(d .. sep .. ".obsidian") == 1 then
+    if isdir(d .. sep .. ".obsidian") then
       return d
     end
     local up = vim.fs.dirname(d)
@@ -23,25 +30,32 @@ local function vault_root(abs)
   return nil
 end
 
---- Linux: 找 Obsidian 可执行文件
+--- Linux: 找 Obsidian 可执行文件（缓存，避免每次回调都扫目录）
+local exe_cache = nil
 local function linux_exe()
-  local exe = vim.fn.exepath("obsidian")
-  if exe ~= "" then
-    return exe
+  if exe_cache ~= nil then
+    return exe_cache
   end
-  local imgs = vim.fn.glob(vim.fn.expand("~/App/Obsidian-*.AppImage"), true, true)
-  if #imgs == 0 then
-    return nil
-  end
-  -- 多个时取 mtime 最新
-  local best, best_m = nil, 0
-  for _, p in ipairs(imgs) do
-    local st = vim.uv.fs_stat(p)
-    if st and st.mtime.sec > best_m then
-      best, best_m = p, st.mtime.sec
+  local exe = vim.uv.which("obsidian")
+  if exe == "" then
+    local app = vim.uv.os_homedir() .. "/App"
+    local files = vim.uv.fs_scandir(app)
+    if files then
+      local best, best_m = nil, 0
+      for _, name in ipairs(files) do
+        if name:match("^Obsidian-.*%.AppImage$") then
+          local p = app .. "/" .. name
+          local st = vim.uv.fs_stat(p)
+          if st and st.mtime.sec > best_m then
+            best, best_m = p, st.mtime.sec
+          end
+        end
+      end
+      exe = best
     end
   end
-  return best
+  exe_cache = exe
+  return exe
 end
 
 --- 把 URI 交给 Obsidian（Win: 协议处理器；Linux: AppImage 转发给运行实例）
@@ -60,10 +74,14 @@ local function open_uri(uri)
   return true
 end
 
---- 当前 buffer 的 vault 相对路径 + 根（带 buffer 级缓存）
+--- 当前 buffer 的 vault 相对路径 + 根（带 buffer 级缓存；不依赖 expand）
 local function current_note()
-  local abs = vim.fn.expand("%:p")
-  if abs == "" or vim.fn.filereadable(abs) ~= 1 then
+  local name = vim.api.nvim_buf_get_name(0)
+  if name == "" then
+    return nil
+  end
+  local abs = vim.fs.abs_path(name)
+  if vim.uv.fs_stat(abs) == nil then
     return nil
   end
   local root = vim.b._obs_vault_root
