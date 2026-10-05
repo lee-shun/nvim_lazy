@@ -150,8 +150,14 @@ local function schedule_sync()
     M._timer = vim.uv.new_timer()
   end
   M._timer:stop()
-  M._timer:start(500, 0, do_sync) -- 防抖：光标停 500ms 才发
+  -- uv timer 回调同样是 fast event 上下文：do_sync 必须再 schedule 一层到正常上下文
+  M._timer:start(500, 0, function()
+    vim.schedule(do_sync)
+  end) -- 防抖：光标停 500ms 才发
 end
+
+-- 测试钩子（headless 无法触发 CursorMoved，用这个驱动真实 timer 链）
+M._test_schedule = schedule_sync
 
 function M.sync_toggle()
   if M._sync then
