@@ -1,6 +1,8 @@
 -- 用 Obsidian 作为 markdown 预览器：把当前笔记丢给 Obsidian 打开（原生渲染 wikilink/图片/callout）
--- :ObsidianPreview / <leader>oP
--- 机制：obsidian://open?file=<vault 相对路径> URI 协议，Windows/Linux 通用
+-- :ObsidianPreview / <leader>oP        —— 打开当前笔记（只读阅读视图）
+-- :ObsidianPreviewSync / <leader>oS    —— 开/关正向滚动同步（nvim 光标 → Obsidian 跳行，防抖 500ms）
+-- 机制：obsidian://adv-uri（community plugin: obsidian-advanced-uri）
+--   line=N 跳行，viewmode=preview 阅读视图（只读，防误改）
 local M = {}
 
 --- 向上找最近的含 .obsidian 的目录（vault 根）
@@ -42,34 +44,105 @@ local function linux_exe()
   return best
 end
 
-function M.open()
+--- 把 URI 交给 Obsidian（Win: 协议处理器；Linux: AppImage 转发给运行实例）
+local function open_uri(uri)
+  if vim.fn.has("win32") == 1 then
+    vim.fn.system({ "cmd", "/c", "start", "", uri })
+    return true
+  end
+  local exe = linux_exe()
+  if not exe then
+    vim.notify("ObsidianPreview: 找不到 Obsidian（PATH 或 ~/App/Obsidian-*.AppImage）", vim.log.levels.ERROR)
+    return false
+  end
+  -- jobstart 非阻塞：Obsidian 未运行时 AppImage 会常驻前台
+  vim.fn.jobstart({ exe, uri })
+  return true
+end
+
+--- 当前 buffer 的 vault 相对路径 + 根（带 buffer 级缓存）
+local function current_note()
   local abs = vim.fn.expand("%:p")
   if abs == "" or vim.fn.filereadable(abs) ~= 1 then
-    vim.notify("ObsidianPreview: 请先保存文件 (:w)", vim.log.levels.WARN)
-    return
+    return nil
   end
-  local root = vault_root(abs)
+  local root = vim.b._obs_vault_root
   if not root then
-    vim.notify("ObsidianPreview: 当前文件不在 vault 里", vim.log.levels.WARN)
+    root = vault_root(abs)
+    vim.b._obs_vault_root = root
+  end
+  if not root then
+    return nil
+  end
+  local rel = abs:sub(#root + 1):gsub("^[\\/]+", ""):gsub("\\", "/"):gsub("%.md$", "")
+  return root, rel
+end
+
+--- 拼 adv-uri：跳行 + 只读阅读视图
+local function make_uri(root, rel, line)
+  return string.format(
+    "obsidian://adv-uri?vault=%s&filepath=%s&line=%d&viewmode=preview",
+    vim.uri_encode(vim.fs.basename(root)),
+    vim.uri_encode(rel),
+    line
+  )
+end
+
+function M.open()
+  local root, rel = current_note()
+  if not rel then
+    vim.notify("ObsidianPreview: 请先保存文件且确认在 vault 里", vim.log.levels.WARN)
     return
   end
-  -- vault 相对路径，统一正斜杠，去 .md（URI 协议可省扩展名）
-  local rel = abs:sub(#root + 1):gsub("^[\\/]+", ""):gsub("\\", "/"):gsub("%.md$", "")
-  -- 整段 percent-encode（Obsidian URI 文档要求 / -> %2F、空格 -> %20）
-  local uri = "obsidian://open?file=" .. vim.uri_encode(rel)
-  if vim.fn.has("win32") == 1 then
-    -- 协议由 Obsidian 安装器注册
-    vim.fn.system({ "cmd", "/c", "start", "", uri })
-  else
-    local exe = linux_exe()
-    if not exe then
-      vim.notify("ObsidianPreview: 找不到 Obsidian（PATH 或 ~/App/Obsidian-*.AppImage）", vim.log.levels.ERROR)
-      return
-    end
-    -- jobstart 非阻塞：Obsidian 未运行时 AppImage 会常驻前台
-    vim.fn.jobstart({ exe, uri })
+  open_uri(make_uri(root, rel, vim.api.nvim_win_get_cursor(0)[1]))
+  vim.notify("Obsidian: 打开 " .. rel .. "（只读视图）")
+end
+
+-- ── 正向滚动同步 ─────────────────────────────────────────
+-- 光标移动（防抖 500ms）→ adv-uri 带 line 跳行；Obsidian 侧保持阅读视图
+M._sync = false
+M._timer = nil
+
+local function do_sync()
+  local root, rel = current_note()
+  if not rel then
+    return
   end
-  vim.notify("Obsidian: 打开 " .. rel)
+  local line = vim.api.nvim_win_get_cursor(0)[1]
+  open_uri(make_uri(root, rel, line))
+end
+
+local function schedule_sync()
+  if not M._timer then
+    M._timer = vim.uv.new_timer()
+  end
+  M._timer:stop()
+  M._timer:start(500, 0, do_sync) -- 防抖：光标停 500ms 才发
+end
+
+function M.sync_toggle()
+  if M._sync then
+    M._sync = false
+    if M._timer then
+      M._timer:stop()
+    end
+    vim.api.nvim_create_augroup("ObsidianPreviewSync", { clear = true })
+    vim.notify("Obsidian 滚动同步：关")
+    return
+  end
+  local _, rel = current_note()
+  if not rel then
+    vim.notify("ObsidianPreviewSync: 当前文件不在 vault 里", vim.log.levels.WARN)
+    return
+  end
+  M._sync = true
+  vim.api.nvim_create_augroup("ObsidianPreviewSync", { clear = true })
+  vim.api.nvim_create_autocmd("CursorMoved", {
+    group = "ObsidianPreviewSync",
+    callback = schedule_sync,
+  })
+  do_sync() -- 立即同步一次（打开笔记 + 跳到当前行）
+  vim.notify("Obsidian 滚动同步：开（光标停 0.5s 后同步）")
 end
 
 function M.setup()
@@ -77,8 +150,10 @@ function M.setup()
   if vim.fn.isdirectory(vim.fn.expand("~/knowledge_library")) ~= 1 then
     return
   end
-  vim.api.nvim_create_user_command("ObsidianPreview", M.open, { desc = "在 Obsidian 中打开当前笔记" })
+  vim.api.nvim_create_user_command("ObsidianPreview", M.open, { desc = "在 Obsidian 中只读预览当前笔记" })
+  vim.api.nvim_create_user_command("ObsidianPreviewSync", M.sync_toggle, { desc = "开/关 Obsidian 滚动同步" })
   vim.keymap.set("n", "<leader>oP", M.open, { desc = "📖 Obsidian 预览当前笔记" })
+  vim.keymap.set("n", "<leader>oS", M.sync_toggle, { desc = "🔄 Obsidian 滚动同步" })
 end
 
 return M
