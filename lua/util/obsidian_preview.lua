@@ -80,7 +80,7 @@ local function current_note()
   if name == "" then
     return nil
   end
-  local abs = vim.fs.abs_path(name)
+  local abs = vim.fs.abspath(name)
   if vim.uv.fs_stat(abs) == nil then
     return nil
   end
