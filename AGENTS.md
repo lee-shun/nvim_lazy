@@ -18,7 +18,7 @@
 | 本机翻译栈 | **transdog.nvim**（替换已死的 vim-translator）：sdcv 查词 + 本地 AI 翻译。① sdcv 免 root 装在 `~/.local/bin/sdcv`（Ubuntu deb 解包），词典 `~/.stardict/dic/`（ECDICT 340 万词条）；② **ollama 未安装**（用户拍板不装，模型 registry 连接不稳）；③ **走 shim**：`assist/ollama_shim.py`（仓库内，Ollama `/api/generate` → OpenAI chat）由 systemd **user** 服务 `ollama-shim.service`（`~/.config/systemd/user/`）托管，监听 `127.0.0.1:11434` 转发到 llama-server `:8080`（Qwen2.5-Coder-3B，会多嘴但可用）。transdog 的 `ollama_host` 指 11434、`ollama_model` 名字无所谓（shim 忽略） |
 | 用户 | CASIA（中科院自动化所），SLAM/VIO/ROS2/无人机方向；**注释和提示文案用中文** |
 | LSP 测试文件 | `/tmp/lsp_test/`（t.cpp+t.h、test.tex、note.md、ts.md） |
-| git 远程 | `origin`=github `lee-shun/nvim_lazy`、`lan`=`shun@192.168.1.135:Shun/nvim_config.git`。当前工作分支 **`try/treesitter-main`**（treesitter 迁移实验，验证后合回）；历史分支：`new`（旧工作分支）、`feat/zathura-cite`、`master`/`dev`。gitee `liangshun-dev/config` 本机无凭据，推不了 |
+| git 远程 | `origin`=github `lee-shun/nvim_lazy`、`lan`=`shun@192.168.1.135:Shun/nvim_config.git`。工作分支 **`master`**（`try/treesitter-main` 已验证并 fast-forward 合入，2026-10-05，两远程已同步）；历史分支：`new`（旧工作分支）、`feat/zathura-cite`、`dev`。gitee `liangshun-dev/config` 本机无凭据，推不了 |
 | 远程机器 61 | `lee@30.221.130.61`，网络常超时；61 上没有 `~/knowledge_library`（相关插件用 `cond` 自动禁用，见 §2） |
 | 知识库 | `~/knowledge_library`（2.4G git repo，仅本机） |
 | 未安装的插件 | **snacks.nvim 不在配置里**（`~/.local/share/nvim/snacks` 是残留数据目录）；buffer 管理=barbaric+telescope buffers；通知=noice |
