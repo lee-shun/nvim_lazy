@@ -11,14 +11,15 @@ return {
         ollama_model = "local-llama-server", -- shim 忽略此字段
         ollama_host = "http://127.0.0.1:11434", -- shim 转发到 llama-server
         stream = true,
-        keymaps = {
-            -- 保持旧 <leader>y：normal 查词（原 TranslateW），visual AI 翻译
-            translate_word = "<leader>y",
-            translate_ollama = "<leader>y",
-        },
+        -- 注：keymaps 选项是死选项（plugin/transdog.lua 在 setup 前就读它），键位在下方 config 显式注册
     },
     config = function(plugin)
         require("transdog").setup(plugin.opts)
+        -- 注：plugin/transdog.lua 会在 config 前用空 opts 注册默认 <leader>tt，先删掉再绑 <leader>y
+        pcall(vim.keymap.del, "n", "<leader>tt")
+        pcall(vim.keymap.del, "v", "<leader>tt")
+        vim.keymap.set("n", "<leader>y", function() require("transdog").translate_word() end, { desc = "📖 查词（sdcv）" })
+        vim.keymap.set("v", "<leader>y", function() require("transdog").translate_with_ollama() end, { desc = "🐕 AI 翻译选中" })
         -- lualine 状态指示（翻译中/完成/错误）；lualine 可能还没加载，重试等待
         local status = {
             function()
