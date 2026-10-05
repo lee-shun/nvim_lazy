@@ -136,12 +136,28 @@ end
 M._sync = false
 M._timer = nil
 
+--- Obsidian 处理 URI 会把窗口拉到前台：发之前记住当前活动窗口，发后把焦点还回来
+local function focus_back()
+  if vim.fn.executable("xdotool") ~= 1 then
+    return
+  end
+  local out = vim.fn.system("xdotool getactivewindow 2>/dev/null")
+  local win_id = (out or ""):match("%d+")
+  if not win_id then
+    return
+  end
+  vim.defer_fn(function()
+    vim.fn.system({ "xdotool", "windowactivate", win_id })
+  end, 600)
+end
+
 local function do_sync()
   local root, rel = current_note()
   if not rel then
     return
   end
   local line = vim.api.nvim_win_get_cursor(0)[1]
+  focus_back()
   open_uri(make_uri(root, rel, line))
 end
 
