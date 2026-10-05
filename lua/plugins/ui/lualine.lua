@@ -57,7 +57,7 @@ return {
                 section_separators = "",
                 theme = transparent_theme(),
                 disabled_filetypes = { -- Filetypes to disable lualine for.
-                    winbar = { "vista", "alpha", "NvimTree", "vfiler" },
+                    winbar = { "vista", "alpha", "NeoTree", "vfiler" },
                     statusline = { "alpha" },
                 },
                 globalstatus = true,

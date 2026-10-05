@@ -14,6 +14,7 @@
 | Rust/cargo | **本机没有**（blink.cmp frecency 因此关闭；别加需要 Rust 的插件） |
 | AI 服务 | 局域网（`NVIM_AI_HOST` 覆盖，默认 `192.168.1.105`）：ollama `:11434`、llamacpp `:8080/v1`（llama-swap 路由）；本机 llama-server `127.0.0.1:8080`（Qwen2.5-Coder-3B，OpenAI 兼容 API，FIM `/infill` 常未运行）。注意：avante/opencode 配置里 `api_key_name="TERM"` 很可疑（TERM 是终端类型变量），本地 llama.cpp 不校验 key 所以能跑，换真 API 前必须改 |
 | ⚠️ 拉模型限制 | **用户拍板：不要用 105 对应的局域网网口/链路拉取大模型**（ollama registry 下载走局域网时连接不稳）；模型一律走其他途径（本机已有模型、直连官方源等） |
+| GitHub 访问 | 本机直连 GitHub **极不稳定**（clone 反复超时/中断）；走本机代理 `export http_proxy=https_proxy=http://127.0.0.1:33461`（shell 历史里找到的）可正常 clone。lazy 克隆失败时手动加代理克隆，保证 commit 与 lazy-lock 一致 |
 | 本机翻译栈 | **transdog.nvim**（替换已死的 vim-translator）：sdcv 查词 + 本地 AI 翻译。① sdcv 免 root 装在 `~/.local/bin/sdcv`（Ubuntu deb 解包），词典 `~/.stardict/dic/`（ECDICT 340 万词条）；② **ollama 未安装**（用户拍板不装，模型 registry 连接不稳）；③ **走 shim**：`assist/ollama_shim.py`（仓库内，Ollama `/api/generate` → OpenAI chat）由 systemd **user** 服务 `ollama-shim.service`（`~/.config/systemd/user/`）托管，监听 `127.0.0.1:11434` 转发到 llama-server `:8080`（Qwen2.5-Coder-3B，会多嘴但可用）。transdog 的 `ollama_host` 指 11434、`ollama_model` 名字无所谓（shim 忽略） |
 | 用户 | CASIA（中科院自动化所），SLAM/VIO/ROS2/无人机方向；**注释和提示文案用中文** |
 | LSP 测试文件 | `/tmp/lsp_test/`（t.cpp+t.h、test.tex、note.md、ts.md） |
@@ -47,6 +48,7 @@ tmp/                      → gitignored；跨会话状态写 tmp/nvim-improveme
   - filetype≠parser 名时 autocmd 里显式映射（`sh→bash`），否则每次打开报 "skipping unsupported language" warning。
   - 高亮/解析本身由 Nvim 0.12 内置 `vim.treesitter` API 完成，**依赖 treesitter 的第三方插件（ibl、rainbow-delimiters、hlargs、mini.ai、Comment、illuminate…）都只依赖内置 API + parser，与 nvim-treesitter 插件版本无关**。
   - ⚠️ **lazy.nvim 不校验 lock commit 是否属于声明的 branch**：曾出现 lazy-lock 写 `branch="master"` 但 commit 是 main 的（实际一直跑 main 代码、旧配置项被静默忽略）。改 branch 后必须核对 lock 与 `git branch -r --contains` 一致。
+- **文件浏览器 neo-tree**（2026-10 替代 nvim-tree，分支 `try/treesitter-main`）：neo-tree **v2.x 是重写版**，旧命令 `NeoTreeToggle` 已不存在，统一用 `:Neotree toggle/focus/show/close/float`；自定义键位写在 `opts.window.mappings`（全局）和 `opts.<source>.window.mappings`（源级）。nvim-tree 的 lock 条目+clone 已清；lualine winbar / illuminate 的文件类型列表已加 `NeoTree`。
 - **跨机器插件守护**：数据路径可能缺失的插件用 `cond = vim.fn.isdirectory(expand("~/xxx")) == 1`（obsidian 对 knowledge_library 如此）——路径缺失整体禁用不报错，建好后自动生效。
 - **snippet**：LuaSnip 独立 spec（`InsertEnter` 自持）；blink.lua 里的 `"L3MON4D3/LuaSnip"` 依赖边**不能删**（加载顺序保险）。
 - **构建/运行**：`buildrun` 是 `virtual=true` 本地插件（不安装、不加 rtp），`<leader>r*` 触发，依赖 toggleterm。

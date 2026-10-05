@@ -19,7 +19,7 @@ return {
     },
     config = function(plugin)
         require("transdog").setup(plugin.opts)
-        -- lualine 状态指示（翻译中/完成/错误）
+        -- lualine 状态指示（翻译中/完成/错误）；lualine 可能还没加载，重试等待
         local status = {
             function()
                 return require("transdog").lualine_status()
@@ -28,6 +28,15 @@ return {
                 return require("transdog").lualine_status() ~= ""
             end,
         }
-        table.insert(vim.g.lualine_section_x, 1, status)
+        local tries = 0
+        local function install()
+            if vim.g.lualine_section_x then
+                table.insert(vim.g.lualine_section_x, 1, status)
+            elseif tries < 50 then
+                tries = tries + 1
+                vim.defer_fn(install, 100)
+            end
+        end
+        install()
     end,
 }
