@@ -50,6 +50,7 @@ tmp/                      → gitignored；跨会话状态写 tmp/nvim-improveme
   - ⚠️ **lazy.nvim 不校验 lock commit 是否属于声明的 branch**：曾出现 lazy-lock 写 `branch="master"` 但 commit 是 main 的（实际一直跑 main 代码、旧配置项被静默忽略）。改 branch 后必须核对 lock 与 `git branch -r --contains` 一致。
 - **文件浏览器 neo-tree**（2026-10 替代 nvim-tree，分支 `try/treesitter-main`）：neo-tree **v2.x 是重写版**，旧命令 `NeoTreeToggle` 已不存在，统一用 `:Neotree toggle/focus/show/close/float`；自定义键位写在 `opts.window.mappings`（全局）和 `opts.<source>.window.mappings`（源级）。nvim-tree 的 lock 条目+clone 已清；lualine winbar / illuminate 的文件类型列表已加 `NeoTree`。
 - **跨机器插件守护**：数据路径可能缺失的插件用 `cond = vim.fn.isdirectory(expand("~/xxx")) == 1`（obsidian 对 knowledge_library 如此）——路径缺失整体禁用不报错，建好后自动生效。
+- **Obsidian 预览/同步**（`util/obsidian_preview.lua`，仅本机）：`<leader>oP` 只读预览（adv-uri viewmode=preview）、`<leader>oS` 正向滚动同步（CursorMoved 防抖 500ms → adv-uri 跳行）。依赖 vault 里的社区插件 **obsidian-advanced-uri**（main.js 在 GitHub Releases，clone 仓库不够，见 §4.16 同类坑）。热路径回调安全写法见 §4.14-4.16。
 - **snippet**：LuaSnip 独立 spec（`InsertEnter` 自持）；blink.lua 里的 `"L3MON4D3/LuaSnip"` 依赖边**不能删**（加载顺序保险）。
 - **构建/运行**：`buildrun` 是 `virtual=true` 本地插件（不安装、不加 rtp），`<leader>r*` 触发，依赖 toggleterm。
 - **tex**：conceal 全局关（`conceallevel=0` + `vimtex_syntax_conceal_disable=1`）；`vimtex_syntax_enabled=0`（无高亮，用户已知）。vimtex 必须 eager 加载（zathura headless 反搜要 `:VimtexInverseSearch`）。
@@ -112,6 +113,9 @@ io.write('clients: ', #vim.lsp.get_clients({bufnr=0}), '\n')" -c "qa!"
 11. Lua 表下标 0 ≠ 当前 buffer：自己维护 `saved[bufnr]` 表时入口必须 `nvim_get_current_buf()` 解析（曾致 `:Unlarge` 报错）。
 12. 对最后一个已加载 buffer `bdelete!` 会让 nvim 重载另一 unloaded buffer（BufReadPre 重触发）——多窗口测试先确认当前 buffer 是谁再断言。
 13. 区分"请求失败"与"结果为空"：LSP err 回调里 err 非空=传输/协议失败（ERROR+inspect），err 空但 result 空=业务无结果（WARN）。
+14. **回调里禁调 `expand()`**（E5560，CursorMoved 等 autocmd 回调内）：热路径只用 `nvim_buf_get_name` + `vim.fs.abspath` + `vim.uv.*`。注意本机 build 的函数名是 **`vim.fs.abspath`**（不是 abs_path），且 **没有 `vim.iter`**（用 `vim.split`）。
+15. **`vim.uv.exepath(name)` 语义 ≠ vim.fn.exepath**：它无视参数返回当前进程（nvim）路径——PATH 查找要自己扫 `vim.env.PATH`（`vim.uv.fs_stat` 逐个试）。`vim.uv` 里**没有** `which`。
+16. luv `fs_scandir` 返回 userdata，需循环 `fs_scandir_next` 取文件名（不是直接返回 table）。
 
 ### 4.2 lazy.nvim
 14. **本地插件用 `virtual=true`**：`{"name", virtual=true, keys={...}, config=...}`——不安装、不加 rtp、config 照跑。**不要自指 `dir`**（非插件目录会被加进 rtp，插件名变目录名）。

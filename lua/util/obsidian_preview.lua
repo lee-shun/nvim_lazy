@@ -30,19 +30,34 @@ local function vault_root(abs)
   return nil
 end
 
+--- 在 PATH 里找可执行文件（纯 Lua，回调安全；注意 vim.uv.exepath 语义不同，会返回当前进程路径）
+local function find_in_path(name)
+  for _, dir in ipairs(vim.split(vim.env.PATH or "", ":", { plain = true })) do
+    local p = dir .. "/" .. name
+    if vim.uv.fs_stat(p) then
+      return p
+    end
+  end
+  return ""
+end
+
 --- Linux: 找 Obsidian 可执行文件（缓存，避免每次回调都扫目录）
 local exe_cache = nil
 local function linux_exe()
   if exe_cache ~= nil then
     return exe_cache
   end
-  local exe = vim.uv.which("obsidian")
+  local exe = find_in_path("obsidian")
   if exe == "" then
     local app = vim.uv.os_homedir() .. "/App"
-    local files = vim.uv.fs_scandir(app)
-    if files then
+    local s = vim.uv.fs_scandir(app)
+    if s then
       local best, best_m = nil, 0
-      for _, name in ipairs(files) do
+      while true do
+        local name = vim.uv.fs_scandir_next(s)
+        if not name then
+          break
+        end
         if name:match("^Obsidian-.*%.AppImage$") then
           local p = app .. "/" .. name
           local st = vim.uv.fs_stat(p)
