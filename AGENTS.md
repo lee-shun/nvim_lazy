@@ -113,7 +113,8 @@ io.write('clients: ', #vim.lsp.get_clients({bufnr=0}), '\n')" -c "qa!"
 11. Lua 表下标 0 ≠ 当前 buffer：自己维护 `saved[bufnr]` 表时入口必须 `nvim_get_current_buf()` 解析（曾致 `:Unlarge` 报错）。
 12. 对最后一个已加载 buffer `bdelete!` 会让 nvim 重载另一 unloaded buffer（BufReadPre 重触发）——多窗口测试先确认当前 buffer 是谁再断言。
 13. 区分"请求失败"与"结果为空"：LSP err 回调里 err 非空=传输/协议失败（ERROR+inspect），err 空但 result 空=业务无结果（WARN）。
-14. **回调里禁调 `expand()`**（E5560，CursorMoved 等 autocmd 回调内）：热路径只用 `nvim_buf_get_name` + `vim.fs.abspath` + `vim.uv.*`。注意本机 build 的函数名是 **`vim.fs.abspath`**（不是 abs_path），且 **没有 `vim.iter`**（用 `vim.split`）。
+14. **fast event 上下文（E5560）**：CursorMoved 等 autocmd 回调是 fast event 上下文，里面 **连 `expand()`、`nvim_buf_get_name()` 都禁调**（会报 E5560）。正确模式：回调体只写 `vim.schedule(实际函数)`，全部 API 调用放到 schedule 后的正常上下文。热路径里查路径用 buffer 名 + `vim.fs.abspath` + `vim.uv.*`。注意本机 build 函数名是 **`vim.fs.abspath`**（不是 abs_path），且 **没有 `vim.iter`**（用 `vim.split`）。
+    ⚠️ headless 里 CursorMoved **触发不了**（normal!/feedkeys/nvim_input/set_cursor 都不发），这类代码只能逐环节测 + 靠用户实机报错堆栈验证。
 15. **`vim.uv.exepath(name)` 语义 ≠ vim.fn.exepath**：它无视参数返回当前进程（nvim）路径——PATH 查找要自己扫 `vim.env.PATH`（`vim.uv.fs_stat` 逐个试）。`vim.uv` 里**没有** `which`。
 16. luv `fs_scandir` 返回 userdata，需循环 `fs_scandir_next` 取文件名（不是直接返回 table）。
 

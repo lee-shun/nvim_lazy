@@ -172,7 +172,11 @@ function M.sync_toggle()
   vim.api.nvim_create_augroup("ObsidianPreviewSync", { clear = true })
   vim.api.nvim_create_autocmd("CursorMoved", {
     group = "ObsidianPreviewSync",
-    callback = schedule_sync,
+    -- CursorMoved 是 fast event 上下文：里面连 nvim_buf_get_name 都禁调（E5560）
+    -- 只排队，实际逻辑在 schedule 的正常上下文里跑
+    callback = function()
+      vim.schedule(schedule_sync)
+    end,
   })
   do_sync() -- 立即同步一次（打开笔记 + 跳到当前行）
   vim.notify("Obsidian 滚动同步：开（光标停 0.5s 后同步）")
