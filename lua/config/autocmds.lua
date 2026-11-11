@@ -354,3 +354,41 @@ end, { desc = "Force big-file handling on the current buffer" })
 api.nvim_create_user_command("Unlarge", function()
     bigfile_restore(api.nvim_get_current_buf())
 end, { desc = "Stop big-file handling on the current buffer" })
+
+-- ─────────────────────────────────────────────────────────────
+-- 12. 在 tmux 里把 yank 同步进 tmux 缓冲区
+--   为什么：剪切板主力是 X 剪贴板（xclip，判定见 config/options.lua），而 tmux 的
+--   prefix+] / paste-buffer 读的是 tmux 自己的缓冲区。不同步就会出现
+--   「nvim 里 yy，tmux 里 prefix+] 粘不出来」。
+--   -w：顺带转发 OSC52 给外层终端（已实测走通：nvim → tmux load-buffer -w → OSC52
+--   → wezterm → X CLIPBOARD）。后端已经是 tmux 时 provider 已经写过，不重复。
+-- ─────────────────────────────────────────────────────────────
+local tmux_sync_grp = api.nvim_create_augroup("TmuxBufferSync", { clear = true })
+api.nvim_create_autocmd("TextYankPost", {
+    group = tmux_sync_grp,
+    desc = "把 yank 同步到 tmux 缓冲区，让 prefix+] 与系统剪贴板一致",
+    callback = function()
+        if vim.env.TMUX == nil then
+            return
+        end
+        local g = vim.g.clipboard
+        if g == "tmux" or (type(g) == "table" and g.name == "tmux") then
+            return
+        end
+        local ev = vim.v.event
+        if type(ev) ~= "table" then
+            return
+        end
+        -- delete/change 进缓冲区只是噪音，只同步真正的 yank
+        if ev.operator == "d" or ev.operator == "c" then
+            return
+        end
+        local text = table.concat(ev.regcontents or {}, "\n")
+        if text == "" or #text > 512 * 1024 then
+            return
+        end
+        vim.schedule(function()
+            vim.system({ "tmux", "load-buffer", "-w", "-" }, { stdin = text })
+        end)
+    end,
+})

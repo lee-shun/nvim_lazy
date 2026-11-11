@@ -103,9 +103,17 @@ vim.o.list = true
 vim.o.listchars = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←"
 vim.o.showbreak = "↪"
 
--- 剪切板：自动检测外部剪切板工具是否真的可用
--- （对每个工具跑一次无害的读取命令，timeout 2s 限时防止卡住）
--- 无图形界面（如 SSH、没有 X11/Wayland）时退回 unnamed，避免 yy 报错
+-- 剪切板策略（判定顺序见下）：
+--   1) 外部 X/Wayland 工具“真的可用”（跑一次无害读取，timeout 2s 防卡）→ xclip / xsel / wl-clipboard
+--   2) 在 tmux 里 → tmux 缓冲区（nvim 内置实现对 ≥3.2 用 load-buffer -w，会转发 OSC52 给外层终端）
+--   3) 纯 ssh（无 tmux）→ OSC52（不起外部进程，永远不会有 xclip 报错）
+--   4) 都不行 → &clipboard 保持空，只用内部寄存器
+-- ⚠️ 关键：第 4 步绝不能留 unnamed/unnamedplus。nvim 内置 provider 的判定是
+--   `!empty($DISPLAY) && executable('xclip')`（runtime/autoload/provider/clipboard.vim），
+--   只看 DISPLAY 非空、不测可达性。tmux 里 DISPLAY 常是失效的 ssh X11 转发值
+--   （如 localhost:10.0），此时一旦启用 clipboard，yy 就会报
+--   "clipboard: error invoking xclip: Error: Can't open display: ..."。
+-- 可用环境变量覆盖：NVIM_CLIPBOARD=xclip|xsel|wl-clipboard(=wl-copy)|tmux|osc52|none
 local function clipboard_tool_ok(args)
     if vim.fn.executable(args[1]) == 0 then
         return false
@@ -123,13 +131,33 @@ local function clipboard_tool_ok(args)
     return ok and vim.v.shell_error == 0
 end
 
+-- 强制指定剪切板后端（跨机器/远程场景用），非法值按自动判定处理
+local clip_force = vim.env.NVIM_CLIPBOARD
+local force_alias = { ["wl-copy"] = "wl-clipboard" } -- 两种写法都收，避免静默回落自动判定
+local force_ok = {}
+for _, v in ipairs({ "xclip", "xsel", "wl-clipboard", "wl-copy", "tmux", "osc52", "none" }) do
+    force_ok[v] = true
+end
+if not force_ok[clip_force or ""] then
+    clip_force = nil
+end
+
 local clip_tool = nil
-if clipboard_tool_ok({ "xclip", "-selection", "clipboard", "-o" }) then
+if clip_force then
+    clip_tool = force_alias[clip_force] or clip_force
+elseif clipboard_tool_ok({ "xclip", "-selection", "clipboard", "-o" }) then
     clip_tool = "xclip"
 elseif clipboard_tool_ok({ "xsel", "--primary", "--output" }) then
     clip_tool = "xsel"
 elseif clipboard_tool_ok({ "wl-paste" }) then
     clip_tool = "wl-clipboard"
+elseif vim.env.TMUX and clipboard_tool_ok({ "tmux", "list-buffers" }) then
+    clip_tool = "tmux"
+elseif (vim.env.TMUX or vim.env.SSH_TTY) then
+    -- 没有任何可用外部工具，但在 tmux/ssh 会话里：OSC52 送到“你正在操作的那台机器”
+    clip_tool = "osc52"
+else
+    clip_tool = "none"
 end
 
 if clip_tool == "xclip" then
@@ -174,9 +202,17 @@ elseif clip_tool == "wl-clipboard" then
         cache_enabled = 1,
     }
     vim.opt.clipboard:prepend("unnamedplus")
+elseif clip_tool == "tmux" then
+    -- 字符串形式：用 nvim 内置的 tmux 实现（copy: tmux load-buffer -w -；paste: tmux save-buffer -）
+    -- 好处：paste 是本地命令，无 OSC52 查询延迟；copy 会顺带转发 OSC52 给外层终端
+    vim.g.clipboard = "tmux"
+    vim.opt.clipboard:prepend("unnamedplus")
+elseif clip_tool == "osc52" then
+    vim.g.clipboard = "osc52"
+    vim.opt.clipboard:prepend("unnamedplus")
 else
-    -- 没有可用的外部剪切板（headless / 工具缺失），只用内部 unnamed 寄存器
-    vim.opt.clipboard:prepend("unnamed")
+    -- 没有可用的外部剪切板：&clipboard 必须留空。
+    -- 留 unnamed/unnamedplus 会让内置 provider 自己挑工具（见上面注释），失效 DISPLAY 下必报错。
 end
 
 vim.o.completeopt = "menuone,noselect,noinsert"
